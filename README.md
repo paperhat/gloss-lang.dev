@@ -1,12 +1,9 @@
 # Gloss Inline Semantic Span-Binding Language
 
-**Gloss** is a **target-independent inline semantic annotation language** for
-binding **meaning and data** to spans of free text.
+**Gloss** is a **target-independent inline semantic annotation language** for binding **meaning and data** to spans of free text.
 
-Gloss is designed for **authoring**, not programming.  
-It allows writers, designers, and systems to enrich narrative text with
-machine-readable semantics **without mixing structure, presentation, or behavior
-into the text itself**.
+Gloss is designed for **authoring**, not programming.
+It allows writers, designers, and systems to enrich narrative text with machine-readable semantics **without mixing structure, presentation, or behavior into the text itself**.
 
 Gloss answers one question only:
 
@@ -16,21 +13,20 @@ Gloss answers one question only:
 
 ## What Problem Gloss Solves
 
-Legacy markup systems—especially HTML and Markdown—collapse multiple concerns
-into a single syntax:
+Legacy markup systems—especially HTML and Markdown—collapse multiple concerns into a single syntax:
 
-- structure and layout  
-- semantics and presentation  
-- navigation and meaning  
-- content and behavior  
+* structure and layout
+* semantics and presentation
+* navigation and meaning
+* content and behavior
 
 This makes content:
 
-- brittle
-- difficult to repurpose
-- inaccessible to non-visual targets
-- hostile to semantic analysis
-- tightly coupled to the web
+* brittle
+* difficult to repurpose
+* inaccessible to non-visual targets
+* hostile to semantic analysis
+* tightly coupled to the web
 
 Gloss solves this by doing **one thing only**:
 
@@ -44,24 +40,22 @@ Nothing else.
 
 Gloss **is**:
 
-- **Inline only** — applies to spans of text, never blocks
-- **Declarative** — no logic, no evaluation, no execution
-- **Target-independent** — works for HTML, PDF, audio, braille, data export, etc.
-- **Schema-driven** — meaning is defined elsewhere (in Codex schemas)
-- **Explainable** — every annotation must be explainable in plain language
-- **Open-vocabulary** — domains define their own semantics
-
-Gloss is intentionally **small, stable, and boring**.
+* **Inline only** — applies to spans of text, never blocks
+* **Declarative** — no logic, no evaluation, no execution
+* **Target-independent** — works for HTML, PDF, audio, braille, data export, etc.
+* **Schema-driven** — meaning is defined elsewhere
+* **Explainable** — every annotation must be explainable in plain language
+* **Open-vocabulary** — domains define their own semantics
 
 Gloss **is not**:
 
-- a document format
-- a layout system
-- a replacement for Codex
-- a replacement for Architect
-- a replacement for Design Policy
-- a replacement for renderers
-- a general markup language
+* a document format
+* a layout system
+* a replacement for Codex
+* a replacement for Architect
+* a replacement for Design Policy
+* a replacement for renderers
+* a general markup language
 
 ---
 
@@ -69,19 +63,20 @@ Gloss **is not**:
 
 Gloss is **subordinate and dependent** on **Paperhat Codex**.
 
-- **Codex** defines:
-  - Concepts
-  - Traits
-  - Values
-  - Entity identity
-  - structure and schemas
-- **Architect** owns all meaning and structure
-- **Gloss** binds spans of free text to Codex-defined meaning
-- **Design Policy** decides how meaning is realized
-- **Renderers** produce concrete output
+* **Codex** defines:
+
+  * Concepts
+  * Traits
+  * Values
+  * identity
+  * structure and schemas
+* **Architect** owns semantic meaning
+* **Gloss** binds spans of free text to Codex-defined meaning
+* **Design Policy** determines realization
+* **Renderers** produce concrete output
 
 Gloss **cannot be used independently**.
-It only functions correctly within the Paperhat ecosystem.
+It functions correctly only within the Paperhat ecosystem.
 
 ---
 
@@ -98,7 +93,7 @@ There are exactly **two addressing forms**.
 ```
 {@id}
 {@id | label}
-````
+```
 
 Used to reference **Entities**—Concepts with identity.
 
@@ -109,7 +104,7 @@ Example:
 
 I love {@book:hobbit}.
 I love {@book:hobbit | The Hobbit — Tolkien}.
-````
+```
 
 Entity references express **association**, not linking.
 
@@ -189,29 +184,38 @@ Gloss does not control emission format or placement.
 
 * **Specification:** v0.1
 * **Status:** Normative
-* **Lock state:** Locked
+* **Lock State:** Locked
 * **Stability:** High
 
 Gloss is intended to evolve **slowly and conservatively**.
 
 ---
 
-## Philosophy
+## Governance
 
-Gloss exists because:
+Gloss documentation is maintained under a **formal governance model**.
 
-> **Meaning is not presentation.**
-> **Structure is not prose.**
-> **Identity is not layout.**
+Normative content is authoritative and versioned.
+LOCKED documents change only through explicit revision.
 
-Gloss keeps those concerns separate—on purpose.
+See **`GOVERNANCE.md`** for governance rules.
 
 ---
 
-## License
+## Licensing and Copyright
 
-The specification and documentation in this repository are licensed under the
+All documentation in this repository is licensed under the
 **Creative Commons Attribution 4.0 International License (CC BY 4.0)**.
 
-This license applies **only** to the textual and illustrative content.
-It does **not** grant rights to names, trademarks, or software implementations.
+The license applies to **textual and illustrative content only**.
+
+No rights are granted to:
+
+* project or language names
+* trademarks or logos
+* software implementations
+
+See:
+
+* **`LICENSE.md`**
+* **`COPYRIGHT.md`**
