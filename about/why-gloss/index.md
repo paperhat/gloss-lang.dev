@@ -7,7 +7,7 @@
 > No structure. No styling. No behavior.  
 > Just meaning attached exactly where it occurs.
 
-Gloss always operates **in the presence of Codex**.  
+Gloss always operates **in the presence of [Codex](https://codex-lang.dev/why-codex/)**.  
 Codex defines the meaning; Gloss binds that meaning to text.
 
 ---
