@@ -1,83 +1,106 @@
 # Gloss Inline Semantic Span-Binding Language
 
-**Gloss** is a **target-independent inline semantic annotation language** for binding
-explicit meaning and data to spans of free text.
+**Gloss** is a **target-independent inline semantic annotation language** for
+binding **meaning and data** to spans of free text.
 
-Gloss is designed for **authoring**, not programming.
+Gloss is designed for **authoring**, not programming.  
 It allows writers, designers, and systems to enrich narrative text with
 machine-readable semantics **without mixing structure, presentation, or behavior
 into the text itself**.
+
+Gloss answers one question only:
+
+> **“What does this span of text mean?”**
 
 ---
 
 ## What Problem Gloss Solves
 
-Legacy markup systems (especially HTML) conflate:
+Legacy markup systems—especially HTML and Markdown—collapse multiple concerns
+into a single syntax:
 
-* structure and layout
-* semantics and presentation
-* behavior and data
+- structure and layout  
+- semantics and presentation  
+- navigation and meaning  
+- content and behavior  
 
-This makes content brittle, difficult to repurpose, inaccessible to non-visual
-targets, and hostile to round-tripping.
+This makes content:
 
-Gloss solves this by providing a **small, stable inline language** whose sole
-responsibility is:
+- brittle
+- difficult to repurpose
+- inaccessible to non-visual targets
+- hostile to semantic analysis
+- tightly coupled to the web
 
-> **Annotating spans of text with meaning.**
+Gloss solves this by doing **one thing only**:
 
-Nothing more.
+> **Binding semantic meaning to spans of text.**
 
----
-
-## Core Principles
-
-Gloss is:
-
-* **Inline only** — it annotates spans of text, never structure
-* **Target-independent** — usable for HTML, PDF, audio, braille, data export, etc.
-* **Declarative** — no logic, no expressions, no behavior
-* **Schema-driven** — all meaning is defined elsewhere (Codex schemas)
-* **Explainable** — every annotation **must** be explainable in plain language
-* **Open-vocabulary** — domains define their own semantics
-* **Stable by design** — evolution is slow, explicit, and versioned
-
-Gloss is intentionally **small and boring**.
+Nothing else.
 
 ---
 
-## Two Kinds of Meaning (Foundational)
+## What Gloss Is (and Is Not)
 
-Gloss makes a strict, enforced distinction between two kinds of references:
+Gloss **is**:
 
-### Entities — `@`
+- **Inline only** — applies to spans of text, never blocks
+- **Declarative** — no logic, no evaluation, no execution
+- **Target-independent** — works for HTML, PDF, audio, braille, data export, etc.
+- **Schema-driven** — meaning is defined elsewhere (in Codex schemas)
+- **Explainable** — every annotation must be explainable in plain language
+- **Open-vocabulary** — domains define their own semantics
 
-* Identity-bearing concepts (people, books, places, works, etc.)
-* Participate in metadata and knowledge graphs
-* Represent *this specific thing*
+Gloss is intentionally **small, stable, and boring**.
 
-### Non-Entities — `#`
+Gloss **is not**:
 
-* Values, states, intent, and inline semantics
-* Do **not** imply identity
-* Bind meaning to a span only
+- a document format
+- a layout system
+- a replacement for Codex
+- a replacement for Architect
+- a replacement for Design Policy
+- a replacement for renderers
+- a general markup language
 
-This distinction is **foundational** and cannot be blurred.
+---
+
+## Relationship to Paperhat Codex
+
+Gloss is **subordinate and dependent** on **Paperhat Codex**.
+
+- **Codex** defines:
+  - Concepts
+  - Traits
+  - Values
+  - Entity identity
+  - structure and schemas
+- **Architect** owns all meaning and structure
+- **Gloss** binds spans of free text to Codex-defined meaning
+- **Design Policy** decides how meaning is realized
+- **Renderers** produce concrete output
+
+Gloss **cannot be used independently**.
+It only functions correctly within the Paperhat ecosystem.
 
 ---
 
 ## How Gloss Works
 
-Gloss annotations appear inside free text using curly-brace syntax.
+Gloss annotations appear inline using curly-brace syntax.
 
-### Entity References
+There are exactly **two addressing forms**.
+
+---
+
+### Entity References (`@`)
 
 ```
 {@id}
 {@id | label}
-```
+````
 
-Used to reference **Codex Entities**.
+Used to reference **Entities**—Concepts with identity.
 
 Example:
 
@@ -86,34 +109,36 @@ Example:
 
 I love {@book:hobbit}.
 I love {@book:hobbit | The Hobbit — Tolkien}.
-```
+````
 
-Entity references:
+Entity references express **association**, not linking.
 
-* create semantic association
-* make entities eligible for metadata emission (e.g. JSON-LD)
-* support linked data and knowledge graphs
-* do **not** imply linking or presentation
+They MAY participate in:
+
+* metadata emission (e.g. JSON-LD)
+* knowledge graphs
+* semantic search
+
+Linking behavior is decided by **Design Policy**, not Gloss.
 
 ---
 
-### Non-Entity Annotations
+### Non-Entity Semantic References (`#`)
 
 ```
 {#id}
 {#id | label}
 ```
 
-Used to reference **non-Entities**, such as:
+Used to reference **non-Entity Concepts**, such as:
 
 * dates and times
-* numeric and measurement values
+* numeric values
 * colors
-* affective and cognitive state
-* semantic inline meaning
-* presentation intent
-* media references
-* domain-specific annotations
+* emotion and tone
+* narrative framing
+* linguistic distinctions
+* code, math, and technical semantics
 
 Example:
 
@@ -123,100 +148,40 @@ Example:
 The value of pi is {#pi}.
 ```
 
-Non-Entity annotations bind **meaning**, not identity.
+These annotations express **meaning**, not appearance.
 
 ---
 
-## Where Gloss May Appear
-
-Gloss annotations:
-
-* MAY appear only inside **free text Content**
-* MUST NOT appear inside:
-
-  * Traits
-  * attribute values
-  * identifiers
-  * schema definitions
-
-Outside of Content, Gloss is invalid.
-
----
-
-## When Gloss Is Interpreted
+## Lifecycle and Guarantees
 
 Gloss follows a strict lifecycle:
 
-* During authoring, compilation, and persistence:
+1. Authored as plain text
+2. Preserved verbatim through compilation and storage
+3. Parsed and realized during **ViewModel shaping**
+4. Consumed by Design Policy and renderers
 
-  * Gloss is treated as **opaque text**
-  * it is preserved verbatim
-  * it is not parsed or interpreted
-* During **ViewModel shaping**:
-
-  * Gloss is parsed
-  * references are resolved
-  * semantic meaning becomes observable
-
-This guarantees:
+Gloss guarantees:
 
 * lossless round-tripping
-* stable compilation and storage
-* deterministic, explainable semantics
+* deterministic semantics
+* no runtime failures
+* explainable behavior
+* no influence on structural correctness
 
-Gloss never affects AST shape, IR normalization, or persistence.
-
----
-
-## What Gloss Does *Not* Do
-
-Gloss does **not**:
-
-* define structure or layout
-* replace markup languages
-* encode presentation details
-* execute logic or behavior
-* evaluate or compute values
-* define schemas or vocabularies
-* introduce new meaning on its own
-
-If it affects correctness, behavior, or structure, it is **not Gloss**.
-
----
-
-## Relationship to Paperhat Codex
-
-Gloss is part of the **Paperhat** ecosystem and is strictly subordinate to
-**Codex**.
-
-* Codex defines:
-
-  * Concepts
-  * Traits
-  * Values
-  * Entities
-* Architect and other domain libraries define vocabularies and meaning
-* Gloss binds spans of text to those definitions
-* Design Policy determines realization
-* Renderers produce target-specific output
-
-Gloss cannot be used meaningfully without Codex.
-
-### Gloss Scope Note
-
-Gloss is a dependent, subordinate language that cannot be used independently of Codex. Codex defines all meaning — Concepts, Traits, Values, and Entity identity — while Gloss only defines how that existing meaning is **referenced and bound to spans of free text**. Gloss introduces no vocabulary, performs no evaluation or normalization, and has no authority over semantics. Its role is purely procedural: to make Codex-defined meaning observable inline, at the correct phase, in a target-independent and explainable way.
+Errors surface as **Help**, never as crashes.
 
 ---
 
 ## Metadata and Linked Data
 
-When Gloss binds text to **Entities**, renderers may emit metadata such as:
+When Gloss binds text to Entities:
 
-* JSON-LD (default for HTML targets)
-* RDFa or microdata (optional)
+* renderers MAY emit metadata (e.g. JSON-LD)
+* the default strategy for HTML is **JSON-LD**
+* RDFa or microdata MAY be used by policy
 
-The choice of emission strategy and linking behavior is controlled by
-**Design Policy**, not by Gloss syntax.
+Gloss does not control emission format or placement.
 
 ---
 
@@ -224,10 +189,22 @@ The choice of emission strategy and linking behavior is controlled by
 
 * **Specification:** v0.1
 * **Status:** Normative
-* **Lock State:** Locked
-* **Stability:** High — changes require explicit versioning
+* **Lock state:** Locked
+* **Stability:** High
 
 Gloss is intended to evolve **slowly and conservatively**.
+
+---
+
+## Philosophy
+
+Gloss exists because:
+
+> **Meaning is not presentation.**
+> **Structure is not prose.**
+> **Identity is not layout.**
+
+Gloss keeps those concerns separate—on purpose.
 
 ---
 
@@ -236,26 +213,5 @@ Gloss is intended to evolve **slowly and conservatively**.
 The specification and documentation in this repository are licensed under the
 **Creative Commons Attribution 4.0 International License (CC BY 4.0)**.
 
-This license applies **only** to the textual, diagrammatic, and illustrative
-content of this repository. It does **not** grant rights to:
-
-* project, language, or specification names
-* trademarks or logos
-* software implementations, unless explicitly stated
-
----
-
-## Philosophy
-
-> **Gloss answers one question:**
->
-> *“What does this span of text mean?”*
->
-> It never answers:
->
-> *“How should it look?”*
-> *“What should it do?”*
-
-That separation is the entire point.
-
-**Gloss is not a general-purpose markup language and cannot be used independently of Codex and the Paperhat framework.**
+This license applies **only** to the textual and illustrative content.
+It does **not** grant rights to names, trademarks, or software implementations.
