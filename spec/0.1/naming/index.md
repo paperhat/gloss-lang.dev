@@ -86,14 +86,12 @@ Gloss annotations use **curly braces** to mark spans.
 Two addressing forms exist:
 
 ```
-
 {@id}
 {@id | label}
 
 {#id}
 {#id | label}
-
-````
+```
 
 Whitespace inside Gloss syntax is insignificant except inside `label`.
 
@@ -124,7 +122,7 @@ Example:
 
 ```cdx
 <Book id="book:hobbit" title="The Hobbit" author="J.R.R. Tolkien" />
-````
+```
 
 ```cdx
 I love {@book:hobbit}.
