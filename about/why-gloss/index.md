@@ -10,6 +10,8 @@
 Gloss always operates **in the presence of [Codex](https://codex-lang.dev/about/why-codex/)**.  
 Codex defines the meaning; Gloss binds that meaning to text.
 
+> Gloss: A brief explanatory note or translation of a difficult or technical expression usually inserted in the margin or between lines of a text or manuscript. [American Heritage Dictionary](https://ahdictionary.com/word/search.html?q=gloss)
+
 ---
 
 ## What Gloss Looks Like in Use
@@ -33,7 +35,7 @@ Codex defines the meaning; Gloss binds that meaning to text.
   He had warned her {#count:warnings | three times} before,
   and now there was nothing left to say.
 </Paragraph>
-````
+```
 
 The text reads naturally:
 
