@@ -6,7 +6,7 @@ Editor: Charles F. Munat
 # Gloss System Contracts
 
 This section contains **contracts** governing systems, libraries, and pipelines
-that implement or operate on the **Gloss inline semantic annotation language**.
+that implement or operate on the **Gloss** language.
 
 Contracts define **required behavior** for compliant systems.  
 They do **not** define the Gloss language itself.
@@ -19,13 +19,10 @@ Unless explicitly stated otherwise, all contracts listed here are **Normative**.
 
 Gloss contracts exist to:
 
-- define obligations and invariants for Gloss-aware systems
-- allocate responsibility across parsing, realization, policy, and rendering
-- prevent semantic drift between implementations
-- preserve Gloss’s core guarantees:
-  - opacity outside semantic realization
-  - strict separation of meaning and presentation
-  - explainability and round-trip integrity
+- define obligations and invariants for Gloss-based systems
+- allocate responsibility across libraries and pipeline phases
+- prevent semantic and lifecycle drift
+- ensure explainable, deterministic behavior across targets
 
 Violation of a Normative contract constitutes **non-compliance**.
 
@@ -35,17 +32,14 @@ Violation of a Normative contract constitutes **non-compliance**.
 
 - The **Gloss Language Specification** (under `/spec/`) defines the language:
   - syntax
-  - addressing semantics
-  - lifecycle
-  - naming rules
+  - addressing rules
+  - semantic intent
 - Contracts define how systems must:
-  - parse
-  - resolve
-  - type
-  - interpret
-  - plan
-  - render
-  Gloss annotations.
+  - preserve Gloss
+  - parse Gloss
+  - validate Gloss
+  - realize Gloss semantics
+  - interact with Design Policy and rendering
 
 In the event of conflict:
 
@@ -55,27 +49,30 @@ In the event of conflict:
 
 ---
 
-## 3. Relationship to Codex
+## 3. Relationship to Codex Contracts
 
-Gloss is **subordinate to Codex** and cannot be used independently.
+Gloss is **subordinate to Codex**.
 
-- Codex defines:
-  - Concepts
-  - Traits
-  - Values
-  - Entities
-- Gloss binds spans of free text to those definitions.
-- Gloss contracts assume Codex compliance as a prerequisite.
+- Codex contracts define:
+  - Concepts, Traits, Values, and Entities
+  - schema authorization
+  - semantic meaning
+- Gloss contracts define:
+  - when and how that meaning becomes observable inline
+  - how spans bind to Codex-defined meaning
+  - how errors are surfaced
 
-Contracts in this section govern **Gloss-specific behavior only** and do not
-override Codex system contracts.
+A system cannot implement Gloss correctly without complying with the relevant
+Codex contracts.
+
+In case of conflict, **Codex contracts prevail**.
 
 ---
 
 ## 4. Authority and Governance
 
-Gloss contracts are maintained under the same strong editorial governance model
-as the Gloss specification.
+Gloss contracts are governed under the same editorial model as the Gloss
+specification.
 
 - Contracts are public.
 - Contracts are open to review.
@@ -104,46 +101,37 @@ If a contract declares `Lock State: LOCKED`, then:
 - its requirements are considered stable
 - changes MUST be introduced only by publishing a new version
 - editorial clarification MAY be published only as an Informative note
-  (never by modifying the locked contract text)
 
-Lock State does not change the conflict rules in §2.
-
----
-
-## 6. Versioning and Stability
-
-- Each contract is versioned independently.
-- Once a contract version is published, it is **immutable**.
-- New requirements result in a new version, not modification of an existing one.
-
-Contracts may evolve at different rates.
+Lock State does not change the conflict rules in §2 or §3.
 
 ---
 
-## 7. Contract Index
+## 6. Contract Index
 
-The following Gloss contracts are currently defined:
+The following contracts are currently defined for Gloss:
+
+- **[GLOSS_LIFECYCLE_CONTRACT](./GLOSS_LIFECYCLE_CONTRACT/)**  
+  Defines the **lifecycle, phase boundaries, and invariants** governing how Gloss
+  text is preserved, parsed, validated, and realized within the Paperhat system.
 
 - **[GLOSS_PARSING_RESPONSIBILITY_CONTRACT](./GLOSS_PARSING_RESPONSIBILITY_CONTRACT/)**  
-  Defines **where, when, and by whom Gloss is parsed**, and enforces the rule that
-  Gloss remains opaque until semantic realization.
+  Defines **which system is responsible** for parsing Gloss, **when parsing
+  occurs**, and **what systems must not do** with Gloss text.
 
 - **[GLOSS_DESIGN_POLICY_INTERACTION_CONTRACT](./GLOSS_DESIGN_POLICY_INTERACTION_CONTRACT/)**  
-  Defines the **exclusive responsibilities and limits** of Design Policy when
-  consuming Gloss semantics, including prohibitions on reinterpretation.
+  Defines the **permitted and forbidden interactions** between Gloss-derived
+  semantics and **Design Policy**, including constraints on reinterpretation and
+  realization.
 
-- **[GLOSS_TOOLSMITH_TYPED_REALIZATION_CONTRACT](./GLOSS_TOOLSMITH_TYPED_REALIZATION_CONTRACT/)**  
-  Defines how **Gloss semantic realization produces a typed representation**
-  using Toolsmith newtypes, while preserving no-normalization, explainability,
-  and round-trip guarantees.
-
-Additional contracts may be added as the Gloss ecosystem expands.
+- **[ENTITY_BINDING_AND_METADATA_EMISSION](./ENTITY_BINDING_AND_METADATA_EMISSION/)**  
+  Defines how **Gloss entity references** bind text spans to Codex Entities and
+  how those bindings participate in **metadata emission** (e.g. JSON-LD).
 
 Contract names appearing in ALL_CAPS are canonical identifiers.
 
 ---
 
-## 8. Scope of Compliance
+## 7. Scope of Compliance
 
 A system may:
 
@@ -159,9 +147,13 @@ the referenced contract(s).
 
 ---
 
-## 9. Informative Notes
+## 8. Informative Notes
 
-This index defines contract authority and structure only.
+This index defines **contract authority and structure only**.
 
-Rationale, comparisons, and design discussion belong in `/notes/` and are
-**not binding**.
+Rationale, design discussion, inventories, and scope clarification belong in
+`/notes/` and are **not binding**.
+
+---
+
+**End of Gloss System Contracts v0.1**

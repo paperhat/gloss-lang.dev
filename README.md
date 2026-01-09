@@ -202,6 +202,10 @@ Gloss is part of the **Paperhat** ecosystem and is strictly subordinate to
 
 Gloss cannot be used meaningfully without Codex.
 
+### Gloss Scope Note
+
+Gloss is a dependent, subordinate language that cannot be used independently of Codex. Codex defines all meaning — Concepts, Traits, Values, and Entity identity — while Gloss only defines how that existing meaning is **referenced and bound to spans of free text**. Gloss introduces no vocabulary, performs no evaluation or normalization, and has no authority over semantics. Its role is purely procedural: to make Codex-defined meaning observable inline, at the correct phase, in a target-independent and explainable way.
+
 ---
 
 ## Metadata and Linked Data
