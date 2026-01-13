@@ -1,6 +1,6 @@
 Status: NORMATIVE  
 Lock State: LOCKED  
-Version: 0.1  
+Version: 0.1.1  
 Editor: Charles F. Munat  
 
 # Gloss System Contracts
@@ -110,7 +110,7 @@ Lock State does not change the conflict rules in §2 or §3.
 
 The following contracts are currently defined for Gloss:
 
-- **[GLOSS_LIFECYCLE_CONTRACT](./GLOSS_LIFECYCLE_CONTRACT/)**  
+- **[GLOSS_LIFECYCLE_CONTRACT](../spec/0.1/lifecycle/)**  
   Defines the **lifecycle, phase boundaries, and invariants** governing how Gloss
   text is preserved, parsed, validated, and realized within the Paperhat system.
 
@@ -118,14 +118,14 @@ The following contracts are currently defined for Gloss:
   Defines **which system is responsible** for parsing Gloss, **when parsing
   occurs**, and **what systems must not do** with Gloss text.
 
+- **[GLOSS_TYPED_REALIZATION_CONTRACT](./GLOSS_TYPED_REALIZATION_CONTRACT/)**  
+  Defines the **typed semantic representation** produced during Gloss semantic
+  realization, including invariants required for consumers.
+
 - **[GLOSS_DESIGN_POLICY_INTERACTION_CONTRACT](./GLOSS_DESIGN_POLICY_INTERACTION_CONTRACT/)**  
   Defines the **permitted and forbidden interactions** between Gloss-derived
   semantics and **Design Policy**, including constraints on reinterpretation and
   realization.
-
-- **[ENTITY_BINDING_AND_METADATA_EMISSION](./ENTITY_BINDING_AND_METADATA_EMISSION/)**  
-  Defines how **Gloss entity references** bind text spans to Codex Entities and
-  how those bindings participate in **metadata emission** (e.g. JSON-LD).
 
 Contract names appearing in ALL_CAPS are canonical identifiers.
 
@@ -156,4 +156,4 @@ Rationale, design discussion, inventories, and scope clarification belong in
 
 ---
 
-**End of Gloss System Contracts v0.1**
+**End of Gloss System Contracts v0.1.1**

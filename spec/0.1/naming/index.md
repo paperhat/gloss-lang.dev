@@ -8,7 +8,7 @@ Editor: Charles F. Munat
 Gloss is an **inline semantic annotation language** used to enrich free text
 with **target-independent semantic and presentation-relevant information**.
 
-Gloss exists to solve a core problem in legacy markup systems (e.g. HTML):
+Gloss exists to solve a core problem in markup systems (e.g. HTML):
 the conflation of **structure**, **semantics**, and **presentation** inside text.
 
 Gloss provides **semantic span binding only**.

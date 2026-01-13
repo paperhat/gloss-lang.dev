@@ -13,7 +13,7 @@ Gloss answers one question only:
 
 ## What Problem Gloss Solves
 
-Legacy markup systems—especially HTML and Markdown—collapse multiple concerns into a single syntax:
+Markup systems—especially HTML and Markdown—collapse multiple concerns into a single syntax:
 
 * structure and layout
 * semantics and presentation

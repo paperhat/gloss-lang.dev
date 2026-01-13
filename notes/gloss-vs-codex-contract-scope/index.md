@@ -79,7 +79,7 @@ Gloss is **subordinate to Codex**.
 - Gloss references Codex-defined Concepts and Entities.
 - Gloss has no independent vocabulary.
 - Gloss has no independent value system.
-- Gloss has no independent lifecycle outside Codex/Scribe.
+- Gloss has no independent lifecycle outside Codex/Kernel.
 
 A system **cannot** implement Gloss correctly without implementing Codex first.
 

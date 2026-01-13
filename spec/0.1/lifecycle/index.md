@@ -2,7 +2,7 @@
 
 Status: NORMATIVE
 Lock State: LOCKED
-Version: 0.1
+Version: 0.1.1
 Editor: Charles F. Munat
 
 ---
@@ -16,7 +16,7 @@ Gloss is an **inline semantic annotation language** used to enrich free text wit
 This contract exists to ensure that Gloss:
 
 * remains purely annotative
-* integrates deterministically with the Scribe pipeline
+* integrates deterministically with the Kernel pipeline
 * surfaces errors at the correct semantic phase
 * preserves round-trip and explainability guarantees
 
@@ -83,7 +83,7 @@ During CDX → AST → IR → RDF/Turtle:
 * Gloss is **not interpreted**
 * Gloss is **not validated**
 
-Scribe MUST:
+Kernel MUST:
 
 * preserve source locations for Gloss spans as part of text location metadata
 * ensure lossless round-tripping of Gloss text
@@ -192,10 +192,10 @@ This document is governed by:
 
 * the Gloss Language Specification
 * the Codex System Contract
-* the Scribe Library Contract
+* https://paperhat.dev/contracts/KERNEL_PIPELINE_CONTRACT/
 
 In case of conflict, higher-authority documents prevail.
 
 ---
 
-**End of Gloss Lifecycle Contract v0.1**
+**End of Gloss Lifecycle Contract v0.1.1**

@@ -23,7 +23,7 @@ Its purpose is to ensure that Gloss parsing is:
 
 ## 2. Ownership (Hard)
 
-**Scribe exclusively owns Gloss parsing and semantic realization.**
+**Kernel exclusively owns Gloss parsing and semantic realization.**
 
 No other library may:
 

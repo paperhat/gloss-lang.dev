@@ -1,12 +1,12 @@
 Status: NORMATIVE
 Lock State: LOCKED
-Version: 0.1
+Version: 0.1.1
 Editor: Charles F. Munat
 
-# Gloss Toolsmith Typed Realization Contract
+# Gloss Typed Realization Contract
 
 This contract defines how Gloss semantic realization produces a **typed semantic
-representation** using Toolsmith newtypes, while preserving Gloss and Codex
+representation** using an implementation-defined typed value system, while preserving Gloss and Codex
 invariants: **no evaluation**, **no normalization**, **lossless round-trip**, and
 **explainability**.
 
@@ -18,15 +18,12 @@ and metadata emitters).
 
 ## 1. Purpose
 
-Toolsmith provides tagged, runtime-guarded newtypes that extend base JS/TS types
-with domain-safe semantics (e.g. `PrecisionNumber`, `HexColor`, `Iri`, `Url`).
-
 This contract ensures that when Gloss becomes semantically observable (ViewModel
 shaping), the system:
 
 * resolves Gloss references deterministically
-* represents resolved values using Toolsmith newtypes where applicable
-* surfaces failures as Help values (never throws)
+* represents resolved values using typed values where applicable
+* surfaces failures as structured diagnostics (never throws)
 * preserves original author text and literal spellings for round-trip and audit
 * enables renderer- and policy-safe consumption without stringly-typed ambiguity
 
@@ -38,7 +35,7 @@ This contract defines:
 
 * the **typed semantic representation** produced by Gloss semantic realization
 * which data MUST be preserved verbatim
-* how Toolsmith guards are used to improve Help quality
+* how type checks improve diagnostic quality
 * invariants for consumers (Design Policy, renderers, metadata emission)
 
 This contract does not define:
@@ -67,7 +64,7 @@ Typed realization MUST preserve the following invariants:
 
 1. **No Throwing**
    * Realization MUST NOT throw.
-   * Failures MUST surface as Help values.
+  * Failures MUST surface as diagnostics.
 
 2. **No Normalization**
    * Codex and Gloss perform **no conversion** and **no normalization** of values.
@@ -103,16 +100,16 @@ Each resolved span MUST include:
 * `sourceSpan`: source locations for the annotated range (start/end positions)
 * `resolution`:
   * either `ResolvedTarget`
-  * or `UnresolvedTarget` with Help
+  * or `UnresolvedTarget` with diagnostics
 
 ### 5.2 `ResolvedTarget` (Normative)
 
 A resolved target MUST include:
 
-* `conceptName`: Toolsmith `ConceptName` (or equivalent) for the resolved Concept
+* `conceptName`: the resolved Concept name (stable, implementation-defined string type)
 * `isEntity`: boolean (MUST match addressingKind constraints)
 * `authoredValueLiteral`: verbatim value spelling when a value exists
-* `typedValue`: optional Toolsmith newtype value when applicable
+* `typedValue`: optional typed value when applicable
 * `valueKind`: a stable tag describing the typedValue kind, when present
 * `explain`: minimal data required for explainability (see §9)
 
@@ -121,12 +118,12 @@ Concepts like `<Sad id="sad" />`).
 
 ---
 
-## 6. Toolsmith Typing Rules
+## 6. Typing Rules
 
 ### 6.1 Typing is a Consumer-Safety Guarantee (Hard)
 
 When a resolved Concept’s semantics include a value that has a corresponding
-Toolsmith newtype, semantic realization MUST produce `typedValue`.
+typed representation, semantic realization MUST produce `typedValue`.
 
 Examples (non-exhaustive):
 
@@ -141,12 +138,12 @@ Examples (non-exhaustive):
 
 ### 6.2 Guard-Driven Typing (Hard)
 
-Typing MUST be performed using Toolsmith guards.
+Typing MUST be performed using implementation-defined validators.
 
-If a guard fails:
+If a validator fails:
 
 * semantic realization MUST NOT throw
-* a Help value MUST be emitted with:
+* a diagnostic MUST be emitted with:
   * the expected type name
   * the received literal (verbatim)
   * a location range
@@ -157,7 +154,7 @@ If a guard fails:
 Whenever a typed value is produced, the system MUST retain:
 
 * `authoredValueLiteral` — verbatim
-* `typedValue` — Toolsmith-typed
+* `typedValue` — typed
 
 This preserves “no normalization” while enabling safe consumption.
 
@@ -187,7 +184,7 @@ Examples (illustrative):
 
 ## 8. Capability-Driven Consumption (Normative)
 
-Renderers SHOULD declare supported `valueKind` tags (or Toolsmith types) as a
+Renderers SHOULD declare supported `valueKind` tags as a
 capability set.
 
 Design Policy MAY branch on:
@@ -245,7 +242,7 @@ Color Concepts and Numeric Concepts:
 * MUST be referenced via `#`
 * MUST preserve authored color space / precision semantics
 * MUST retain authored literal spellings
-* MUST produce Toolsmith typed values when corresponding newtypes exist
+* MUST produce typed values when corresponding typed representations exist
 
 No conversion, normalization, or evaluation is performed by Codex or Gloss.
 
@@ -263,4 +260,4 @@ This contract does not define:
 
 ---
 
-**End of Gloss Toolsmith Typed Realization Contract v0.1**
+**End of Gloss Typed Realization Contract v0.1.1**
