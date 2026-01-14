@@ -19,7 +19,7 @@ It ensures that:
 
 ---
 
-## 2. Direction of Dependency (Hard)
+## 2. Direction of Dependency (Normative)
 
 The dependency is strictly one-way:
 
@@ -63,7 +63,7 @@ All such responses are **policy decisions**, not semantic reinterpretations.
 
 ---
 
-## 5. Prohibited Uses (Hard)
+## 5. Prohibited Uses (Normative)
 
 Design Policy MUST NOT:
 
@@ -77,7 +77,7 @@ Gloss meaning is **authoritative**.
 
 ---
 
-## 6. Failure Interaction (Hard)
+## 6. Failure Interaction (Normative)
 
 If Gloss semantic realization produced Help values:
 
@@ -105,7 +105,7 @@ Such differences MUST NOT affect:
 
 ---
 
-## 8. Explainability Requirement (Hard)
+## 8. Explainability Requirement (Normative)
 
 Design Policy decisions based on Gloss MUST be explainable in plain language, including:
 

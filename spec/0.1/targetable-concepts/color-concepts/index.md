@@ -37,7 +37,7 @@ Gloss annotates *what color is meant*, not *how it is rendered*.
 
 ---
 
-## 2. General Rules (Hard)
+## 2. General Rules (Normative)
 
 * All Color Concepts defined here are **non-Entities**
 * They MUST be referenced using `#` in Gloss
@@ -47,7 +47,7 @@ Gloss annotates *what color is meant*, not *how it is rendered*.
 
 ---
 
-## 3. Color Space Preservation (Hard)
+## 3. Color Space Preservation (Normative)
 
 Color Concepts MUST preserve the **author-declared color space**.
 
@@ -225,7 +225,7 @@ Gloss does not mandate realization.
 
 ---
 
-## 9. Explainability Requirement (Hard)
+## 9. Explainability Requirement (Normative)
 
 The system MUST be able to explain:
 

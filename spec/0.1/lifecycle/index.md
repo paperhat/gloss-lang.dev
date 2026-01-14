@@ -22,7 +22,7 @@ This contract exists to ensure that Gloss:
 
 ---
 
-## 2. Scope (Hard)
+## 2. Scope (Normative)
 
 This document governs:
 
@@ -56,7 +56,7 @@ Each phase has strict responsibilities and prohibitions.
 
 ---
 
-## 4. Phase 1 — Authoring (Hard)
+## 4. Phase 1 — Authoring (Normative)
 
 Gloss is authored:
 
@@ -74,7 +74,7 @@ Gloss is treated as **opaque text** at this stage.
 
 ---
 
-## 5. Phase 2 — Compilation (Hard)
+## 5. Phase 2 — Compilation (Normative)
 
 During CDX → AST → IR → RDF/Turtle:
 
@@ -96,7 +96,7 @@ Gloss MUST NOT influence:
 
 ---
 
-## 6. Phase 3 — Persistence (Hard)
+## 6. Phase 3 — Persistence (Normative)
 
 When stored in a triple store:
 
@@ -125,7 +125,7 @@ This is the **earliest phase** at which Gloss meaning exists.
 
 ---
 
-## 8. Validation and Failure Handling (Hard)
+## 8. Validation and Failure Handling (Normative)
 
 ### 8.1 Invalid Gloss Syntax
 
@@ -144,7 +144,7 @@ Gloss failures MUST NOT be deferred to rendering.
 
 ---
 
-## 9. Phase 5 — Planning and Rendering (Hard)
+## 9. Phase 5 — Planning and Rendering (Normative)
 
 After semantic realization:
 
@@ -160,7 +160,7 @@ Rendering:
 
 ---
 
-## 10. Round-Trip Guarantees (Hard)
+## 10. Round-Trip Guarantees (Normative)
 
 Gloss MUST satisfy:
 
@@ -172,7 +172,7 @@ Gloss parsing and realization MUST NOT mutate original text.
 
 ---
 
-## 11. Separation Guarantees (Hard)
+## 11. Separation Guarantees (Normative)
 
 Gloss:
 

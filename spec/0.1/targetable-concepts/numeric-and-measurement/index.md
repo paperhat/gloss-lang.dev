@@ -36,7 +36,7 @@ These Concepts label meaning; they do not compute or evaluate values.
 
 ---
 
-## 2. General Rules (Hard)
+## 2. General Rules (Normative)
 
 * All numeric and measurement Concepts defined here are **non-Entities**
 * They MUST be referenced using `#` in Gloss
@@ -264,7 +264,7 @@ Gloss does not mandate realization.
 
 ---
 
-## 9. Explainability Requirement (Hard)
+## 9. Explainability Requirement (Normative)
 
 The system MUST be able to explain:
 

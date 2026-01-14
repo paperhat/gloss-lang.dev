@@ -21,7 +21,7 @@ Its purpose is to ensure that Gloss parsing is:
 
 ---
 
-## 2. Ownership (Hard)
+## 2. Ownership (Normative)
 
 **Kernel exclusively owns Gloss parsing and semantic realization.**
 
@@ -37,7 +37,7 @@ Renderers, Design Policy, and behaviors are **consumers only**.
 
 ---
 
-## 3. Location in the Pipeline (Hard)
+## 3. Location in the Pipeline (Normative)
 
 Gloss parsing occurs **only** during:
 
@@ -93,7 +93,7 @@ This representation is:
 
 ---
 
-## 6. Error and Help Handling (Hard)
+## 6. Error and Help Handling (Normative)
 
 Gloss parsing MUST:
 
@@ -116,7 +116,7 @@ All failures:
 
 ---
 
-## 7. Stability Guarantees (Hard)
+## 7. Stability Guarantees (Normative)
 
 For equivalent Gloss inputs, the parser MUST produce:
 

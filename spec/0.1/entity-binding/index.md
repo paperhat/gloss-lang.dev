@@ -28,7 +28,7 @@ Entity binding is a core reason for Gloss and for Paperhat itself.
 
 ---
 
-## 2. Entity References (Hard)
+## 2. Entity References (Normative)
 
 An **entity reference** is a Gloss annotation of the form:
 
@@ -92,7 +92,7 @@ for the Entity’s Concept type is applied.
 
 ---
 
-### 4.2 Label Override (Hard)
+### 4.2 Label Override (Normative)
 
 Gloss allows an explicit label override:
 
@@ -136,7 +136,7 @@ Rules:
 
 ---
 
-### 5.1 Default Emission Strategy (Hard)
+### 5.1 Default Emission Strategy (Normative)
 
 For HTML-class targets, the **default emission strategy is JSON-LD**.
 
@@ -170,7 +170,7 @@ Rules:
 
 ---
 
-## 6. Linking Behavior (Hard)
+## 6. Linking Behavior (Normative)
 
 Entity binding does **not** imply linking.
 
@@ -184,7 +184,7 @@ This preserves separation between **association** and **navigation**.
 
 ---
 
-## 7. Explainability Requirement (Hard)
+## 7. Explainability Requirement (Normative)
 
 The system MUST be able to explain, in plain language:
 

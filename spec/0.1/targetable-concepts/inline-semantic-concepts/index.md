@@ -45,7 +45,7 @@ They do **not** define:
 
 ---
 
-## 2. General Rules (Hard)
+## 2. General Rules (Normative)
 
 All Inline Semantic Concepts defined or referenced here:
 

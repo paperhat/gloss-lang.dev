@@ -39,7 +39,7 @@ target-independent**, especially for non-visual targets such as audio.
 
 ---
 
-## 2. Open Vocabulary Rule (Hard)
+## 2. Open Vocabulary Rule (Normative)
 
 Gloss uses an **open vocabulary** for affective and cognitive state.
 
@@ -189,7 +189,7 @@ Example:
 
 ---
 
-## 5. Usage Rules (Hard)
+## 5. Usage Rules (Normative)
 
 * All affective and cognitive state Concepts MUST be referenced using `#`
 * These Concepts MUST NOT be Entities
@@ -215,7 +215,7 @@ Gloss does not mandate realization.
 
 ---
 
-## 7. Explainability Requirement (Hard)
+## 7. Explainability Requirement (Normative)
 
 The system MUST be able to explain:
 

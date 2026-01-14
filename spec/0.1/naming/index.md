@@ -31,7 +31,7 @@ Gloss is designed for **authoring**, not programming.
 
 ---
 
-## 2. Non-Goals (Hard)
+## 2. Non-Goals (Normative)
 
 Gloss does **not**:
 
@@ -62,7 +62,7 @@ Gloss is valid **only in the presence of Codex schemas**.
 
 ---
 
-## 4. Where Gloss Appears (Hard)
+## 4. Where Gloss Appears (Normative)
 
 Gloss annotations MAY appear:
 
@@ -79,7 +79,7 @@ Content is otherwise opaque to Codex.
 
 ---
 
-## 5. Gloss Syntax (Hard)
+## 5. Gloss Syntax (Normative)
 
 Gloss annotations use **curly braces** to mark spans.
 
@@ -101,7 +101,7 @@ Gloss annotations MAY be nested.
 
 ## 6. Addressing Semantics
 
-### 6.1 `@` — Entity Reference (Hard)
+### 6.1 `@` — Entity Reference (Normative)
 
 `@` references a **Codex Entity**.
 
@@ -131,7 +131,7 @@ I love {@book:hobbit | The Hobbit — Tolkien}.
 
 ---
 
-### 6.2 `#` — Non-Entity Target (Hard)
+### 6.2 `#` — Non-Entity Target (Normative)
 
 `#` references a **non-Entity Concept**.
 
@@ -179,7 +179,7 @@ Rules:
 
 ---
 
-## 8. Open Vocabulary Model (Hard)
+## 8. Open Vocabulary Model (Normative)
 
 Gloss supports an **open vocabulary**.
 
@@ -220,7 +220,7 @@ Used as:
 
 ---
 
-## 9. Target Independence (Hard)
+## 9. Target Independence (Normative)
 
 Gloss encodes **meaning only**, never presentation.
 
@@ -289,7 +289,7 @@ Resolution rule:
 
 ---
 
-## 13. Error Handling (Hard)
+## 13. Error Handling (Normative)
 
 Gloss processing:
 

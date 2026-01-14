@@ -347,7 +347,7 @@ Rendering MAY use responsive mechanisms per target.
 
 ---
 
-## 6. Shared Rules (Hard)
+## 6. Shared Rules (Normative)
 
 * All targetable Concepts:
   * MUST have an `id`

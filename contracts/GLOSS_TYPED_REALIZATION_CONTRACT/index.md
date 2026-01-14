@@ -29,7 +29,7 @@ shaping), the system:
 
 ---
 
-## 2. Scope (Hard)
+## 2. Scope (Normative)
 
 This contract defines:
 
@@ -47,7 +47,7 @@ This contract does not define:
 
 ---
 
-## 3. Phase Boundary (Hard)
+## 3. Phase Boundary (Normative)
 
 Typed realization occurs only in:
 
@@ -58,7 +58,7 @@ MUST NOT be parsed, typed, normalized, or interpreted.
 
 ---
 
-## 4. Fundamental Invariants (Hard)
+## 4. Fundamental Invariants (Normative)
 
 Typed realization MUST preserve the following invariants:
 
@@ -120,7 +120,7 @@ Concepts like `<Sad id="sad" />`).
 
 ## 6. Typing Rules
 
-### 6.1 Typing is a Consumer-Safety Guarantee (Hard)
+### 6.1 Typing is a Consumer-Safety Guarantee (Normative)
 
 When a resolved Concept’s semantics include a value that has a corresponding
 typed representation, semantic realization MUST produce `typedValue`.
@@ -136,7 +136,7 @@ Examples (non-exhaustive):
 * Location:
   * `Line`, `Column`, `Offset` for source span coordinates
 
-### 6.2 Guard-Driven Typing (Hard)
+### 6.2 Guard-Driven Typing (Normative)
 
 Typing MUST be performed using implementation-defined validators.
 
@@ -149,7 +149,7 @@ If a validator fails:
   * a location range
   * an actionable suggestion (when possible)
 
-### 6.3 Dual Representation (Hard)
+### 6.3 Dual Representation (Normative)
 
 Whenever a typed value is produced, the system MUST retain:
 
@@ -197,7 +197,7 @@ Branching MUST remain explainable and MUST NOT reinterpret meaning.
 
 ---
 
-## 9. Explainability Requirements (Hard)
+## 9. Explainability Requirements (Normative)
 
 For each resolved span, the system MUST be able to explain:
 
