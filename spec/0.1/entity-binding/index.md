@@ -34,21 +34,38 @@ An **entity reference** is a Gloss annotation of the form:
 
 ```
 
-{@id}
-{@id | label}
+{@token}
+{@token | label}
 
 ````
 
 Where:
 
-* `id` resolves to a **Codex Entity**
+* `token` resolves to a **Codex Entity**
 * an Entity is a Concept that declares an `id` Trait and is schema-authorized
 
 Rules:
 
 * `@` MUST be used only for Entities
-* `@id` MUST resolve to exactly one Entity
+* `@token` MUST resolve to exactly one Entity
 * failure to resolve is a semantic error (reported as Help)
+
+### 2.1 Entity Token Resolution (Normative)
+
+When resolving `token` in `{@token}`:
+
+1. The system MUST first attempt to resolve `token` via an Entity’s `key` Trait.
+2. If and only if no Entity matches by `key`, the system MUST attempt to resolve `token` as an Entity identity reference (i.e. the Entity’s `id`, using the Codex identity resolution rules).
+
+Rules:
+
+* If exactly one Entity has `key=token`, `token` MUST resolve to that Entity.
+* If more than one Entity has `key=token`, resolution MUST fail as a semantic error (ambiguity).
+* If no Entity has `key=token`, and exactly one Entity resolves from `id=token`, `token` MUST resolve to that Entity.
+* If no Entity has `key=token`, and more than one Entity resolves from `id=token`, resolution MUST fail as a semantic error (ambiguity).
+* If no Entity has `key=token`, and no Entity resolves from `id=token`, resolution MUST fail as a semantic error.
+
+This resolution order exists to preserve authoring ergonomics: authors SHOULD be able to write stable, human-friendly tokens in prose without typing UUIDs.
 
 ---
 
@@ -84,10 +101,10 @@ Default label strategies:
 Example (illustrative):
 
 ```cdx
-<LabelPolicy id="label:Book:default" for="Book" value="title" />
+<LabelPolicy id=label:Book:default for=Book value="title" />
 ````
 
-When `{ @id }` is used without a label override, the default label strategy
+When `{@token}` is used without a label override, the default label strategy
 for the Entity’s Concept type is applied.
 
 ---
@@ -97,7 +114,7 @@ for the Entity’s Concept type is applied.
 Gloss allows an explicit label override:
 
 ```
-{@id | label}
+{@token | label}
 ```
 
 Rules:
@@ -228,7 +245,7 @@ In case of conflict, higher-authority documents prevail.
 
 ## 10. Summary
 
-* `{@id}` creates an **entity mention**
+* `{@token}` creates an **entity mention**
 * Entity binding is semantic, not presentational
 * Default metadata emission is **JSON-LD**
 * Label defaults live with schema; overrides live in Design Policy

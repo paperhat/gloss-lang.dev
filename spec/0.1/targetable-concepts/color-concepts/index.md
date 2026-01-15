@@ -72,7 +72,7 @@ Represents a color specified using hexadecimal RGB notation.
 Example:
 
 ```cdx
-<HexColor id="brandBlue" value="#0057B8" />
+<HexColor id=brandBlue value="#0057B8" />
 ````
 
 Usage:
@@ -97,7 +97,7 @@ Channel order: `[red, green, blue]`
 Example:
 
 ```cdx
-<RgbColor id="alertRed" value=[255, 0, 0] />
+<RgbColor id=alertRed value=[255, 0, 0] />
 ```
 
 ---
@@ -114,7 +114,7 @@ Represents a color in the HSL color space.
 Example:
 
 ```cdx
-<HslColor id="softGreen" value=[120, 40, 60] />
+<HslColor id=softGreen value=[120, 40, 60] />
 ```
 
 ---
@@ -134,7 +134,7 @@ systems.
 Example:
 
 ```cdx
-<OklchColor id="accessibleBlue" value=[0.65, 0.12, 240] />
+<OklchColor id=accessibleBlue value=[0.65, 0.12, 240] />
 ```
 
 ---
@@ -151,7 +151,7 @@ Represents a color in the Display P3 color space.
 Example:
 
 ```cdx
-<DisplayP3Color id="vividOrange" value=[1.0, 0.4, 0.0] />
+<DisplayP3Color id=vividOrange value=[1.0, 0.4, 0.0] />
 ```
 
 ---
@@ -169,7 +169,7 @@ Rules:
 Example:
 
 ```cdx
-<Crimson id="crimson" value="#DC143C" />
+<Crimson id=crimson value="#DC143C" />
 ```
 
 Named colors are treated identically to other Color Concepts.
@@ -183,9 +183,9 @@ Schemas MAY define collections of related colors.
 Example (schema-defined):
 
 ```cdx
-<ColorPalette id="brandPalette">
-  <HexColor id="brandPrimary" value="#0057B8" />
-  <HexColor id="brandSecondary" value="#FFD100" />
+<ColorPalette id=brandPalette>
+  <HexColor id=brandPrimary value="#0057B8" />
+  <HexColor id=brandSecondary value="#FFD100" />
 </ColorPalette>
 ```
 

@@ -86,8 +86,8 @@ Gloss annotations use **curly braces** to mark spans.
 Two addressing forms exist:
 
 ```
-{@id}
-{@id | label}
+{@token}
+{@token | label}
 
 {#id}
 {#id | label}
@@ -110,7 +110,7 @@ as an Entity.
 
 Rules:
 
-* `@id` MUST resolve to an Entity
+* `@token` MUST resolve to an Entity
 * Entity references imply **identity**
 * Entity references MAY participate in:
   * RDFa / microdata
@@ -118,15 +118,17 @@ Rules:
   * graph association
 * Entity references MAY supply a default label from data
 
+Entity token resolution for `@token` is defined by **Entity Binding and Metadata Emission**.
+
 Example:
 
 ```cdx
-<Book id="book:hobbit" title="The Hobbit" author="J.R.R. Tolkien" />
+<Book id=book:hobbit key=hobbit title="The Hobbit" author="J.R.R. Tolkien" />
 ```
 
 ```cdx
-I love {@book:hobbit}.
-I love {@book:hobbit | The Hobbit — Tolkien}.
+I love {@hobbit}.
+I love {@hobbit | The Hobbit — Tolkien}.
 ```
 
 ---
@@ -153,7 +155,7 @@ Rules:
 Example:
 
 ```cdx
-<PrecisionNumber id="pi" value=3.141592653589793p15 />
+<PrecisionNumber id=pi value=3.141592653589793p15 />
 ```
 
 ```cdx
@@ -167,7 +169,7 @@ The value of pi is {#pi}.
 Both `@` and `#` references MAY include a label override:
 
 ```
-{@id | label}
+{@token | label}
 {#id | label}
 ```
 
@@ -185,7 +187,7 @@ Gloss supports an **open vocabulary**.
 
 Rules:
 
-* Gloss MAY reference **any schema-authorized Concept** with an `id`
+* Gloss MAY reference any schema-authorized Concept (including Entities) by a resolvable identifier token
 * Gloss does not enumerate or constrain domain vocabularies
 * Meaning is defined entirely by the Concept’s schema
 
@@ -204,11 +206,11 @@ Rules:
 Examples of valid open vocabulary Concepts:
 
 ```cdx
-<Sad id="sad" />
-<Angry id="angry" />
-<InternalDialogue id="inner" />
-<Dream id="dream" />
-<Emotion id="e1" kind="sadness" intensity=0.7 />
+<Sad id=sad />
+<Angry id=angry />
+<InternalDialogue id=inner />
+<Dream id=dream />
+<Emotion id=e1 kind="sadness" intensity=0.7 />
 ```
 
 Used as:
@@ -278,14 +280,14 @@ See **Gloss Naming Contract** for full details.
 
 ## 12. Identifiers
 
-* Gloss treats identifiers as **opaque**
-* Identifiers MAY be IRIs
+* Gloss treats identifier tokens as **opaque**
+* Identifier tokens MAY be IRIs
 * Colons, slashes, and other IRI characters are permitted
 * Gloss performs no namespace interpretation
 
 Resolution rule:
 
-> The identifier must resolve to a schema-authorized Concept or Entity.
+> The identifier token must resolve to a schema-authorized Concept (including Entities).
 
 ---
 

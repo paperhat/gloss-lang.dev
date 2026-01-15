@@ -52,12 +52,12 @@ Rules:
 Examples of valid Concepts (illustrative, not normative):
 
 ```cdx
-<Sad id="sad" />
-<Angry id="angry" />
-<Joyful id="joy" />
-<InternalDialogue id="inner" />
-<Dream id="dream" />
-<Flashback id="flashback" />
+<Sad id=sad />
+<Angry id=angry />
+<Joyful id=joy />
+<InternalDialogue id=inner />
+<Dream id=dream />
+<Flashback id=flashback />
 ````
 
 Used as:
@@ -120,7 +120,7 @@ Represents an emotional state.
 Example:
 
 ```cdx
-<Emotion id="e1" kind="sadness" intensity=0.7 />
+<Emotion id=e1 kind="sadness" intensity=0.7 />
 ```
 
 Used as:
@@ -147,7 +147,7 @@ Represents delivery or manner of expression.
 Example:
 
 ```cdx
-<Tone id="t1" kind="angry" intensity=0.9 />
+<Tone id=t1 kind="angry" intensity=0.9 />
 ```
 
 ---
@@ -165,7 +165,7 @@ Represents an internal cognitive or perceptual condition.
 Example:
 
 ```cdx
-<MentalState id="m1" kind="dreaming" />
+<MentalState id=m1 kind="dreaming" />
 ```
 
 ---
@@ -184,7 +184,7 @@ Examples of `kind` (schema-defined):
 Example:
 
 ```cdx
-<NarrativeMode id="n1" kind="internalDialogue" />
+<NarrativeMode id=n1 kind="internalDialogue" />
 ```
 
 ---

@@ -59,7 +59,7 @@ Represents an integer numeric value.
 Example:
 
 ```cdx
-<Integer id="count:apples" value=7 />
+<Integer id=count:apples value=7 />
 ````
 
 Usage:
@@ -83,7 +83,7 @@ semantics.
 Example:
 
 ```cdx
-<Decimal id="speed" value=88.5 />
+<Decimal id=speed value=88.5 />
 ```
 
 ---
@@ -102,7 +102,7 @@ Precision is significant and MUST be preserved.
 Example:
 
 ```cdx
-<PrecisionNumber id="pi" value=3.141592653589793p15 />
+<PrecisionNumber id=pi value=3.141592653589793p15 />
 ```
 
 Usage:
@@ -125,7 +125,7 @@ Represents a rational number expressed as a fraction.
 Example:
 
 ```cdx
-<Fraction id="oneThird" value=1/3 />
+<Fraction id=oneThird value=1/3 />
 ```
 
 ---
@@ -142,7 +142,7 @@ Represents an imaginary numeric value.
 Example:
 
 ```cdx
-<Imaginary id="imag" value=2i />
+<Imaginary id=imag value=2i />
 ```
 
 ---
@@ -163,7 +163,7 @@ Ranges are declarative and are **not expanded or evaluated**.
 Example:
 
 ```cdx
-<Range id="ageRange" value=3..6 />
+<Range id=ageRange value=3..6 />
 ```
 
 ---
@@ -181,7 +181,7 @@ start..end s step
 Example:
 
 ```cdx
-<Range id="temperatureSteps" value=1.25..1.75s0.05 />
+<Range id=temperatureSteps value=1.25..1.75s0.05 />
 ```
 
 Codex does not require exact alignment or termination.
@@ -198,8 +198,8 @@ with units.
 Illustrative examples (schema-defined):
 
 ```cdx
-<Quantity id="length" value=2.5 unit="meter" />
-<Quantity id="weight" value=70 unit="kilogram" />
+<Quantity id=length value=2.5 unit="meter" />
+<Quantity id=weight value=70 unit="kilogram" />
 ```
 
 Gloss treats these identically to other numeric Concepts.
@@ -220,8 +220,8 @@ Rules:
 Examples:
 
 ```cdx
-<Pi id="pi" value=3.141592653589793p15 />
-<EulerNumber id="e" value=2.718281828459045p15 />
+<Pi id=pi value=3.141592653589793p15 />
+<EulerNumber id=e value=2.718281828459045p15 />
 ```
 
 Constants are referenced via `#`:
