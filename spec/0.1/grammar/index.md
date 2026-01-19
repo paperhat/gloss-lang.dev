@@ -29,8 +29,8 @@ This specification exists to:
 
 ### 2.1 Syntactic Authority
 
-The EBNF grammar is **normative for syntax**. A conforming parser MUST accept
-all annotations that match the EBNF grammar.
+The EBNF grammar is **normative for syntax**. Conforming parsers MUST accept
+all annotations matching the EBNF grammar.
 
 The PEG grammar is **informative**. It provides an implementation-ready,
 unambiguous grammar. In case of discrepancy between EBNF and PEG, the EBNF

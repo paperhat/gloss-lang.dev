@@ -5,8 +5,8 @@ Editor: Charles F. Munat
 
 # Gloss Syntax and Naming
 
-Gloss is an **inline semantic annotation language** used to enrich free text
-with **target-independent semantic and presentation-relevant information**.
+Gloss is an **inline semantic annotation language** that enriches free text
+with **target-independent semantic information**.
 
 Gloss exists to solve a core problem in markup systems (e.g. HTML):
 the conflation of **structure**, **semantics**, and **presentation** inside text.
@@ -22,8 +22,8 @@ Gloss enables authors to:
 
 * annotate spans of free text with semantic meaning
 * bind text to declarative data defined elsewhere in Codex
-* express information unavailable in traditional markup
-  (emotion, tone, state, metadata, machine-readable values)
+* express emotion, tone, state, and machine-readable values unavailable in
+  traditional markup
 * support rich multi-target rendering (HTML, PDF, audio, braille, etc.)
 * preserve round-trip integrity and explainability
 
@@ -102,7 +102,7 @@ Where:
 * `~` references an Entity by lookup token (resolves via `key` Trait)
 * `#` references a non-Entity Concept
 
-Whitespace inside Gloss syntax (outside of `label`) is collapsed and ignored for parsing. Whitespace inside `label` is preserved verbatim.
+The parser collapses and ignores whitespace inside Gloss syntax (outside of `label`). Whitespace inside `label` is preserved verbatim.
 
 Gloss annotations MAY be nested.
 

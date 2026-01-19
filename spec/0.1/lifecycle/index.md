@@ -6,7 +6,7 @@ Editor: Charles F. Munat
 # Gloss Lifecycle
 
 This document defines the **lifecycle, phase boundaries, parsing ownership,
-and invariants** of the Gloss language within the Paperhat system.
+and invariants** of Gloss within Paperhat.
 
 Gloss is an **inline semantic annotation language** used to enrich free text
 with target-independent semantic distinctions.

@@ -18,12 +18,12 @@ Gloss.
 
 ## Purpose of This Document
 
-This document exists to:
+This document:
 
-- establish the scope of Gloss 0.1
-- declare which documents are Normative
-- define immutability and versioning rules
-- provide a stable table of contents for implementers, auditors, and tooling
+- establishes the scope of Gloss 0.1
+- declares which documents are Normative
+- defines immutability and versioning rules
+- provides a stable table of contents for implementers, auditors, and tooling
 
 All Gloss language rules are defined in the documents listed below.
 
@@ -83,7 +83,7 @@ Gloss 0.1 is **immutable**.
 
 Once published:
 
-- documents under `/spec/0.1/` MUST NOT be edited
+- editors MUST NOT change documents under `/spec/0.1/`
 - clarifications or changes require a new version
 - superseding versions live alongside this version
 

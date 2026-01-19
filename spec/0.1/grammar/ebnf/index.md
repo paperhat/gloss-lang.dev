@@ -119,7 +119,7 @@ LabelChar = AnyChar - ( "}" | "\" | "{" )
           | "{", NonSigilChar
           | "\", NonEscapeChar ;
 
-(* Backslash only escapes } and \ *)
+(* Backslash escapes only `}` and `\` *)
 NonEscapeChar = AnyChar - ( "}" | "\" ) ;
 ```
 

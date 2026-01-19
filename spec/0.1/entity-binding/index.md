@@ -5,9 +5,9 @@ Editor: Charles F. Munat
 
 # Entity Binding and Metadata Emission
 
-This document defines how **Gloss entity references** bind spans of text to
-**Codex Entities**, and how those bindings participate in **metadata emission**
-(e.g. schema.org, RDF, JSON-LD).
+This document defines how **Gloss entity references** bind text spans to
+**Codex Entities** and participate in **metadata emission** (e.g. schema.org,
+RDF, JSON-LD).
 
 This document governs **semantic association and defaults only**.
 It does not define rendering, layout, or behavior.
@@ -21,7 +21,7 @@ Entity binding exists to allow authors to:
 * associate spans of free text with **identified entities**
 * enable machine-readable metadata extraction
 * support semantic search, knowledge graphs, and linked data
-* allow rich, target-dependent realization (HTML, audio, PDF, etc.)
+* allow varied realization per target (HTML, audio, PDF, etc.)
 * preserve explainability and round-trip integrity
 
 Entity binding is a core reason for Gloss and for Paperhat itself.
