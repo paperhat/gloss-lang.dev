@@ -293,10 +293,6 @@ Rules:
 
 ### 8.1 Vocabulary Ownership
 
-* **Architect** (and other domain libraries) own:
-
-  * semantic vocabularies
-  * emotion, tone, narrative state, domain meaning
 * Gloss defines:
 
   * how spans are bound

@@ -1,0 +1,77 @@
+{
+  "version": "0.1",
+  "specRoot": "../../spec/0.1",
+  "cases": [
+    {
+      "id": "valid/minimal-at",
+      "input": "cases/valid/minimal-at.txt",
+      "expectedCanonical": "expected/canonical/minimal-at.txt",
+      "expectedError": null,
+      "expectedPrimaryErrorClass": null
+    },
+    {
+      "id": "valid/label-with-pipes",
+      "input": "cases/valid/label-with-pipes.txt",
+      "expectedCanonical": "expected/canonical/label-with-pipes.txt",
+      "expectedError": null,
+      "expectedPrimaryErrorClass": null
+    },
+    {
+      "id": "valid/nested-two-levels",
+      "input": "cases/valid/nested-two-levels.txt",
+      "expectedCanonical": "expected/canonical/nested-two-levels.txt",
+      "expectedError": null,
+      "expectedPrimaryErrorClass": null
+    },
+    {
+      "id": "valid/escaped-brace-in-label",
+      "input": "cases/valid/escaped-brace-in-label.txt",
+      "expectedCanonical": "expected/canonical/escaped-brace-in-label.txt",
+      "expectedError": null,
+      "expectedPrimaryErrorClass": null
+    },
+    {
+      "id": "valid/escaped-backslash-in-label",
+      "input": "cases/valid/escaped-backslash-in-label.txt",
+      "expectedCanonical": "expected/canonical/escaped-backslash-in-label.txt",
+      "expectedError": null,
+      "expectedPrimaryErrorClass": null
+    },
+
+    {
+      "id": "invalid/compact-pipe-separator",
+      "input": "cases/invalid/compact-pipe-separator.txt",
+      "expectedCanonical": null,
+      "expectedError": "expected/errors/compact-pipe-separator.json",
+      "expectedPrimaryErrorClass": "ParseError"
+    },
+    {
+      "id": "invalid/missing-space-after-pipe",
+      "input": "cases/invalid/missing-space-after-pipe.txt",
+      "expectedCanonical": null,
+      "expectedError": "expected/errors/missing-space-after-pipe.json",
+      "expectedPrimaryErrorClass": "ParseError"
+    },
+    {
+      "id": "invalid/missing-space-before-pipe",
+      "input": "cases/invalid/missing-space-before-pipe.txt",
+      "expectedCanonical": null,
+      "expectedError": "expected/errors/missing-space-before-pipe.json",
+      "expectedPrimaryErrorClass": "ParseError"
+    },
+    {
+      "id": "invalid/whitespace-after-sigil",
+      "input": "cases/invalid/whitespace-after-sigil.txt",
+      "expectedCanonical": null,
+      "expectedError": "expected/errors/whitespace-after-sigil.json",
+      "expectedPrimaryErrorClass": "ParseError"
+    },
+    {
+      "id": "invalid/unclosed-annotation",
+      "input": "cases/invalid/unclosed-annotation.txt",
+      "expectedCanonical": null,
+      "expectedError": "expected/errors/unclosed-annotation.json",
+      "expectedPrimaryErrorClass": "ParseError"
+    }
+  ]
+}

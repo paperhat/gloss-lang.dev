@@ -103,7 +103,6 @@ Each Entity type MAY define a **default label strategy**.
 
 Default label strategies:
 
-* Schemas define them (e.g. in Architect or application CDX)
 * Schemas typically define them **per Concept type**, not per instance
 * Schemas select which Traits or projections constitute the label
 
@@ -223,21 +222,6 @@ The system MUST be able to explain, in plain language:
 
 Opaque behavior is forbidden.
 
----
-
-## 8. Non-Goals (v0.1)
-
-This document does not define:
-
-* schema.org vocabulary itself
-* which Entities are Gloss-addressable
-* JSON-LD framing or compaction rules
-* graph merging or deduplication strategies
-* search engine optimization policy
-
-These belong to Architect, Design Policy, or renderer configuration.
-
----
 
 ## 9. Authority and Interaction
 
@@ -247,7 +231,6 @@ This document must be read in conjunction with:
 * the Gloss Lifecycle specification
 * the Gloss Design Policy Interaction specification
 * the Codex Naming and Values specification
-* the Architect schema definitions
 
 In case of conflict, higher-authority documents prevail.
 

@@ -1,111 +1,49 @@
 Status: NORMATIVE
-Lock State: LOCKED
+Lock State: UNLOCKED
 Version: 0.1
 Editor: Charles F. Munat
 
 # Gloss Language Specification — Version 0.1
 
-## Entry Point and Table of Contents
+Gloss is an **inline semantic span-binding language** embedded inside Codex `Content`.
+It binds spans of opaque text to Codex Concepts without encoding presentation or behavior.
 
-This document is the **authoritative entry point** for the Gloss Language
-Specification, version **0.1**.
+## 1. Scope and Relationship to Codex (Normative)
 
-It defines the **scope, structure, authority, and immutability** of the
-specification and enumerates the **Normative documents** that together define
-Gloss.
+1. Gloss annotations MAY appear only inside Codex `Content` values.
+2. Codex tooling treats `Content` as opaque text; Codex does not parse Gloss.
+3. Gloss is parsed and resolved by consuming systems (e.g., target realization / rendering pipelines).
+4. Gloss MUST NOT be used inside:
 
----
+	- Codex identifiers
+	- Codex Trait values
+	- schema definitions
 
-## Purpose of This Document
+## 2. Design Intent (Normative)
 
-This document:
+Gloss encodes semantic binding only.
 
-- establishes the scope of Gloss 0.1
-- declares which documents are Normative
-- defines immutability and versioning rules
-- provides a stable table of contents for implementers, auditors, and tooling
+Gloss MUST NOT:
 
-All Gloss language rules are defined in the documents listed below.
+- define layout, typography, or styling
+- define behavior, evaluation, or execution
+- introduce new Concepts, Traits, or data
 
----
+Targets (HTML, PDF, audio, braille, data export) MAY realize the same semantics differently.
 
-## Scope of Gloss 0.1
+## 3. Specification Contents
 
-Gloss 0.1 defines:
+This specification is organized as a set of focused documents.
 
-- inline span-binding surface forms
-- naming and identifier constraints for bindings
-- binding semantics for Entities and non-Entity concepts
-- lifecycle, parsing, and preservation requirements
-- semantic realization output model
-- Design Policy interaction rules
-- targetable concept categories for consistent realization
+- Surface form: [gloss-lang.dev/spec/0.1/surface-form/index.md](surface-form/index.md)
+- Parsing model (including nesting): [gloss-lang.dev/spec/0.1/parsing-model/index.md](parsing-model/index.md)
+- Resolution semantics: [gloss-lang.dev/spec/0.1/resolution/index.md](resolution/index.md)
+- Formatting and canonicalization: [gloss-lang.dev/spec/0.1/formatting-and-canonicalization/index.md](formatting-and-canonicalization/index.md)
+- Validation errors and recovery: [gloss-lang.dev/spec/0.1/validation-errors/index.md](validation-errors/index.md)
 
-Gloss 0.1 does NOT define:
+## 4. Related Documents
 
-- structural document modeling (owned by Codex)
-- rendering, styling, layout, or navigation behavior (owned by targets/policy)
-- executable behavior or evaluation semantics
+- Formal grammars (EBNF and PEG): [gloss-lang.dev/spec/0.1/grammar/index.md](grammar/index.md)
+- Examples (informative): [gloss-lang.dev/examples/0.1/index.md](../../examples/0.1/index.md)
 
----
 
-## Normative Documents
-
-### Core Language
-
-- [**Syntax and Naming**](./naming/) — Surface syntax, addressing forms, vocabulary model
-
-### Binding Semantics
-
-- [**Entity Binding**](./entity-binding/) — Entity references, metadata emission,
-  label selection
-- [**Targetable Concepts**](./targetable-concepts/) — Concept vocabulary for
-  Gloss-targetable annotations
-
-### Lifecycle and Processing
-
-- [**Lifecycle**](./lifecycle/) — Phase boundaries, parsing ownership,
-  preservation guarantees
-- [**Semantic Realization**](./semantic-realization/) — Typed output model,
-  invariants, value kinds
-- [**Design Policy Interaction**](./design-policy/) — Consumer rules, permitted
-  and prohibited uses
-
-### Formal Grammar
-
-- [**Grammar**](./grammar/) — EBNF formal grammar for Gloss syntax
-
----
-
-## Stability and Immutability
-
-Gloss 0.1 is **immutable**.
-
-Once published:
-
-- editors MUST NOT change documents under `/spec/0.1/`
-- clarifications or changes require a new version
-- superseding versions live alongside this version
-
-No implementation-led reinterpretation is permitted.
-
----
-
-## Relationship to Other Versions
-
-- `/spec/current/` points to the most recent published version
-- draft or experimental work lives under `/spec/DRAFT/`
-- implementations MUST target a specific published version
-
----
-
-## Authority
-
-This specification is maintained under the governance rules defined in
-`GOVERNANCE.md`.
-
-Final authority over Gloss 0.1 rests with the **Specification Editor**.
-
----
-
-**End of Gloss Language Specification v0.1 — Entry Point**

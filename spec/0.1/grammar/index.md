@@ -1,93 +1,69 @@
 Status: NORMATIVE
-Lock State: LOCKED
+Lock State: UNLOCKED
 Version: 0.1
 Editor: Charles F. Munat
 
 # Gloss Formal Grammar Specification — Version 0.1
 
-This specification defines the **formal grammar** of Gloss inline annotations.
+This section defines the **formal grammar** for Gloss annotations embedded in Codex `Content`.
 
-Two grammar notations are provided:
+Gloss is **not** a standalone document format. It is an inline annotation syntax that may appear inside arbitrary text. Therefore the grammar is presented in two layers:
 
-* **EBNF** (Normative) — ISO/IEC 14977 Extended Backus-Naur Form
-* **PEG** (Informative) — Parsing Expression Grammar for implementation
+1. **Annotation grammar** (normative): the internal structure of a single annotation such as `{@x | label}`.
+2. **Embedding rule** (normative): how a consumer recognizes the start of an annotation in a larger text stream.
 
----
+## 1. Embedding Rule (Normative)
 
-## 1. Purpose
+An annotation begins at a `{` character **only when** the next character is `@` or `~`.
 
-This specification exists to:
+- If `{` is not immediately followed by `@` or `~`, it is literal text.
+- This rule is the only mechanism by which Gloss avoids requiring escaping for ordinary braces in prose.
 
-* provide an unambiguous definition of Gloss syntax
-* enable mechanical parser construction
-* support conformance testing
-* eliminate ambiguity in the syntax specification
+This embedding rule applies both in top-level `Content` and inside annotation labels.
 
----
+## 2. Strict Whitespace (Normative)
 
-## 2. Authority
+Gloss is intentionally strict:
 
-### 2.1 Syntactic Authority
+- No whitespace is permitted between `{` and the sigil.
+- No whitespace is permitted between the sigil and the reference token.
+- The label separator `|` MUST be written with exactly one ASCII space on each side: `{@x | label}`.
 
-The EBNF grammar is **normative for syntax**. Conforming parsers MUST accept
-all annotations matching the EBNF grammar.
+The compact form `{@x|label}` is invalid.
 
-The PEG grammar is **informative**. It provides an implementation-ready,
-unambiguous grammar. In case of discrepancy between EBNF and PEG, the EBNF
-grammar takes precedence.
+Examples:
 
-### 2.2 Semantic Authority
+- Valid: `{@book:hobbit | The Hobbit}`
+- Invalid: `{@book:hobbit|The Hobbit}`
 
-Prose specifications are **normative for semantics**. The grammar defines what
-is syntactically valid but does not assign meaning.
+## 2.1 Conformance and Canonicalization (Normative)
 
-* **Syntax and Naming Specification**: normative for surface syntax and escaping
-* **Entity Binding Specification**: normative for Entity reference semantics
-* **Targetable Concepts Specification**: normative for non-Entity semantics
+Conforming consumers:
 
-In case of discrepancy between grammar and prose:
+1. MUST treat any whitespace-violating annotation spelling as a **syntax error**.
+2. MUST apply the syntax error recovery rules defined by [gloss-lang.dev/spec/0.1/validation-errors/index.md](../validation-errors/index.md).
 
-* For syntactic precision (what parses): EBNF takes precedence
-* For semantic intent (what it means): prose specifications take precedence
+Canonical annotation spellings are:
 
----
+- `{@iri}`
+- `{@iri | label}`
+- `{~token}`
+- `{~token | label}`
 
-## 3. Included Documents
+Consumers that emit or rewrite Gloss (formatters, editors, transformations) MUST emit the canonical spellings above.
 
-* [**EBNF Grammar**](./ebnf/) — Normative formal grammar
-* [**PEG Grammar**](./peg/) — Informative implementation grammar
+Canonical spellings and producer obligations are defined by [gloss-lang.dev/spec/0.1/formatting-and-canonicalization/index.md](../formatting-and-canonicalization/index.md).
 
----
+## 3. External Token Definitions (Normative)
 
-## 4. Scope
+Gloss reuses Codex token definitions:
 
-This grammar defines:
+- `IriReference` — the Codex identifier token (IRI reference)
+- `LookupToken` — the Codex lookup token (e.g., `~hobbit`)
 
-* Annotation delimiters (`{` and `}`)
-* Addressing sigils (`@`, `~`, `#`)
-* Reference identifiers
-* Label syntax and escaping
-* Nesting structure
+These tokens are defined in the Codex formal grammars.
 
-This grammar does **not** define:
+## 4. Grammar Dialects
 
-* Schema validation rules
-* Reference resolution semantics
-* Content outside of Gloss annotations
-
----
-
-## 5. Context-Sensitive Parsing
-
-Gloss uses context-sensitive rules to minimize escaping in typical content:
-
-* `{` starts an annotation **only** when followed by `@`, `~`, or `#`
-* First `|` in an annotation separates reference from label
-* `}` closes an annotation; escape as `\}` inside labels
-* `\` is only special before `}` or `\` inside labels
-
-These rules are formalized in the EBNF grammar.
-
----
-
-**End of Gloss Formal Grammar Specification v0.1**
+- EBNF: [gloss-lang.dev/spec/0.1/grammar/ebnf/index.md](ebnf/index.md)
+- PEG (informative): [gloss-lang.dev/spec/0.1/grammar/peg/index.md](peg/index.md)

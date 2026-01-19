@@ -47,11 +47,9 @@ All targetable Concepts:
 - MUST be non-Entities
 - MUST be referenced using `#` in Gloss
 - MUST declare an `id`
-- MUST be schema-authorized by Architect
+- MUST be schema-authorized by 
 - MUST preserve authorial intent
 - MAY be ignored or variably realized by targets
-
-Gloss binds meaning only; realization is deferred to Design Policy and renderers.
 
 ---
 
@@ -1034,8 +1032,6 @@ This document does not define:
 - conflict resolution between overlapping semantics
 - conversion algorithms (color, units, time zones)
 - unit systems or dimensional analysis
-
-These belong to Architect, Design Policy, renderers, or future specifications.
 
 ---
 

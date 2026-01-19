@@ -52,31 +52,8 @@ Gloss **is not**:
 * a document format
 * a layout system
 * a replacement for Codex
-* a replacement for Architect
-* a replacement for Design Policy
 * a replacement for renderers
 * a general markup language
-
----
-
-## Relationship to Paperhat Codex
-
-Gloss is **subordinate and dependent** on **Paperhat Codex**.
-
-* **Codex** defines:
-
-  * Concepts
-  * Traits
-  * Values
-  * identity
-  * structure and schemas
-* **Architect** owns semantic meaning
-* **Gloss** binds spans of free text to Codex-defined meaning
-* **Design Policy** determines realization
-* **Renderers** produce concrete output
-
-Gloss **cannot be used independently**.
-It functions correctly only within the Paperhat ecosystem.
 
 ---
 

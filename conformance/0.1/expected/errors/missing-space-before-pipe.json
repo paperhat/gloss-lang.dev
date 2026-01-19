@@ -1,0 +1,4 @@
+{
+  "primaryClass": "ParseError",
+  "message": "Non-canonical label separator: expected ' | '."
+}

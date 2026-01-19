@@ -1,0 +1,4 @@
+{
+  "primaryClass": "ParseError",
+  "message": "Whitespace is not permitted after the sigil."
+}
