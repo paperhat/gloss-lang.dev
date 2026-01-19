@@ -1,15 +1,18 @@
-Status: NORMATIVE  
-Version: 0.1  
+Status: NORMATIVE
+Lock State: LOCKED
+Version: 0.1
 Editor: Charles F. Munat
 
-# Gloss Language Specification — Version 0.1  
+# Gloss Language Specification — Version 0.1
+
 ## Entry Point and Table of Contents
 
-This document is the **authoritative entry point** for the Gloss Language Specification, version **0.1**.
+This document is the **authoritative entry point** for the Gloss Language
+Specification, version **0.1**.
 
-It defines the **scope, structure, authority, and immutability** of the specification and enumerates the **Normative documents** that together define Gloss.
-
-This document does **not** itself define parsing rules beyond the included normative documents.
+It defines the **scope, structure, authority, and immutability** of the
+specification and enumerates the **Normative documents** that together define
+Gloss.
 
 ---
 
@@ -33,10 +36,12 @@ Gloss 0.1 defines:
 - inline span-binding surface forms
 - naming and identifier constraints for bindings
 - binding semantics for Entities and non-Entity concepts
-- lifecycle and preservation requirements for annotated text
-- targetable concept categories intended for consistent realization
+- lifecycle, parsing, and preservation requirements
+- semantic realization output model
+- Design Policy interaction rules
+- targetable concept categories for consistent realization
 
-Gloss 0.1 does **not** define:
+Gloss 0.1 does NOT define:
 
 - structural document modeling (owned by Codex)
 - rendering, styling, layout, or navigation behavior (owned by targets/policy)
@@ -44,20 +49,31 @@ Gloss 0.1 does **not** define:
 
 ---
 
-## Included Normative Documents
+## Normative Documents
 
-### Core Binding Semantics
+### Core Language
 
-- [**Entity Binding**](./entity-binding/)
-- [**Targetable Concepts**](./targetable-concepts/)
+- [**Syntax and Naming**](./naming/) — Surface syntax, addressing forms, vocabulary model
 
-### Surface Rules
+### Binding Semantics
 
-- [**Naming**](./naming/)
+- [**Entity Binding**](./entity-binding/) — Entity references, metadata emission,
+  label selection
+- [**Targetable Concepts**](./targetable-concepts/) — Concept vocabulary for
+  Gloss-targetable annotations
 
-### Lifecycle and Preservation
+### Lifecycle and Processing
 
-- [**Lifecycle**](./lifecycle/)
+- [**Lifecycle**](./lifecycle/) — Phase boundaries, parsing ownership,
+  preservation guarantees
+- [**Semantic Realization**](./semantic-realization/) — Typed output model,
+  invariants, value kinds
+- [**Design Policy Interaction**](./design-policy/) — Consumer rules, permitted
+  and prohibited uses
+
+### Formal Grammar
+
+- [**Grammar**](./grammar/) — EBNF formal grammar for Gloss syntax
 
 ---
 
@@ -85,10 +101,11 @@ No implementation-led reinterpretation is permitted.
 
 ## Authority
 
-This specification is maintained under the governance rules defined in `GOVERNANCE.md`.
+This specification is maintained under the governance rules defined in
+`GOVERNANCE.md`.
 
 Final authority over Gloss 0.1 rests with the **Specification Editor**.
 
 ---
 
-End of Gloss Language Specification v0.1 — Entry Point
+**End of Gloss Language Specification v0.1 — Entry Point**

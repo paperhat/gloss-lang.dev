@@ -1,24 +1,26 @@
-# Gloss Lifecycle Contract
-
 Status: NORMATIVE
 Lock State: LOCKED
-Version: 0.1.1
+Version: 0.1
 Editor: Charles F. Munat
+
+# Gloss Lifecycle
+
+This document defines the **lifecycle, phase boundaries, parsing ownership,
+and invariants** of the Gloss language within the Paperhat system.
+
+Gloss is an **inline semantic annotation language** used to enrich free text
+with target-independent semantic distinctions.
 
 ---
 
 ## 1. Purpose
 
-This document defines the **lifecycle, phase boundaries, and invariants** of the Gloss language within the Paperhat system.
+This document ensures that Gloss:
 
-Gloss is an **inline semantic annotation language** used to enrich free text with target-independent semantic distinctions.
-
-This contract exists to ensure that Gloss:
-
-* remains purely annotative
-* integrates deterministically with the Kernel pipeline
-* surfaces errors at the correct semantic phase
-* preserves round-trip and explainability guarantees
+- remains purely annotative
+- integrates deterministically with the Kernel pipeline
+- surfaces errors at the correct semantic phase
+- preserves round-trip and explainability guarantees
 
 ---
 
@@ -26,23 +28,22 @@ This contract exists to ensure that Gloss:
 
 This document governs:
 
-* when Gloss is parsed
-* when Gloss is validated
-* when Gloss semantics become observable
-* how Gloss participates in planning and rendering
-* where Gloss errors are detected and reported
+- when Gloss is parsed
+- when Gloss is validated
+- when Gloss semantics become observable
+- how Gloss participates in planning and rendering
+- where Gloss errors are detected and reported
+- which system owns Gloss parsing
 
-This document does **not** define:
+This document does NOT define:
 
-* Gloss syntax
-* Gloss vocabulary
-* Gloss semantics themselves
-
-Those are defined in the Gloss Language Specification.
+- Gloss syntax (see Naming specification)
+- Gloss vocabulary (see Targetable Concepts)
+- Gloss addressing semantics (see Entity Binding)
 
 ---
 
-## 3. High-Level Lifecycle Overview
+## 3. Lifecycle Overview
 
 Gloss progresses through the system in **five distinct phases**:
 
@@ -60,17 +61,17 @@ Each phase has strict responsibilities and prohibitions.
 
 Gloss is authored:
 
-* inline within free text content
-* inside Codex Concepts
-* never inside attributes
+- inline within free text content
+- inside Codex Concepts
+- never inside attributes
 
 At authoring time:
 
-* Gloss is **textual only**
-* no validation beyond basic text well-formedness is performed
-* no semantic resolution occurs
+- Gloss remains **textual only**
+- the system performs no validation beyond basic text well-formedness
+- the system performs no semantic resolution
 
-Gloss is treated as **opaque text** at this stage.
+The system treats Gloss as **opaque text** at this stage.
 
 ---
 
@@ -78,21 +79,21 @@ Gloss is treated as **opaque text** at this stage.
 
 During CDX → AST → IR → RDF/Turtle:
 
-* Gloss content is preserved **verbatim**
-* Gloss is **not parsed**
-* Gloss is **not interpreted**
-* Gloss is **not validated**
+- Kernel preserves Gloss content **verbatim**
+- Kernel does **not parse** Gloss
+- Kernel does **not interpret** Gloss
+- Kernel does **not validate** Gloss
 
 Kernel MUST:
 
-* preserve source locations for Gloss spans as part of text location metadata
-* ensure lossless round-tripping of Gloss text
+- preserve source locations for Gloss spans as part of text location metadata
+- ensure lossless round-tripping of Gloss text
 
 Gloss MUST NOT influence:
 
-* AST shape
-* IR normalization
-* RDF emission
+- AST shape
+- IR normalization
+- RDF emission
 
 ---
 
@@ -100,9 +101,9 @@ Gloss MUST NOT influence:
 
 When stored in a triple store:
 
-* Gloss remains embedded as text
-* no Gloss semantics are materialized as triples
-* no Gloss parsing occurs
+- Gloss remains embedded as text
+- the store does not materialize Gloss semantics as triples
+- the store does not parse Gloss
 
 The triple store is **Gloss-agnostic**.
 
@@ -110,92 +111,190 @@ The triple store is **Gloss-agnostic**.
 
 ## 7. Phase 4 — Semantic Realization (Normative)
 
-Gloss is parsed and semantically realized during:
+Kernel parses and semantically realizes Gloss during:
 
 > **ViewModel shaping**
 
 At this phase:
 
-* Gloss spans are parsed into a Gloss semantic representation
-* references (e.g. `#id`) are resolved against available Codex data
-* nesting rules are validated
-* semantic distinctions become observable inputs
+- Kernel parses Gloss spans into a semantic representation
+- Kernel resolves references (e.g. `#id`) against available Codex data
+- Kernel validates nesting rules
+- semantic distinctions become observable inputs
 
 This is the **earliest phase** at which Gloss meaning exists.
 
 ---
 
-## 8. Validation and Failure Handling (Normative)
-
-### 8.1 Invalid Gloss Syntax
-
-* Reported as Help
-* Attached to source locations
-* MUST NOT throw or abort the pipeline
-
-### 8.2 Unresolved References
-
-* Detected during semantic realization
-* Reported as Help
-* Classified as semantic integrity failures
-* Severity MAY be elevated by policy or target
-
-Gloss failures MUST NOT be deferred to rendering.
-
----
-
-## 9. Phase 5 — Planning and Rendering (Normative)
+## 8. Phase 5 — Planning and Rendering (Normative)
 
 After semantic realization:
 
-* Design Policy MAY consume Gloss-derived semantics
-* Presentation Plans MAY branch on Gloss distinctions
-* Renderers MAY map Gloss semantics to target affordances
+- Design Policy MAY consume Gloss-derived semantics
+- Presentation Plans MAY branch on Gloss distinctions
+- Renderers MAY map Gloss semantics to target affordances
 
 Rendering:
 
-* MUST NOT introduce new Gloss semantics
-* MUST NOT reinterpret Gloss meaning
-* MUST remain pure and deterministic
+- MUST NOT introduce new Gloss semantics
+- MUST NOT reinterpret Gloss meaning
+- MUST remain pure and deterministic
 
 ---
 
-## 10. Round-Trip Guarantees (Normative)
+## 9. Parsing Ownership (Normative)
+
+**Kernel exclusively owns Gloss parsing and semantic realization.**
+
+No other library may:
+
+- parse Gloss syntax
+- interpret Gloss annotations
+- resolve Gloss references
+- define alternative Gloss semantics
+- re-parse Gloss text at render time
+
+Renderers, Design Policy, and behaviors are **consumers only**.
+
+---
+
+## 10. Parsing Location (Normative)
+
+Gloss parsing occurs **only** during:
+
+> **ViewModel shaping**
+
+Gloss MUST NOT be parsed during:
+
+- CDX compilation
+- IR normalization
+- RDF/Turtle emission
+- triple-store persistence
+- SPARQL querying
+- rendering
+
+This establishes a single, authoritative semantic boundary.
+
+---
+
+## 11. Parsing Inputs (Normative)
+
+The Gloss parser receives:
+
+- free-text content strings
+- source-location metadata
+- access to Codex-defined data required for reference resolution
+
+The parser MUST NOT require:
+
+- render-target knowledge
+- Design Policy knowledge
+- behavior configuration
+- runtime IO
+
+Parsing is a **pure function**.
+
+---
+
+## 12. Parsing Outputs (Normative)
+
+The Gloss parser produces a **Gloss Semantic Representation** that:
+
+- preserves original text verbatim
+- records span boundaries
+- records nesting structure
+- records semantic labels
+- records resolved references (or failure diagnostics)
+
+This representation is:
+
+- deterministic
+- serializable
+- independent of render targets
+
+---
+
+## 13. Validation and Failure Handling (Normative)
+
+### 13.1 General Rules
+
+Gloss parsing:
+
+- MUST NOT throw
+- MUST NOT return `null` or `undefined`
+- MUST always return semantic output + Help values
+
+### 13.2 Invalid Gloss Syntax
+
+- Kernel reports errors as Help
+- Kernel attaches errors to source locations
+- Kernel MUST NOT abort the pipeline
+
+### 13.3 Unresolved References
+
+- Kernel detects unresolved references during semantic realization
+- Kernel reports them as Help
+- Kernel classifies them as semantic integrity failures
+- Policy or target MAY elevate severity
+
+Kernel MUST NOT defer Gloss failures to rendering.
+
+---
+
+## 14. Stability Guarantees (Normative)
+
+For equivalent Gloss inputs, the parser MUST produce:
+
+- identical semantic representations
+- identical Help outputs (modulo location metadata)
+
+Parser behavior MUST NOT vary by:
+
+- render target
+- execution mode
+- Design Policy
+- runtime environment
+
+---
+
+## 15. Round-Trip Guarantees (Normative)
 
 Gloss MUST satisfy:
 
-* lossless textual round-trip
-* stable semantic interpretation for equivalent inputs
-* preservation of author-supplied labels and spans
+- lossless textual round-trip
+- stable semantic interpretation for equivalent inputs
+- preservation of author-supplied labels and spans
 
 Gloss parsing and realization MUST NOT mutate original text.
 
 ---
 
-## 11. Separation Guarantees (Normative)
+## 16. Separation Guarantees (Normative)
 
 Gloss:
 
-* is not behavior
-* is not structure
-* is not presentation
-* does not trigger execution
-* does not affect semantic correctness
+- is not behavior
+- is not structure
+- is not presentation
+- does not trigger execution
+- does not affect semantic correctness
 
 Gloss provides **semantic signals only**.
 
 ---
 
-## 12. Authority and Change Control
+## 17. Change Control
 
-This document is governed by:
+Any change to:
 
-* the Gloss Language Specification
-* the Codex System Contract
-* https://paperhat.dev/contracts/KERNEL_PIPELINE_CONTRACT/
+- parsing rules
+- error classification
+- semantic representation
+- phase boundaries
 
-In case of conflict, higher-authority documents prevail.
+constitutes a **Gloss language change** and MUST follow Gloss spec change
+control.
 
 ---
 
-**End of Gloss Lifecycle Contract v0.1.1**
+**End of Gloss Lifecycle v0.1**

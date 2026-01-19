@@ -30,42 +30,51 @@ Entity binding is a core reason for Gloss and for Paperhat itself.
 
 ## 2. Entity References (Normative)
 
-An **entity reference** is a Gloss annotation of the form:
+An **entity reference** is a Gloss annotation in one of these forms:
 
 ```
+{@iri}
+{@iri | label}
 
-{@token}
-{@token | label}
-
-````
+{~token}
+{~token | label}
+```
 
 Where:
 
-* `token` resolves to a **Codex Entity**
+* `@iri` references an Entity by its `id` (IRI)
+* `~token` references an Entity by its `key` (lookup token)
 * an Entity is a Concept that declares an `id` Trait and is schema-authorized
 
 Rules:
 
-* `@` MUST be used only for Entities
-* `@token` MUST resolve to exactly one Entity
+* `@` and `~` MUST be used only for Entities
+* references MUST resolve to exactly one Entity
 * failure to resolve is a semantic error (reported as Help)
 
-### 2.1 Entity Token Resolution (Normative)
+### 2.1 Direct Reference Resolution (`@`)
 
-When resolving `token` in `{@token}`:
+When resolving `{@iri}`:
 
-1. The system MUST first attempt to resolve `token` via an Entity’s `key` Trait.
-2. If and only if no Entity matches by `key`, the system MUST attempt to resolve `token` as an Entity identity reference (i.e. the Entity’s `id`, using the Codex identity resolution rules).
+* The system MUST find an Entity whose `id` Trait matches `iri`
+* If exactly one match: resolved
+* If zero matches: resolution error
+* If multiple matches: resolution error (indicates schema violation — `id` must be unique)
+
+### 2.2 Lookup Token Resolution (`~`)
+
+When resolving `{~token}`:
+
+* The system MUST find an Entity whose `key` Trait matches `~token`
+* Resolution follows the rules defined in **Codex Naming and Values § 4.15**
 
 Rules:
 
-* If exactly one Entity has `key=token`, `token` MUST resolve to that Entity.
-* If more than one Entity has `key=token`, resolution MUST fail as a semantic error (ambiguity).
-* If no Entity has `key=token`, and exactly one Entity resolves from `id=token`, `token` MUST resolve to that Entity.
-* If no Entity has `key=token`, and more than one Entity resolves from `id=token`, resolution MUST fail as a semantic error (ambiguity).
-* If no Entity has `key=token`, and no Entity resolves from `id=token`, resolution MUST fail as a semantic error.
+* If exactly one Entity has `key=~token`: resolved
+* If zero matches: resolution error (unresolved lookup token)
+* If multiple matches: resolution error (ambiguous lookup token)
 
-This resolution order exists to preserve authoring ergonomics: authors SHOULD be able to write stable, human-friendly tokens in prose without typing UUIDs.
+The lookup token form exists for authoring ergonomics: authors can write stable, human-friendly tokens in prose without typing full IRIs.
 
 ---
 
@@ -94,18 +103,18 @@ Each Entity type MAY define a **default label strategy**.
 
 Default label strategies:
 
-* are schema-defined (e.g. in Architect or application CDX)
-* are typically defined **per Concept type**, not per instance
-* select which Traits or projections constitute the label
+* Schemas define them (e.g. in Architect or application CDX)
+* Schemas typically define them **per Concept type**, not per instance
+* Schemas select which Traits or projections constitute the label
 
 Example (illustrative):
 
 ```cdx
-<LabelPolicy id=label:Book:default for=Book value="title" />
-````
+<LabelPolicy id=label:Book:default for=~Book value="title" />
+```
 
-When `{@token}` is used without a label override, the default label strategy
-for the Entity’s Concept type is applied.
+When `{~token}` or `{@iri}` is used without a label override, the default label strategy
+for the Entity's Concept type is applied.
 
 ---
 
@@ -114,7 +123,8 @@ for the Entity’s Concept type is applied.
 Gloss allows an explicit label override:
 
 ```
-{@token | label}
+{@iri | label}
+{~token | label}
 ```
 
 Rules:
@@ -137,7 +147,7 @@ Rules:
 
 Design Policy MUST NOT reinterpret entity meaning.
 
-The **final chosen label** is recorded in the Presentation Plan.
+The system records the **final chosen label** in the Presentation Plan.
 
 ---
 
@@ -159,8 +169,8 @@ For HTML-class targets, the **default emission strategy is JSON-LD**.
 
 This means:
 
-* Entity references are collected during rendering
-* A single `<script type="application/ld+json">` block is emitted
+* The renderer collects Entity references during rendering
+* The renderer emits a single `<script type="application/ld+json">` block
 * The block contains metadata for referenced Entities
 
 JSON-LD emission is preferred because it:
@@ -193,9 +203,9 @@ Entity binding does **not** imply linking.
 
 Rules:
 
-* Whether an entity reference becomes a hyperlink is decided by **Design Policy**
+* **Design Policy** decides whether an entity reference becomes a hyperlink
 * Gloss provides no syntax to force or suppress linking
-* Link targets (URIs) are taken from Entity data when available
+* Renderers take link targets (URIs) from Entity data when available
 
 This preserves separation between **association** and **navigation**.
 
@@ -220,7 +230,7 @@ Opaque behavior is forbidden.
 This document does not define:
 
 * schema.org vocabulary itself
-* which Entities are Patch/Gloss-addressable
+* which Entities are Gloss-addressable
 * JSON-LD framing or compaction rules
 * graph merging or deduplication strategies
 * search engine optimization policy
@@ -233,10 +243,10 @@ These belong to Architect, Design Policy, or renderer configuration.
 
 This document must be read in conjunction with:
 
-* the Gloss Language Specification
-* the Gloss Lifecycle Contract
-* the Patch/Gloss–Design Policy Interaction Contract
-* the Codex Naming and Value Contract
+* the Gloss Syntax and Naming specification
+* the Gloss Lifecycle specification
+* the Gloss Design Policy Interaction specification
+* the Codex Naming and Values specification
 * the Architect schema definitions
 
 In case of conflict, higher-authority documents prevail.
@@ -245,7 +255,8 @@ In case of conflict, higher-authority documents prevail.
 
 ## 10. Summary
 
-* `{@token}` creates an **entity mention**
+* `{@iri}` and `{~token}` create **entity mentions**
+* `@` references by IRI, `~` references by lookup token
 * Entity binding is semantic, not presentational
 * Default metadata emission is **JSON-LD**
 * Label defaults live with schema; overrides live in Design Policy

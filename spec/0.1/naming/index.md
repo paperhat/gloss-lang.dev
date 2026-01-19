@@ -3,7 +3,7 @@ Lock State: LOCKED
 Version: 0.1  
 Editor: Charles F. Munat  
 
-# Gloss Language Specification
+# Gloss Syntax and Naming
 
 Gloss is an **inline semantic annotation language** used to enrich free text
 with **target-independent semantic and presentation-relevant information**.
@@ -36,7 +36,7 @@ Gloss is designed for **authoring**, not programming.
 Gloss does **not**:
 
 * define block structure
-* alter semantic truth
+* alter the meaning of referenced Concepts or Entities
 * encode presentation markup
 * define behavior or logic
 * evaluate values or expressions
@@ -83,34 +83,105 @@ Content is otherwise opaque to Codex.
 
 Gloss annotations use **curly braces** to mark spans.
 
-Two addressing forms exist:
+Three addressing forms exist:
 
 ```
-{@token}
-{@token | label}
+{@iri}
+{@iri | label}
+
+{~token}
+{~token | label}
 
 {#id}
 {#id | label}
 ```
 
-Whitespace inside Gloss syntax is insignificant except inside `label`.
+Where:
+
+* `@` references an Entity by IRI
+* `~` references an Entity by lookup token (resolves via `key` Trait)
+* `#` references a non-Entity Concept
+
+Whitespace inside Gloss syntax (outside of `label`) is collapsed and ignored for parsing. Whitespace inside `label` is preserved verbatim.
 
 Gloss annotations MAY be nested.
 
 ---
 
+## 5.1 Escaping Rules (Normative)
+
+Gloss uses **context-sensitive escaping** to minimize the need for escape
+sequences in typical content.
+
+### Opening Brace
+
+`{` starts a Gloss annotation **only** when immediately followed by `@`, `~`,
+or `#`. Otherwise, `{` is literal text.
+
+```
+{@entity}         — Gloss annotation
+{#concept}        — Gloss annotation
+{curly braces}    — literal text, not an annotation
+{foo}             — literal text, not an annotation
+```
+
+### Pipe Character
+
+Inside a Gloss annotation, the **first** `|` separates the reference from the
+label. Subsequent `|` characters are part of the label.
+
+```
+{@entity | label with | pipes | is fine}
+```
+
+Here, `label with | pipes | is fine` is the complete label.
+
+### Closing Brace
+
+Inside a label, `}` closes the annotation. To include a literal `}` in a label,
+escape it with a backslash: `\}`.
+
+```
+{@entity | label with \} brace}
+```
+
+### Backslash
+
+Inside a label, `\\` produces a literal backslash. Backslash only has special
+meaning when followed by `}` or `\`.
+
+```
+{@entity | path\\to\\file}     — label is "path\to\file"
+{@entity | ends with \\}       — label is "ends with \"
+```
+
+Outside of Gloss annotations, backslash has no special meaning.
+
+### Summary
+
+| Context | Character | Rule |
+|---------|-----------|------|
+| Content | `{` | Literal unless followed by `@`, `~`, `#` |
+| Content | `}` | Always literal |
+| Content | `\` | Always literal |
+| Label | `|` | First is separator; rest are literal |
+| Label | `}` | Closes annotation; escape as `\}` |
+| Label | `\` | Escape character before `}` or `\`; otherwise literal |
+
+---
+
 ## 6. Addressing Semantics
 
-### 6.1 `@` — Entity Reference (Normative)
+### 6.1 `@` — Direct Entity Reference (Normative)
 
-`@` references a **Codex Entity**.
+`@` references a **Codex Entity** by its IRI.
 
 An Entity is a Concept that declares an `id` Trait and is schema-authorized
 as an Entity.
 
 Rules:
 
-* `@token` MUST resolve to an Entity
+* `@iri` MUST resolve to an Entity by its `id` Trait
 * Entity references imply **identity**
 * Entity references MAY participate in:
   * RDFa / microdata
@@ -118,22 +189,50 @@ Rules:
   * graph association
 * Entity references MAY supply a default label from data
 
-Entity token resolution for `@token` is defined by **Entity Binding and Metadata Emission**.
-
 Example:
 
 ```cdx
-<Book id=book:hobbit key=hobbit title="The Hobbit" author="J.R.R. Tolkien" />
+<Book id=book:hobbit key=~hobbit title="The Hobbit" author="J.R.R. Tolkien" />
 ```
 
 ```cdx
-I love {@hobbit}.
-I love {@hobbit | The Hobbit — Tolkien}.
+I love {@book:hobbit}.
+I love {@book:hobbit | The Hobbit — Tolkien}.
 ```
 
 ---
 
-### 6.2 `#` — Non-Entity Target (Normative)
+### 6.2 `~` — Lookup Token Entity Reference (Normative)
+
+`~` references a **Codex Entity** by its lookup token.
+
+Rules:
+
+* `~token` MUST resolve to an Entity via its `key` Trait
+* Resolution follows the rules defined in **Codex Naming and Values § 4.15**
+* Entity references imply **identity**
+* Entity references MAY participate in:
+  * RDFa / microdata
+  * JSON-LD emission
+  * graph association
+* Entity references MAY supply a default label from data
+
+Example:
+
+```cdx
+<Book id=book:hobbit key=~hobbit title="The Hobbit" author="J.R.R. Tolkien" />
+```
+
+```cdx
+I love {~hobbit}.
+I love {~hobbit | The Hobbit — Tolkien}.
+```
+
+The lookup token form is preferred for authoring ergonomics.
+
+---
+
+### 6.3 `#` — Non-Entity Target (Normative)
 
 `#` references a **non-Entity Concept**.
 
@@ -166,10 +265,11 @@ The value of pi is {#pi}.
 
 ## 7. Label Overrides
 
-Both `@` and `#` references MAY include a label override:
+All reference forms MAY include a label override:
 
 ```
-{@token | label}
+{@iri | label}
+{~token | label}
 {#id | label}
 ```
 
@@ -241,18 +341,18 @@ Gloss meaning MUST NOT change by target.
 ## 10. Lifecycle and Processing
 
 Gloss lifecycle, parsing, and validation are defined in the following
-normative contracts:
+normative documents:
 
-* **Gloss Lifecycle Contract**
-* **Gloss Parsing Responsibility Contract**
-* **Gloss–Design Policy Interaction Contract**
+* **Lifecycle** — phase boundaries, parsing ownership, preservation guarantees
+* **Semantic Realization** — typed output model, invariants
+* **Design Policy Interaction** — consumer rules, permitted and prohibited uses
 
 In summary:
 
-* Gloss is treated as opaque text during compilation and storage
-* Gloss is parsed and semantically realized during **ViewModel shaping**
-* Gloss errors surface as **Help values**, never as runtime failures
-* Rendering MUST NOT introduce new Gloss semantics
+* Kernel treats Gloss as opaque text during compilation and storage
+* Kernel parses and semantically realizes Gloss during **ViewModel shaping**
+* Kernel surfaces Gloss errors as **Help values**, never as runtime failures
+* Renderers MUST NOT introduce new Gloss semantics
 
 ---
 
@@ -274,7 +374,7 @@ Examples:
 * `<E>` ✘
 * `<Bold>` ✘ (presentation effect, not semantic)
 
-See **Gloss Naming Contract** for full details.
+Naming rules are defined in the Codex specification.
 
 ---
 
@@ -300,8 +400,58 @@ Gloss processing:
 * MUST surface failures as Help values
 * MUST preserve source locations
 
-Invalid references, malformed syntax, or unresolved IDs
-are semantic failures, not rendering errors.
+### 13.1 Error Categories
+
+Two categories of errors exist:
+
+**Syntax errors:** Malformed Gloss markup.
+
+* Unclosed annotation: `{@entity` (no closing `}`)
+* Empty reference: `{@}` or `{#}` (sigil but no identifier)
+
+**Resolution errors:** Valid syntax, but reference cannot be resolved.
+
+* Unresolved reference: `{@nonexistent}` (Entity not found)
+* Wrong addressing form: `{@concept}` where `concept` is not an Entity
+
+### 13.2 Syntax Error Recovery (Normative)
+
+When Kernel encounters a syntax error:
+
+1. Kernel treats the malformed markup as **literal text**
+2. Kernel emits a **Help diagnostic** with source location
+3. Kernel continues parsing subsequent content
+
+Examples:
+
+| Input | Output | Help |
+|-------|--------|------|
+| `{@entity` | Literal text `{@entity` | "Unclosed annotation" |
+| `{@}` | Literal text `{@}` | "Empty reference after @" |
+| `{#a | {#b | x}` | `{#b | x}` parses; `{#a | ` is literal | "Unclosed annotation" |
+
+### 13.3 Resolution Error Recovery (Normative)
+
+When Kernel encounters a resolution error:
+
+1. Kernel parses the annotation successfully
+2. Kernel marks the resolution as **failed**
+3. Kernel emits a **Help diagnostic** with source location
+4. Renderers receive the annotation with failure metadata
+
+Resolution errors are **semantic failures**, not syntax errors. The annotation
+structure is preserved for debugging and tooling.
+
+### 13.4 Nesting and Errors
+
+When nested annotations have errors:
+
+* Valid inner annotations parse normally
+* Invalid outer annotations fall back to literal text
+* Each error emits its own Help diagnostic
+
+The principle: errors are **localized**. One malformed annotation does not
+invalidate surrounding content.
 
 ---
 
@@ -326,4 +476,4 @@ Never:
 
 ---
 
-**End of Gloss Language Specification v0.1**
+**End of Gloss Syntax and Naming v0.1**
