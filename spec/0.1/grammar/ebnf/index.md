@@ -1,5 +1,5 @@
 Status: NORMATIVE
-Lock State: UNLOCKED
+Lock State: LOCKED
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -48,7 +48,17 @@ EscapedClosingBrace = "\\", "}" ;
 
 EscapedBackslash = "\\", "\\" ;
 
-LabelTextChar = ? any Unicode scalar value except '}' and '\\' ? ;
+(* Embedding disambiguation inside labels:
+
+   If a '{' is immediately followed by '@' or '~', it begins a nested GlossAnnotation.
+   Otherwise, '{' is literal label text.
+*)
+
+(* Any character except '}' may appear as literal label text.
+   Escape sequences are interpreted with the precedence rules defined by the parsing model.
+*)
+
+LabelTextChar = ? any Unicode scalar value except '}' ? ;
 ```
 
 ## 1.1 Conformance and Canonicalization (Normative)

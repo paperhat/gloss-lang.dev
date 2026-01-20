@@ -1,5 +1,5 @@
 Status: NORMATIVE
-Lock State: UNLOCKED
+Lock State: LOCKED
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -40,6 +40,7 @@ This specification is organized as a set of focused documents.
 - Resolution semantics: [gloss-lang.dev/spec/0.1/resolution/index.md](resolution/index.md)
 - Formatting and canonicalization: [gloss-lang.dev/spec/0.1/formatting-and-canonicalization/index.md](formatting-and-canonicalization/index.md)
 - Validation errors and recovery: [gloss-lang.dev/spec/0.1/validation-errors/index.md](validation-errors/index.md)
+- Renderer contract: [gloss-lang.dev/spec/0.1/renderer-contract/index.md](renderer-contract/index.md)
 
 ## 4. Related Documents
 

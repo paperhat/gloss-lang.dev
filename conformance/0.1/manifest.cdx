@@ -1,0 +1,131 @@
+<ConformanceManifest
+	id=@gloss:conformance/0.1
+	version="0.1"
+	language=~gloss
+>
+	<Case
+		id=~escaped-backslash-in-label
+		kind=~valid
+		input="cases/valid/escaped-backslash-in-label.cdx"
+		canonical="expected/canonical/escaped-backslash-in-label.cdx"
+	/>
+
+	<Case
+		id=~escaped-brace-in-label
+		kind=~valid
+		input="cases/valid/escaped-brace-in-label.cdx"
+		canonical="expected/canonical/escaped-brace-in-label.cdx"
+	/>
+
+	<Case
+		id=~label-ends-with-backslash
+		kind=~valid
+		input="cases/valid/label-ends-with-backslash.cdx"
+		canonical="expected/canonical/label-ends-with-backslash.cdx"
+	/>
+
+	<Case
+		id=~label-with-pipes
+		kind=~valid
+		input="cases/valid/label-with-pipes.cdx"
+		canonical="expected/canonical/label-with-pipes.cdx"
+	/>
+
+	<Case
+		id=~literal-backslash-in-label
+		kind=~valid
+		input="cases/valid/literal-backslash-in-label.cdx"
+		canonical="expected/canonical/literal-backslash-in-label.cdx"
+	/>
+
+	<Case
+		id=~literal-open-brace-in-label
+		kind=~valid
+		input="cases/valid/literal-open-brace-in-label.cdx"
+		canonical="expected/canonical/literal-open-brace-in-label.cdx"
+	/>
+
+	<Case
+		id=~minimal-at
+		kind=~valid
+		input="cases/valid/minimal-at.cdx"
+		canonical="expected/canonical/minimal-at.cdx"
+	/>
+
+	<Case
+		id=~nested-separator-disambiguation
+		kind=~valid
+		input="cases/valid/nested-separator-disambiguation.cdx"
+		canonical="expected/canonical/nested-separator-disambiguation.cdx"
+	/>
+
+	<Case
+		id=~nested-two-levels
+		kind=~valid
+		input="cases/valid/nested-two-levels.cdx"
+		canonical="expected/canonical/nested-two-levels.cdx"
+	/>
+
+	<Case
+		id=~non-annotation-braces-in-text
+		kind=~valid
+		input="cases/valid/non-annotation-braces-in-text.cdx"
+		canonical="expected/canonical/non-annotation-braces-in-text.cdx"
+	/>
+
+	<Case
+		id=~compact-pipe-separator
+		kind=~invalid
+		input="cases/invalid/compact-pipe-separator.cdx"
+		expectedError="expected/errors/compact-pipe-separator.cdx"
+	/>
+
+	<Case
+		id=~invalid-nested-compact-pipe
+		kind=~invalid
+		input="cases/invalid/invalid-nested-compact-pipe.cdx"
+		expectedError="expected/errors/invalid-nested-compact-pipe.cdx"
+	/>
+
+	<Case
+		id=~missing-space-after-pipe
+		kind=~invalid
+		input="cases/invalid/missing-space-after-pipe.cdx"
+		expectedError="expected/errors/missing-space-after-pipe.cdx"
+	/>
+
+	<Case
+		id=~missing-space-before-pipe
+		kind=~invalid
+		input="cases/invalid/missing-space-before-pipe.cdx"
+		expectedError="expected/errors/missing-space-before-pipe.cdx"
+	/>
+
+	<Case
+		id=~trailing-after-reference
+		kind=~invalid
+		input="cases/invalid/trailing-after-reference.cdx"
+		expectedError="expected/errors/trailing-after-reference.cdx"
+	/>
+
+	<Case
+		id=~unclosed-annotation
+		kind=~invalid
+		input="cases/invalid/unclosed-annotation.cdx"
+		expectedError="expected/errors/unclosed-annotation.cdx"
+	/>
+
+	<Case
+		id=~unclosed-nested-annotation
+		kind=~invalid
+		input="cases/invalid/unclosed-nested-annotation.cdx"
+		expectedError="expected/errors/unclosed-nested-annotation.cdx"
+	/>
+
+	<Case
+		id=~whitespace-after-sigil
+		kind=~invalid
+		input="cases/invalid/whitespace-after-sigil.cdx"
+		expectedError="expected/errors/whitespace-after-sigil.cdx"
+	/>
+</ConformanceManifest>

@@ -41,6 +41,14 @@ def _iter_markdown_files(spec_root: Path) -> list[Path]:
     return sorted(spec_root.rglob("*.md"))
 
 
+def _find_repo_root(start: Path) -> Path:
+    p = start.resolve()
+    for candidate in [p, *p.parents]:
+        if (candidate / ".git").exists():
+            return candidate
+    return start
+
+
 def main(argv: list[str]) -> int:
     if len(argv) != 2:
         print("usage: spec_link_check.py <spec_root_dir>", file=sys.stderr)
@@ -49,6 +57,8 @@ def main(argv: list[str]) -> int:
     spec_root = Path(argv[1]).resolve()
     if not spec_root.exists() or not spec_root.is_dir():
         _fail(f"not a directory: {spec_root}")
+
+    repo_root = _find_repo_root(spec_root)
 
     md_files = _iter_markdown_files(spec_root)
     if not md_files:
@@ -77,11 +87,11 @@ def main(argv: list[str]) -> int:
 
             resolved = (md_path.parent / target).resolve()
 
-            # Require the resolved path to be within this spec root.
+            # Require the resolved path to be within this repo (so links can't escape).
             try:
-                resolved.relative_to(spec_root)
+                resolved.relative_to(repo_root)
             except ValueError:
-                missing.append((md_path, raw_target, "link escapes spec root"))
+                missing.append((md_path, raw_target, "link escapes repo root"))
                 continue
 
             if not resolved.exists():

@@ -21,18 +21,26 @@ It does not attempt to test resolution (`@`/`~` binding) because resolution requ
 
 ## Layout
 
-- `manifest.json` — the index of cases.
-- `cases/valid/*.txt` — syntactically + surface-form valid inputs.
-- `cases/invalid/*.txt` — inputs expected to fail.
-- `expected/canonical/*.txt` — expected canonical form for some valid inputs.
-- `expected/errors/*.json` — expected primary error class for invalid inputs.
+- `manifest.cdx` — the Codex-native index of cases.
+- `cases/valid/*.cdx` — Codex documents whose Content contains Gloss.
+- `cases/invalid/*.cdx` — Codex documents whose Content contains Gloss and is expected to fail.
+- `expected/canonical/*.cdx` — expected canonical form for some valid inputs.
+- `expected/errors/*.cdx` — expected error classification for invalid inputs.
 
 ## Running the smoke check
 
 From the repo root:
 
 ```bash
-python3 codex-lang.dev/tools/conformance_smokecheck.py gloss-lang.dev/conformance/0.1/manifest.json
+python3 gloss-lang.dev/tools/conformance_smokecheck_cdx.py gloss-lang.dev/conformance/0.1/manifest.cdx
+```
+
+## Running the "no JSON" gate
+
+From the repo root:
+
+```bash
+python3 gloss-lang.dev/tools/no_json_gate.py
 ```
 
 ## Running the spec header gate
@@ -41,6 +49,14 @@ From the repo root:
 
 ```bash
 python3 gloss-lang.dev/tools/spec_header_check.py gloss-lang.dev/spec/0.1
+```
+
+## Running the spec link gate
+
+From the repo root:
+
+```bash
+python3 gloss-lang.dev/tools/spec_link_check.py gloss-lang.dev/spec/0.1
 ```
 
 ## Spec references

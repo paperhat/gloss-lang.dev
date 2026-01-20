@@ -1,5 +1,5 @@
 Status: NORMATIVE
-Lock State: UNLOCKED
+Lock State: LOCKED
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -43,7 +43,7 @@ Gloss is intentionally strict:
 
 The compact form `{@x|label}` is invalid.
 
-Therefore these are invalid Gloss annotations (and MUST be treated as literal text with a syntax diagnostic):
+Therefore these are invalid Gloss annotations (and MUST be treated as syntax errors with recovery as defined by the parsing model, with a diagnostic):
 
 - `{@ x}`
 - `{@x |label}`

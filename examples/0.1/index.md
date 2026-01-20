@@ -5,9 +5,9 @@ These examples are illustrative. They show Codex Concepts with `id`/`key` and Gl
 For the HTML outputs below, assume a renderer that:
 
 - defaults to emitting a `span` with semantic metadata as `data-*` attributes
-- emits links as `a` when the bound Concept is a `Link` with an `href`
+- emits links as `a` when the bound Concept is a `Link` with a `url` (mapping Concept `url` to HTML `href`)
 - emits strong emphasis as `strong` when the bound Concept is `StrongEmphasis`
-- emits foreign terms as `i` with `lang` when the bound Concept is `ForeignTerm`
+- emits foreign terms as `i` with HTML `lang` when the bound Concept is `ForeignTerm` with a `language` (mapping Concept `language` to HTML `lang`)
 
 These HTML examples are **informative** and intentionally show one plausible mapping.
 
@@ -84,8 +84,8 @@ Possible HTML output:
 The label for a link contains a nested span for a foreign term.
 
 ```cdx
-<Link key=~doc1 href="https://example.org/papers/1" />
-<ForeignTerm key=~zeitgeist lang="de" translation="spirit of the age" />
+<Link key=~doc1 url="https://example.org/papers/1" />
+<ForeignTerm key=~zeitgeist language="de" translation="spirit of the age" />
 
 <Paragraph key=~p1>
 	Read {~doc1 | the discussion of {~zeitgeist | Zeitgeist}} for details.
@@ -113,9 +113,9 @@ A three-level nesting example:
 - inner: translation gloss
 
 ```cdx
-<Link key=~doc2 href="https://example.org/refs/zeitgeist" />
-<ForeignTerm key=~ft1 lang="de" />
-<Translation key=~tr1 lang="en" />
+<Link key=~doc2 url="https://example.org/refs/zeitgeist" />
+<ForeignTerm key=~ft1 language="de" />
+<Translation key=~tr1 language="en" />
 
 <Paragraph key=~p2>
 	See {~doc2 | {~ft1 | Zeitgeist ({~tr1 | spirit of the age})}}.
@@ -141,7 +141,7 @@ Possible HTML output:
 ```cdx
 <Person id=person:camus key=~camus name="Albert Camus" />
 <Work id=work:myth key=~sisyphus title="The Myth of Sisyphus" />
-<Link key=~external href="https://example.org/camus" />
+<Link key=~external url="https://example.org/camus" />
 
 <Paragraph id=para:camus>
 	{@person:camus | Camus} discusses {~sisyphus | this work}. 

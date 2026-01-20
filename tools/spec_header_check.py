@@ -83,7 +83,8 @@ def main(argv: list[str]) -> int:
         _fail(f"not a directory: {spec_root}")
 
     expected_version = "0.1"
-    expected_lock_state = "UNLOCKED"
+    # If the versioned spec directory contains FROZEN.md, it is frozen and must be LOCKED.
+    expected_lock_state = "LOCKED" if (spec_root / "FROZEN.md").exists() else "UNLOCKED"
     expected_editor = "Charles F. Munat"
 
     index_paths = sorted(spec_root.rglob("index.md"))

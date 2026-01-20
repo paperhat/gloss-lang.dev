@@ -1,5 +1,5 @@
 Status: INFORMATIVE
-Lock State: UNLOCKED
+Lock State: LOCKED
 Version: 0.1
 Editor: Charles F. Munat
 
@@ -46,10 +46,13 @@ LabelSeparator <- ' ' '|' ' '
 # Escapes apply only inside Label.
 Label <- LabelPart*
 
-LabelPart <- GlossAnnotation / EscapedClosingBrace / EscapedBackslash / LabelTextChar
+LabelPart <- GlossAnnotation / EscapedClosingBrace / EscapedBackslash / LiteralBackslash / LabelTextChar
 
 EscapedClosingBrace <- '\\' '}'
 EscapedBackslash <- '\\' '\\'
+
+# A literal backslash is permitted when it does not form a recognized escape.
+LiteralBackslash <- '\\' ![\\}]
 
 # Any character except '}' and '\\', as long as it does not begin an annotation.
 # This includes '|' verbatim.

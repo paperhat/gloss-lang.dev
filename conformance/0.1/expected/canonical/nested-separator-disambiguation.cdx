@@ -1,0 +1,3 @@
+<Fixture>
+	{@outer | A {~inner | B | C} D}
+</Fixture>

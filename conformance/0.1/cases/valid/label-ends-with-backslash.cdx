@@ -1,0 +1,3 @@
+<Fixture>
+	{@x | ends with backslash: \\}
+</Fixture>
