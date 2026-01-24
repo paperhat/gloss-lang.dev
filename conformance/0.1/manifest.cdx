@@ -102,6 +102,34 @@
 	/>
 
 	<Case
+		id=~missing-reference-at
+		kind=~invalid
+		input="cases/invalid/missing-reference-at.cdx"
+		expectedError="expected/errors/missing-reference-at.cdx"
+	/>
+
+	<Case
+		id=~missing-reference-tilde
+		kind=~invalid
+		input="cases/invalid/missing-reference-tilde.cdx"
+		expectedError="expected/errors/missing-reference-tilde.cdx"
+	/>
+
+	<Case
+		id=~whitespace-after-reference
+		kind=~invalid
+		input="cases/invalid/whitespace-after-reference.cdx"
+		expectedError="expected/errors/whitespace-after-reference.cdx"
+	/>
+
+	<Case
+		id=~extra-space-before-pipe
+		kind=~invalid
+		input="cases/invalid/extra-space-before-pipe.cdx"
+		expectedError="expected/errors/extra-space-before-pipe.cdx"
+	/>
+
+	<Case
 		id=~trailing-after-reference
 		kind=~invalid
 		input="cases/invalid/trailing-after-reference.cdx"
