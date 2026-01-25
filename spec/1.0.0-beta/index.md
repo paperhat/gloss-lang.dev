@@ -2,9 +2,9 @@
 render_with_liquid: false
 ---
 
-Status: NORMATIVE
-Lock State: UNLOCKED
-Version: 1.0.0-beta
+Status: NORMATIVE  
+Lock State: UNLOCKED  
+Version: 1.0.0-beta  
 Editor: Charles F. Munat
 
 # Gloss Language Specification — Version 1.0.0-beta

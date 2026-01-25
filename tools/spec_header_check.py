@@ -43,17 +43,36 @@ def _check_index(path: Path, expected_version: str, expected_lock_state: str, ex
     if not lines:
         _fail(f"empty file: {path}")
 
-    if lines[0].strip() == "":
-        _fail(f"leading blank line not allowed: {path}")
+    # Allow optional YAML front matter (e.g., for GitHub Pages / Jekyll).
+    # If present, it must be the first thing in the file.
+    start_index = 0
+    if lines[0].strip() == "---":
+        end_index = None
+        for i in range(1, len(lines)):
+            if lines[i].strip() == "---":
+                end_index = i
+                break
+        if end_index is None:
+            _fail(f"unterminated YAML front matter (missing closing '---'): {path}")
+        start_index = end_index + 1
+        # Skip blank lines after front matter.
+        while start_index < len(lines) and lines[start_index].strip() == "":
+            start_index += 1
 
-    if len(lines) < 6:
+    if start_index >= len(lines):
+        _fail(f"file too short to contain header + title: {path}")
+
+    if lines[start_index].strip() == "":
+        _fail(f"leading blank line not allowed before header: {path}")
+
+    if len(lines) - start_index < 6:
         _fail(f"file too short to contain header + title: {path}")
 
     expected_status = _expected_status_for(path)
 
-    header = lines[:4]
+    header = lines[start_index : start_index + 4]
     if not header[0].startswith("Status:"):
-        _fail(f"{path}: line 1 must start with 'Status:'")
+        _fail(f"{path}: header must start with 'Status:'")
     if header[0].strip() != f"Status: {expected_status}":
         _fail(f"{path}: Status must be 'Status: {expected_status}'")
 
@@ -66,11 +85,11 @@ def _check_index(path: Path, expected_version: str, expected_lock_state: str, ex
     if header[3].strip() != f"Editor: {expected_editor}":
         _fail(f"{path}: Editor must be 'Editor: {expected_editor}'")
 
-    if lines[4].strip() != "":
-        _fail(f"{path}: line 5 must be blank")
+    if lines[start_index + 4].strip() != "":
+        _fail(f"{path}: line after header must be blank")
 
-    if not lines[5].startswith("# "):
-        _fail(f"{path}: line 6 must be a Markdown H1 title")
+    if not lines[start_index + 5].startswith("# "):
+        _fail(f"{path}: expected a Markdown H1 title after the blank line")
 
 
 def main(argv: list[str]) -> int:
