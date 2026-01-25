@@ -77,7 +77,6 @@ using the following rule:
 	- `~gloss-syn-unclosed-nested-annotation`
 	- `~gloss-syn-unclosed-annotation`
 	- `~gloss-syn-missing-reference`
-	- `~gloss-syn-whitespace-after-open-brace`
 	- `~gloss-syn-whitespace-after-sigil`
 	- `~gloss-syn-whitespace-after-reference`
 	- `~gloss-syn-compact-pipe-separator`
@@ -97,7 +96,6 @@ normative parsing model.
 When `category` is **syntax**, `reason` MUST be one of:
 
 - `~gloss-syn-missing-reference` — an annotation start is recognized but the reference token is empty (e.g., `{@}` or `{~}`).
-- `~gloss-syn-whitespace-after-open-brace` — whitespace appears between `{` and the sigil (`@`/`~`).
 - `~gloss-syn-whitespace-after-sigil` — whitespace appears between the sigil (`@`/`~`) and the first character of the reference token.
 - `~gloss-syn-whitespace-after-reference` — whitespace appears after a completed reference token where only `}` or ` ␠|␠ ` is permitted.
 - `~gloss-syn-missing-space-before-pipe` — label separator is missing the required single ASCII space before `|`.

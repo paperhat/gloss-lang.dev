@@ -130,6 +130,13 @@
 	/>
 
 	<Case
+		id=~extra-space-after-pipe
+		kind=~invalid
+		input="cases/invalid/extra-space-after-pipe.cdx"
+		expectedError="expected/errors/extra-space-after-pipe.cdx"
+	/>
+
+	<Case
 		id=~trailing-after-reference
 		kind=~invalid
 		input="cases/invalid/trailing-after-reference.cdx"

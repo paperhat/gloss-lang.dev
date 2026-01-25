@@ -26,6 +26,17 @@ At any position in text, `{` begins an annotation if and only if the next charac
 - If `{` is not immediately followed by `@` or `~`, it is literal text.
 - This rule applies inside labels as well as top-level `Content`.
 
+### 2.1 Literal Annotation-Start Escapes (Normative)
+
+Because the two-character sequences `{@` and `{~` always begin annotations,
+consumers MUST recognize the following three-character sequences as **literal
+text** when scanning for annotations (both top-level and inside labels):
+
+- `{{@` emits the literal two-character sequence `{@`.
+- `{{~` emits the literal two-character sequence `{~`.
+
+These escapes MUST be recognized before applying the annotation-start rule.
+
 ## 3. Annotation Structure (Normative)
 
 Inside an annotation:
@@ -65,9 +76,10 @@ While parsing a label at any nesting depth:
 
 1. If the next two characters are `\}`: consume them and emit a literal `}`.
 2. Else if the next two characters are `\\`: consume them and emit a literal `\\`.
-3. Else if the next characters begin an annotation (i.e., `{` immediately followed by `@` or `~`): parse a nested annotation and emit it as a nested segment.
-4. Else if the next character is `}` and the current nesting depth is 0: close the current annotation.
-5. Else: consume one character as literal label text.
+3. Else if the next three characters are `{{@` or `{{~`: consume them and emit the corresponding literal two-character sequence (`{@` or `{~`).
+4. Else if the next characters begin an annotation (i.e., `{` immediately followed by `@` or `~`): parse a nested annotation and emit it as a nested segment.
+5. Else if the next character is `}` and the current nesting depth is 0: close the current annotation.
+6. Else: consume one character as literal label text.
 
 ### 4.3 Pipe Handling
 

@@ -29,6 +29,19 @@ Where:
 `{` begins a Gloss annotation **only** when immediately followed by `@` or `~`.
 Otherwise `{` is literal text.
 
+### 2.1 Literal Annotation-Start Escapes (Normative)
+
+Because the two-character sequences `{@` and `{~` always begin annotations,
+Gloss provides a way to write these sequences as **literal text**.
+
+When scanning for annotations (both in top-level `Content` and inside labels):
+
+- `{{@` MUST be interpreted as the literal two-character sequence `{@`.
+- `{{~` MUST be interpreted as the literal two-character sequence `{~`.
+
+These escapes are part of the embedding/recognition rules, not annotation
+structure.
+
 `}` is never special outside an annotation.
 
 This rule applies both in top-level `Content` and inside annotation labels.

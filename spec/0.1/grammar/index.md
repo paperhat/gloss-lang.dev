@@ -19,6 +19,13 @@ An annotation begins at a `{` character **only when** the next character is `@` 
 - If `{` is not immediately followed by `@` or `~`, it is literal text.
 - This rule is the only mechanism by which Gloss avoids requiring escaping for ordinary braces in prose.
 
+Gloss also defines literal escapes for the two reserved annotation-start sequences:
+
+- `{{@` MUST be interpreted as the literal two-character sequence `{@`.
+- `{{~` MUST be interpreted as the literal two-character sequence `{~`.
+
+These escapes MUST be recognized before applying the annotation-start rule.
+
 This embedding rule applies both in top-level `Content` and inside annotation labels.
 
 ## 2. Strict Whitespace (Normative)

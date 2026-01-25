@@ -20,11 +20,15 @@ Notes:
 # Start condition for a Gloss annotation.
 AnnotationStart <- '{' [@~]
 
+# Literal escapes for reserved annotation-start sequences.
+# These emit the literal two-character sequences '{@' and '{~' respectively.
+EscapedAnnotationStart <- '{{' [@~]
+
 # A stream of text with embedded annotations.
 # Text consumes any character sequence that does not begin an annotation.
 GlossText <- (GlossAnnotation / TextRun)*
 
-TextRun <- (!AnnotationStart .)+
+TextRun <- (EscapedAnnotationStart / (!AnnotationStart .))+
 ```
 
 ---
