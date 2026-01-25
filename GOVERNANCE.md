@@ -19,7 +19,7 @@ Final authority over **Normative** content rests with the **Specification Editor
 
 ## Origin and Stewardship
 
-Gloss was originated by **Charles F. Munat**, who serves as the **Specification Editor**.
+**Charles F. Munat** originated Gloss and serves as the **Specification Editor**.
 
 The Gloss Language Specification and all associated Normative documents are stewarded under a **single-editor governance model** to ensure long-term coherence, semantic integrity, and architectural consistency.
 
@@ -30,9 +30,9 @@ The Specification Editor holds final responsibility and authority for:
 * maintaining versioned, authoritative specifications and contracts
 * determining compatibility, conformance, and compliance criteria
 
-While the specification is public and open to review, **decision-making authority over Normative content is centralized** in the Specification Editor in order to preserve clarity, continuity, and conceptual integrity.
+While the specification is public and open to review, **the Specification Editor retains exclusive authority** over Normative content to preserve clarity, continuity, and conceptual integrity.
 
-If the Specification Editor is unable or unwilling to continue in this role, editorial authority may be transferred by the outgoing editor, or, in their absence, by a process publicly defined in this repository.
+If the Specification Editor is unable or unwilling to continue in this role, the outgoing editor may transfer editorial authority, or, in their absence, a process publicly defined in this repository governs succession.
 
 This stewardship model prioritizes correctness, stability, and semantic coherence over consensus or majority rule.
 
@@ -48,9 +48,9 @@ Lower-tier documents MUST conform to higher-tier documents.
 ### 1. Gloss Language Specification (`/spec/`)
 
 * Defines the Gloss language itself
-* Defines syntax, structure, naming, identity, collections, schemas, and validation
-* Is **immutable once published**
-* Is the highest authority in the system
+* Specifies syntax, structure, naming, identity, collections, schemas, and validation
+* Becomes **immutable once published**
+* Holds the highest authority in the system
 
 Nothing may contradict the specification.
 
@@ -167,9 +167,9 @@ Only documents designated as **Normative** define Gloss.
 
 ## Compatibility & Claims
 
-Use of the terms “Gloss”, “Gloss-compatible”, or similar claims of compliance may be subject to additional requirements defined by the Specification Editor.
+Implementations may diverge from this specification, but non-conformant implementations must not claim compatibility with Gloss or use the Gloss, Codex, or Paperhat Workshop names in ways that imply conformance or endorsement.
 
-False or misleading claims of compliance constitute non-conformance.
+Conformance requires adherence to both the letter and spirit of the specification. The Specification Editor determines whether an implementation meets this standard.
 
 ---
 

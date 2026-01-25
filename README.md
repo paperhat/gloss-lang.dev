@@ -1,13 +1,16 @@
 # Gloss Inline Semantic Span-Binding Language
 
-**Gloss** is a **target-independent inline semantic annotation language** for binding **meaning and data** to spans of free text.
+Gloss is a target-independent inline semantic annotation language for binding meaning and data to spans of free text.
 
-Gloss is designed for **authoring**, not programming.
-It allows writers, designers, and systems to enrich narrative text with machine-readable semantics **without mixing structure, presentation, or behavior into the text itself**.
+Gloss is designed for authoring, not programming. It allows writers, designers, and systems to enrich narrative text with machine-readable semantics without mixing structure, presentation, or behavior into the text itself.
 
-Gloss answers one question only:
+Gloss answers one question: "What does this span of text mean?"
 
-> **“What does this span of text mean?”**
+---
+
+## Codex and Gloss
+
+Gloss is embedded inside Codex Content. Codex is a declarative semantic markup language for expressing meaning independent of presentation or behavior. It uses XML-like syntax to write OWL2/SHACL ontologies and data. A Codex document consists of Concepts (named semantic units), Traits (values bound to Concepts), and Content (opaque narrative text). Gloss annotates spans within that Content.
 
 ---
 
@@ -20,6 +23,8 @@ Markup systems—especially HTML and Markdown—collapse multiple concerns into 
 * navigation and meaning
 * content and behavior
 
+For example, HTML's `<strong>` conflates semantic intent (importance) with visual presentation (bold). A screen reader or audio renderer must guess what the author meant.
+
 This makes content:
 
 * brittle
@@ -28,26 +33,22 @@ This makes content:
 * hostile to semantic analysis
 * tightly coupled to the web
 
-Gloss solves this by doing **one thing only**:
-
-> **Binding semantic meaning to spans of text.**
-
-Nothing else.
+Gloss solves this by doing one thing: binding semantic meaning to spans of text.
 
 ---
 
 ## What Gloss Is (and Is Not)
 
-Gloss **is**:
+Gloss is:
 
-* **Inline only** — applies to spans of text, never blocks
-* **Declarative** — no logic, no evaluation, no execution
-* **Target-independent** — works for HTML, PDF, audio, braille, data export, etc.
-* **Schema-driven** — meaning is defined elsewhere
-* **Explainable** — every annotation must be explainable in plain language
-* **Open-vocabulary** — domains define their own semantics
+* Inline only — applies to spans of text, never blocks
+* Declarative — no logic, no evaluation, no execution
+* Target-independent — works for HTML, PDF, audio, braille, data export, etc.
+* Schema-driven — meaning is defined elsewhere
+* Explainable — every annotation must be explainable in plain language
+* Open-vocabulary — domains define their own semantics
 
-Gloss **is not**:
+Gloss is not:
 
 * a document format
 * a layout system
@@ -59,9 +60,7 @@ Gloss **is not**:
 
 ## How Gloss Works
 
-Gloss annotations appear inline using curly-brace syntax.
-
-There are exactly **two addressing forms**.
+Gloss annotations appear inline using curly-brace syntax. There are two addressing forms.
 
 ---
 
@@ -72,7 +71,7 @@ There are exactly **two addressing forms**.
 {@id | label}
 ```
 
-Used to reference **Entities**—Concepts with identity.
+Used to reference Entities — Concepts with identity.
 
 Example:
 
@@ -83,15 +82,7 @@ I love {@book:hobbit}.
 I love {@book:hobbit | The Hobbit — Tolkien}.
 ```
 
-Entity references express **association**, not linking.
-
-They MAY participate in:
-
-* metadata emission (e.g. JSON-LD)
-* knowledge graphs
-* semantic search
-
-Linking behavior is decided by **Design Policy**, not Gloss.
+Entity references express semantic association, not linking. The annotation binds a span to a Concept; whether that binding becomes a hyperlink, tooltip, footnote, or nothing visible depends on Design Policy and the target renderer. Gloss does not prescribe presentation.
 
 ---
 
@@ -102,7 +93,7 @@ Linking behavior is decided by **Design Policy**, not Gloss.
 {#id | label}
 ```
 
-Used to reference **non-Entity Concepts**, such as:
+Used to reference non-Entity Concepts, such as:
 
 * dates and times
 * numeric values
@@ -120,7 +111,7 @@ Example:
 The value of pi is {#pi}.
 ```
 
-These annotations express **meaning**, not appearance.
+These annotations express meaning, not appearance.
 
 ---
 
@@ -130,7 +121,7 @@ Gloss follows a strict lifecycle:
 
 1. Authored as plain text
 2. Preserved verbatim through compilation and storage
-3. Parsed and realized during **ViewModel shaping**
+3. Parsed and realized during ViewModel shaping
 4. Consumed by Design Policy and renderers
 
 Gloss guarantees:
@@ -141,58 +132,39 @@ Gloss guarantees:
 * explainable behavior
 * no influence on structural correctness
 
-Errors surface as **Help**, never as crashes.
+Errors surface as Help, never as crashes.
 
 ---
 
 ## Metadata and Linked Data
 
-When Gloss binds text to Entities:
-
-* renderers MAY emit metadata (e.g. JSON-LD)
-* the default strategy for HTML is **JSON-LD**
-* RDFa or microdata MAY be used by policy
-
-Gloss does not control emission format or placement.
+When Gloss binds text to Entities, renderers may emit metadata (e.g., JSON-LD). The default strategy for HTML is JSON-LD; RDFa or microdata may be used by policy. Gloss does not control emission format or placement.
 
 ---
 
 ## Status
 
-* **Specification:** 1.0.0-beta
-* **Status:** Normative
-* **Lock State:** Locked
-* **Stability:** High
+* Specification: 1.0.0-beta
+* Status: Normative
+* Lock State: Locked
+* Stability: High
 
-Gloss is intended to evolve **slowly and conservatively**.
+Gloss is intended to evolve slowly and conservatively.
 
 ---
 
 ## Governance
 
-Gloss documentation is maintained under a **formal governance model**.
+Gloss documentation is maintained under a formal governance model. Normative content is authoritative and versioned. LOCKED documents change only through explicit revision.
 
-Normative content is authoritative and versioned.
-LOCKED documents change only through explicit revision.
-
-See **`GOVERNANCE.md`** for governance rules.
+See `GOVERNANCE.md` for governance rules.
 
 ---
 
 ## Licensing and Copyright
 
-All documentation in this repository is licensed under the
-**Creative Commons Attribution 4.0 International License (CC BY 4.0)**.
+All documentation in this repository is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0). The license applies to textual and illustrative content only.
 
-The license applies to **textual and illustrative content only**.
+No rights are granted to project or language names, trademarks or logos, or software implementations.
 
-No rights are granted to:
-
-* project or language names
-* trademarks or logos
-* software implementations
-
-See:
-
-* **`LICENSE.md`**
-* **`COPYRIGHT.md`**
+See `LICENSE.md` and `COPYRIGHT.md`.

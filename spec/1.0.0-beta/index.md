@@ -12,19 +12,19 @@ Editor: Charles F. Munat
 Gloss is an **inline semantic span-binding language** embedded inside Codex `Content`.
 It binds spans of opaque text to Codex Concepts without encoding presentation or behavior.
 
-## 1. Scope and Relationship to Codex (Normative)
+## 1. Scope and Relationship to Codex
+Codex is a declarative semantic markup language for expressing meaning independent of presentation or behavior. It uses XML-like syntax to write OWL2/SHACL ontologies and data. A Codex document consists of Concepts (named semantic units that may contain child Concepts or narrative text), Traits (values bound to Concepts), and Content (opaque narrative text preserved without interpretation).
 
 1. Gloss annotations MAY appear only inside Codex `Content` values.
 2. Codex tooling treats `Content` as opaque text; Codex does not parse Gloss.
-3. Gloss is parsed and resolved by consuming systems (e.g., target realization / rendering pipelines).
+3. Consuming systems (e.g., target realization and rendering pipelines) parse and resolve Gloss.
 4. Gloss MUST NOT be used inside:
 
 	- Codex identifiers
 	- Codex Trait values
 	- schema definitions
 
-## 2. Design Intent (Normative)
-
+## 2. Design Intent
 Gloss encodes semantic binding only.
 
 Gloss MUST NOT:
@@ -35,12 +35,10 @@ Gloss MUST NOT:
 
 Targets (HTML, PDF, audio, braille, data export) MAY realize the same semantics differently.
 
-## 3. Surface Form (Normative)
-
+## 3. Surface Form
 This section defines the user-visible surface form of Gloss annotations embedded in Codex `Content`.
 
-### 3.1 Annotation Forms (Normative)
-
+### 3.1 Annotation Forms
 A Gloss annotation has one of the following forms:
 
 ```text
@@ -56,15 +54,13 @@ Where:
 - `@` references a Concept by its `id` (IRI identifier)
 - `~` references a Concept by its `key` (lookup token)
 
-### 3.2 Recognition Rule (Normative)
-
+### 3.2 Recognition Rule
 `{` begins a Gloss annotation **only** when immediately followed by `@` or `~`.
 Otherwise `{` is literal text.
 
 `}` is literal text outside annotations.
 
-#### 3.2.1 Literal Annotation-Start Escapes (Normative)
-
+#### 3.2.1 Literal Annotation-Start Escapes
 Because the two-character sequences `{@` and `{~` always begin annotations,
 Gloss provides a way to write these sequences as **literal text**.
 
@@ -75,8 +71,7 @@ When scanning for annotations (both in top-level `Content` and inside labels):
 
 These escapes MUST be recognized before applying the annotation-start rule.
 
-### 3.3 Whitespace Rules (Normative)
-
+### 3.3 Whitespace Rules
 Gloss is intentionally strict:
 
 - No whitespace is permitted between the sigil and the reference token.
@@ -94,20 +89,16 @@ under the recognition rule. It is literal text.
 
 Whitespace inside `label` is preserved verbatim.
 
-### 3.4 Tokens (Normative)
-
-#### 3.4.1 `@iri` (Normative)
-
+### 3.4 Tokens
+#### 3.4.1 `@iri`
 `@` references use a Codex identifier token (an IRI reference).
-Gloss treats the IRI as an opaque token.
+Gloss treats the IRI as an opaque token (meaning Gloss does not interpret or validate its contents).
 
-#### 3.4.2 `~token` (Normative)
-
+#### 3.4.2 `~token`
 `~` references use a Codex lookup token value.
 Lookup tokens are spelled with the leading `~` and follow Codex lookup-token lexical rules.
 
-### 3.5 Labels (Normative)
-
+### 3.5 Labels
 `label` is optional.
 
 Rules:
@@ -118,8 +109,7 @@ Rules:
 
 The `label` portion is everything after the label separator ` ␠|␠ `.
 
-### 3.6 Escaping (Normative)
-
+### 3.6 Escaping
 Escaping applies only inside labels.
 
 - `\}` represents a literal `}` character.
@@ -138,14 +128,12 @@ Examples:
 {~linkDoc | See {~foreignTerm | Zeitgeist}}
 ```
 
-## 4. Parsing Model (Normative)
-
+## 4. Parsing Model
 This section defines the parsing model for Gloss annotations embedded in Codex `Content`.
 
 Gloss is embedded in arbitrary text, so parsing MUST be deterministic, streaming-friendly, and unambiguous.
 
-### 4.1 Overview (Normative)
-
+### 4.1 Overview
 A consumer parses `Content` into segments:
 
 - literal text segments
@@ -154,15 +142,13 @@ A consumer parses `Content` into segments:
   - an optional label string which may itself contain nested annotations
   - source location metadata
 
-### 4.2 Annotation Start (Normative)
-
+### 4.2 Annotation Start
 Consumers MUST recognize annotation starts according to the recognition rule in § 3.2,
 including the literal annotation-start escapes in § 3.2.1.
 
 This rule applies inside labels as well as top-level `Content`.
 
-### 4.3 Annotation Structure (Normative)
-
+### 4.3 Annotation Structure
 Inside an annotation:
 
 1. Parse `{`.
@@ -174,28 +160,24 @@ Inside an annotation:
    - the label separator ` ␠|␠ ` occurs, followed by a label, then the annotation closes with `}`
 4. Parse the closing `}` of the current annotation.
 
-#### 4.3.1 Reference Termination (Normative)
-
+#### 4.3.1 Reference Termination
 `IriReference` and `LookupToken` are defined by the Codex grammars.
 
 The reference token ends where the Codex token ends.
 After the reference token, the consumer MUST NOT accept arbitrary characters (e.g. `{@x extra}` is a syntax error).
 
-### 4.4 Label Parsing and Nesting (Normative)
-
+### 4.4 Label Parsing and Nesting
 Labels are parsed as a stream of `LabelPart` until the current annotation closes.
 
 A label may contain nested annotations. Nested annotations are parsed using the same rules as top-level annotations.
 
-#### 4.4.1 Closing Rule (Normative)
-
+#### 4.4.1 Closing Rule
 Within a label:
 
 - A `}` closes the **innermost** open annotation.
 - The `}` that closes the current (outer) annotation is the first `}` encountered while not inside a nested annotation.
 
-#### 4.4.2 Escape Precedence (Normative)
-
+#### 4.4.2 Escape Precedence
 While parsing a label at any nesting depth:
 
 1. If the next two characters are `\}`: consume them and emit a literal `}`.
@@ -205,14 +187,12 @@ While parsing a label at any nesting depth:
 5. Else if the next character is `}` and the current nesting depth is 0: close the current annotation.
 6. Else: consume one character as literal label text.
 
-#### 4.4.3 Pipe Handling (Normative)
-
+#### 4.4.3 Pipe Handling
 - The label separator for an annotation is the three-character sequence ` ␠|␠ ` occurring in that annotation after its reference.
 - Any `|` characters within label text are literal.
 - Any label separators inside nested annotations belong to those nested annotations.
 
-### 4.5 Syntax Errors and Recovery (Normative)
-
+### 4.5 Syntax Errors and Recovery
 If the consumer begins parsing an annotation after recognizing an annotation start (`{@` or `{~`) and then encounters malformed markup (e.g., missing reference token, illegal characters after the reference, missing closing brace, or pipe-separator violations), it MUST:
 
 1. emit a diagnostic with source location
@@ -220,8 +200,7 @@ If the consumer begins parsing an annotation after recognizing an annotation sta
 
 This recovery guarantees forward progress and results in the malformed markup being emitted as literal characters, without requiring the consumer to rescan unbounded input to find a matching `}`.
 
-#### 4.5.1 Minimal Recovery Rule (Normative)
-
+#### 4.5.1 Minimal Recovery Rule
 To ensure streaming-friendly behavior, consumers MUST recover without rescanning unbounded input.
 
 When an annotation parse fails after recognizing an annotation start (`{@` or `{~`), the consumer MUST:
@@ -233,27 +212,23 @@ This guarantees forward progress even for inputs like `{@x` (unclosed).
 
 Resolution errors (no match / ambiguous match) are not syntax errors and do not change parsing.
 
-## 5. Resolution Semantics (Normative)
-
+## 5. Resolution Semantics
 Consuming systems perform Gloss resolution against the Concept model available at runtime.
 Gloss does not define how that model is loaded.
 
-### 5.1 Resolution Inputs (Normative)
-
+### 5.1 Resolution Inputs
 A parsed annotation yields:
 
 - a reference: `@iri` or `~token`
 - an optional label (which affects display text only)
 
-### 5.2 `@` Resolution (Normative)
-
+### 5.2 `@` Resolution
 `@iri` MUST resolve to exactly one Concept whose `id` matches `iri`.
 
 - Zero matches: resolution error (unresolved identifier)
 - Multiple matches: resolution error (ambiguous identifier)
 
-### 5.3 `~` Resolution (Normative)
-
+### 5.3 `~` Resolution
 `~token` MUST resolve to exactly one Concept whose `key` matches `~token`.
 
 - Zero matches: resolution error (unresolved lookup token)
@@ -261,12 +236,10 @@ A parsed annotation yields:
 
 Consuming systems—not Codex—perform resolution.
 
-### 5.4 Label Interaction (Normative)
-
+### 5.4 Label Interaction
 The presence or content of a label MUST NOT affect resolution.
 
-## 6. Formatting and Canonicalization (Normative)
-
+## 6. Formatting and Canonicalization
 Canonical annotation spellings are:
 
 - `{@iri}`
@@ -285,8 +258,7 @@ Parsers MUST treat non-canonical spellings that violate the surface-form rules a
 
 This includes any whitespace-violating annotation spelling as defined by the whitespace rules in § 3.3.
 
-## 7. Validation Errors and Diagnostics (Normative)
-
+## 7. Validation Errors and Diagnostics
 Gloss processing MUST be deterministic and explainable.
 
 Gloss consumers:
@@ -294,13 +266,11 @@ Gloss consumers:
 - MUST NOT throw
 - MUST preserve source locations for diagnostics
 
-### 7.1 Error Categories (Normative)
-
+### 7.1 Error Categories
 1. **Syntax errors**: malformed Gloss markup.
 2. **Resolution errors**: well-formed markup that cannot be resolved.
 
-### 7.2 Syntax Error Recovery (Normative)
-
+### 7.2 Syntax Error Recovery
 On syntax error, the consumer:
 
 1. MUST recover deterministically and guarantee forward progress.
@@ -309,8 +279,7 @@ On syntax error, the consumer:
 
 Recovery requirements are defined by the parsing model, including the minimal recovery rule in § 4.5.1.
 
-### 7.3 Resolution Error Recovery (Normative)
-
+### 7.3 Resolution Error Recovery
 On resolution error, the consumer:
 
 1. MUST preserve the parsed annotation structure.
@@ -319,8 +288,7 @@ On resolution error, the consumer:
 
 Resolution errors are semantic failures, not syntax failures.
 
-### 7.4 Diagnostic Codes (Normative)
-
+### 7.4 Diagnostic Codes
 A Gloss diagnostic MUST include:
 
 - `category` — one of the categories in § 7.1.
@@ -328,8 +296,7 @@ A Gloss diagnostic MUST include:
 
 These codes exist so independent implementations can be compared and so the conformance suite can assert the primary failure deterministically.
 
-#### 7.4.1 Primary Diagnostic Selection (Normative)
-
+#### 7.4.1 Primary Diagnostic Selection
 When multiple errors are detectable within the same attempted annotation parse,
 the consumer MAY emit multiple diagnostics, but it MUST choose exactly one
 **primary** diagnostic reason for that parse attempt.
@@ -345,25 +312,26 @@ using the following rule:
 3. If multiple violations occur at the same earliest position, break ties by
 	choosing the first applicable reason in this priority order:
 
-	- `~gloss-syn-unclosed-nested-annotation`
-	- `~gloss-syn-unclosed-annotation`
-	- `~gloss-syn-missing-reference`
-	- `~gloss-syn-whitespace-after-sigil`
-	- `~gloss-syn-whitespace-after-reference`
-	- `~gloss-syn-invalid-nested-compact-pipe`
-	- `~gloss-syn-compact-pipe-separator`
-	- `~gloss-syn-missing-space-before-pipe`
-	- `~gloss-syn-missing-space-after-pipe`
-	- `~gloss-syn-extra-space-before-pipe`
-	- `~gloss-syn-extra-space-after-pipe`
-	- `~gloss-syn-trailing-after-reference`
+	| Priority | Reason |
+	|----------|--------|
+	| 1 | `~gloss-syn-unclosed-nested-annotation` |
+	| 2 | `~gloss-syn-unclosed-annotation` |
+	| 3 | `~gloss-syn-missing-reference` |
+	| 4 | `~gloss-syn-whitespace-after-sigil` |
+	| 5 | `~gloss-syn-whitespace-after-reference` |
+	| 6 | `~gloss-syn-invalid-nested-compact-pipe` |
+	| 7 | `~gloss-syn-compact-pipe-separator` |
+	| 8 | `~gloss-syn-missing-space-before-pipe` |
+	| 9 | `~gloss-syn-missing-space-after-pipe` |
+	| 10 | `~gloss-syn-extra-space-before-pipe` |
+	| 11 | `~gloss-syn-extra-space-after-pipe` |
+	| 12 | `~gloss-syn-trailing-after-reference` |
 
 This rule does not require rescanning unbounded input. The “earliest violation”
 is the earliest violation encountered by a conforming parser that follows the
 normative parsing model.
 
-#### 7.4.2 Syntax Diagnostic Reasons (Normative)
-
+#### 7.4.2 Syntax Diagnostic Reasons
 When `category` is **syntax**, `reason` MUST be one of:
 
 **Reference errors:**
@@ -392,29 +360,25 @@ When `category` is **syntax**, `reason` MUST be one of:
 - `~gloss-syn-unclosed-annotation` — an annotation is missing a closing `}`.
 - `~gloss-syn-unclosed-nested-annotation` — a nested annotation is missing a closing `}`.
 
-#### 7.4.3 Resolution Diagnostic Reasons (Normative)
-
+#### 7.4.3 Resolution Diagnostic Reasons
 When `category` is **resolution**, `reason` MUST be a stable `~token` defined by the
 resolver and/or schema.
 
 The Gloss 1.0.0-beta conformance suite does not yet define normative resolution reason codes.
 
-## 8. Renderer Contract (Normative)
-
+## 8. Renderer Contract
 This section defines the required interface between a Gloss processor and any target realization system (renderer).
 
 Gloss encodes semantic span binding only. This contract does not specify presentation.
 
-### 8.1 Inputs (Normative)
-
+### 8.1 Inputs
 A renderer consumes:
 
 1. the original Codex `Content` source text
 2. the parsed Gloss structure extracted from that text
 3. the resolved Concept references (when resolution is performed)
 
-### 8.2 Output Data Model (Normative)
-
+### 8.2 Output Data Model
 A conforming Gloss processor MUST provide the renderer a sequence of segments.
 Each segment is either:
 
@@ -430,8 +394,7 @@ Each segment is either:
 
 A renderer MUST treat nested label content as structured content.
 
-### 8.3 Label Semantics (Normative)
-
+### 8.3 Label Semantics
 - If `label` is present, it is the display text for the annotation span.
 - If `label` is absent, the renderer MAY choose display text using renderer policy and Concept data.
 - The label MUST NOT affect which Concept the annotation binds to.
@@ -445,15 +408,13 @@ Examples in the examples directory show one plausible mapping for one target:
 
 - [gloss-lang.dev/examples/1.0.0-beta/index.md](../../examples/1.0.0-beta/index.md)
 
-## Appendix A. Formal Grammar (EBNF) (Normative)
-
+## Appendix A. Formal Grammar (EBNF)
 Notes:
 
 - `IriReference` and `LookupToken` are imported from the Codex grammar.
 - This grammar defines the structure of an annotation. Recognition inside an arbitrary text stream is defined by the recognition rule in § 3.2.
 
-### A.1 Annotation Grammar (Normative)
-
+### A.1 Annotation Grammar
 {% raw %}```ebnf
 GlossAnnotation = "{", Reference, [ LabelSeparator, Label ], "}" ;
 
@@ -512,8 +473,7 @@ EscapedBackslash = "\\", "\\" ;
 LabelTextChar = ? any Unicode scalar value except '}' ? ;
 ```{% endraw %}
 
-### A.2 External Tokens (Normative)
-
+### A.2 External Tokens
 The following tokens are defined by Codex and reused by Gloss:
 
 - `IriReference`
