@@ -1,3 +1,7 @@
+---
+render_with_liquid: false
+---
+
 Status: NORMATIVE
 Lock State: UNLOCKED
 Version: 1.0.0-beta
@@ -57,7 +61,7 @@ Where:
 `{` begins a Gloss annotation **only** when immediately followed by `@` or `~`.
 Otherwise `{` is literal text.
 
-`}` is never special outside an annotation.
+`}` is literal text outside annotations.
 
 #### 3.2.1 Literal Annotation-Start Escapes (Normative)
 
@@ -78,9 +82,7 @@ Gloss is intentionally strict:
 - No whitespace is permitted between the sigil and the reference token.
 - The label separator `|` MUST be written with **exactly one ASCII space** on each side: `{@x | label}`.
 
-The compact form `{@x|label}` is invalid.
-
-Therefore these are invalid Gloss annotations (and MUST be treated as syntax errors with recovery as defined by the parsing model, with a diagnostic):
+These are invalid Gloss annotations (and MUST be treated as syntax errors with recovery as defined by the parsing model, with a diagnostic):
 
 - `{@ x}`
 - `{@x |label}`
@@ -138,13 +140,13 @@ Examples:
 
 ## 4. Parsing Model (Normative)
 
-This section defines the normative parsing model for Gloss annotations embedded in Codex `Content`.
+This section defines the parsing model for Gloss annotations embedded in Codex `Content`.
 
-Gloss is embedded in arbitrary text. Parsing MUST therefore be deterministic, streaming-friendly, and unambiguous.
+Gloss is embedded in arbitrary text, so parsing MUST be deterministic, streaming-friendly, and unambiguous.
 
 ### 4.1 Overview (Normative)
 
-A consumer parses a `Content` string into a sequence of segments:
+A consumer parses `Content` into segments:
 
 - literal text segments
 - annotation segments, each with:
@@ -233,7 +235,7 @@ Resolution errors (no match / ambiguous match) are not syntax errors and do not 
 
 ## 5. Resolution Semantics (Normative)
 
-Gloss resolution is performed by consuming systems against the Concept model available at runtime.
+Consuming systems perform Gloss resolution against the Concept model available at runtime.
 Gloss does not define how that model is loaded.
 
 ### 5.1 Resolution Inputs (Normative)
@@ -245,19 +247,19 @@ A parsed annotation yields:
 
 ### 5.2 `@` Resolution (Normative)
 
-`@iri` MUST resolve by finding exactly one Concept whose `id` matches `iri`.
+`@iri` MUST resolve to exactly one Concept whose `id` matches `iri`.
 
-- If zero matches are found: resolution error (unresolved identifier)
-- If multiple matches are found: resolution error (ambiguous identifier)
+- Zero matches: resolution error (unresolved identifier)
+- Multiple matches: resolution error (ambiguous identifier)
 
 ### 5.3 `~` Resolution (Normative)
 
-`~token` MUST resolve by finding exactly one Concept whose `key` matches `~token`.
+`~token` MUST resolve to exactly one Concept whose `key` matches `~token`.
 
-- If zero matches are found: resolution error (unresolved lookup token)
-- If multiple matches are found: resolution error (ambiguous lookup token)
+- Zero matches: resolution error (unresolved lookup token)
+- Multiple matches: resolution error (ambiguous lookup token)
 
-Resolution is performed by consuming systems, not by Codex itself.
+Consuming systems—not Codex—perform resolution.
 
 ### 5.4 Label Interaction (Normative)
 
@@ -364,17 +366,28 @@ normative parsing model.
 
 When `category` is **syntax**, `reason` MUST be one of:
 
+**Reference errors:**
+
 - `~gloss-syn-missing-reference` — an annotation start is recognized, but the reference token is empty (e.g., `{@}` or `{~}`).
+
+**Whitespace errors:**
+
 - `~gloss-syn-whitespace-after-sigil` — one or more whitespace characters appear immediately after the sigil (`@`/`~`) (e.g., `{@ x}` or `{~ x}`).
 - `~gloss-syn-whitespace-after-reference` — after the reference token ends, only `}` or the label separator ` ␠|␠ ` is permitted; this reason applies when whitespace appears after the reference in a way that cannot form a valid label separator, including:
 	- trailing whitespace before `}` (e.g., `{@x }`)
 	- non-ASCII whitespace adjacent to `|` (e.g., `{@x\t| label}`)
+
+**Pipe separator errors:**
+
 - `~gloss-syn-missing-space-before-pipe` — a `|` follows the reference with no preceding ASCII space (e.g., `{@x| label}`).
 - `~gloss-syn-missing-space-after-pipe` — a `|` is preceded by exactly one ASCII space but is not followed by an ASCII space (e.g., `{@x |label}`).
 - `~gloss-syn-compact-pipe-separator` — the label separator is written with no surrounding ASCII spaces (e.g., `{@x|label}`).
 - `~gloss-syn-extra-space-before-pipe` — two or more ASCII spaces occur immediately before `|` (e.g., `{@x  | label}`).
 - `~gloss-syn-extra-space-after-pipe` — two or more ASCII spaces occur immediately after `|` (e.g., `{@x |  label}`).
 - `~gloss-syn-invalid-nested-compact-pipe` — a nested annotation inside a label contains an invalid compact pipe separator. This reason MUST be used (as the primary reason for that nested annotation parse attempt) instead of `~gloss-syn-compact-pipe-separator` when the compact pipe occurs inside a nested annotation.
+
+**Structure errors:**
+
 - `~gloss-syn-trailing-after-reference` — after the reference token ends, the next characters are neither `}` nor a well-formed label separator ` ␠|␠ `. This includes a single ASCII space not followed by `|` (e.g., `{@x extra}`).
 - `~gloss-syn-unclosed-annotation` — an annotation is missing a closing `}`.
 - `~gloss-syn-unclosed-nested-annotation` — a nested annotation is missing a closing `}`.
