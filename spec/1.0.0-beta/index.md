@@ -70,8 +70,8 @@ Gloss provides a way to write these sequences as **literal text**.
 
 When scanning for annotations (both in top-level `Content` and inside labels):
 
-- `{{@` MUST be interpreted as the literal two-character sequence `{@`.
-- `{{~` MUST be interpreted as the literal two-character sequence `{~`.
+{% raw %}- `{{@` MUST be interpreted as the literal two-character sequence `{@`.
+- `{{~` MUST be interpreted as the literal two-character sequence `{~`.{% endraw %}
 
 These escapes MUST be recognized before applying the annotation-start rule.
 
@@ -200,7 +200,7 @@ While parsing a label at any nesting depth:
 
 1. If the next two characters are `\}`: consume them and emit a literal `}`.
 2. Else if the next two characters are `\\`: consume them and emit a literal `\\`.
-3. Else if the next three characters are `{{@` or `{{~`: consume them and emit the corresponding literal two-character sequence (`{@` or `{~`).
+{% raw %}3. Else if the next three characters are `{{@` or `{{~`: consume them and emit the corresponding literal two-character sequence (`{@` or `{~`).{% endraw %}
 4. Else if the next characters begin an annotation (i.e., `{` immediately followed by `@` or `~`): parse a nested annotation and emit it as a nested segment.
 5. Else if the next character is `}` and the current nesting depth is 0: close the current annotation.
 6. Else: consume one character as literal label text.
@@ -454,7 +454,7 @@ Notes:
 
 ### A.1 Annotation Grammar (Normative)
 
-```ebnf
+{% raw %}```ebnf
 GlossAnnotation = "{", Reference, [ LabelSeparator, Label ], "}" ;
 
 Reference = AtReference | LookupToken ;
@@ -510,7 +510,7 @@ EscapedBackslash = "\\", "\\" ;
 *)
 
 LabelTextChar = ? any Unicode scalar value except '}' ? ;
-```
+```{% endraw %}
 
 ### A.2 External Tokens (Normative)
 
@@ -530,7 +530,7 @@ Notes:
 
 ### B.1 Embedded Text Grammar (Informative)
 
-```peg
+{% raw %}```peg
 # Start condition for a Gloss annotation.
 AnnotationStart <- '{' [@~]
 
@@ -543,7 +543,7 @@ EscapedAnnotationStart <- '{{' [@~]
 GlossText <- (GlossAnnotation / TextRun)*
 
 TextRun <- (EscapedAnnotationStart / (!AnnotationStart .))+
-```
+```{% endraw %}
 
 ### B.2 Annotation Grammar (Informative)
 
