@@ -159,7 +159,7 @@ Gloss does not control emission format or placement.
 
 ## Status
 
-* **Specification:** v0.1
+* **Specification:** 1.0.0-beta
 * **Status:** Normative
 * **Lock State:** Locked
 * **Stability:** High

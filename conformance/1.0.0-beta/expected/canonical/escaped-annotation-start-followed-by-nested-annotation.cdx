@@ -1,0 +1,3 @@
+<Fixture>
+	{@book:hobbit | X {@{@book:lotr}} Y}
+</Fixture>

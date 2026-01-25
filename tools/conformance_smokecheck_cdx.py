@@ -38,6 +38,14 @@ class Case:
 	expected_error_path: Path | None
 
 
+@dataclass(frozen=True)
+class Manifest:
+	manifest_id: str
+	version: str
+	language: str
+	cases: list[Case]
+
+
 _SELF_CLOSING_MARKER_RE = re.compile(r"^\s*<(?P<name>[A-Za-z][A-Za-z0-9_-]*)\s*(?P<body>[^>]*)/>\s*$")
 _OPEN_MARKER_INLINE_RE = re.compile(r"^\s*<(?P<name>[A-Za-z][A-Za-z0-9_-]*)\s*(?P<body>[^>]*)>\s*$")
 _REASON_CODE_RE = re.compile(r"`(?P<code>~gloss-(?:syn|res)-[a-z0-9-]+)`")
@@ -111,7 +119,7 @@ def _parse_attrs(body: str) -> dict[str, str]:
 	return attrs
 
 
-def _load_manifest(path: Path) -> list[Case]:
+def _load_manifest(path: Path) -> Manifest:
 	text = _read_text(path)
 	_assert_lf_newlines(text, path)
 	_assert_trailing_newline(text, path)
@@ -230,8 +238,17 @@ def _load_manifest(path: Path) -> list[Case]:
 	cases: list[Case] = []
 	seen_ids: set[str] = set()
 
-	# Consume the root marker (currently unused by the smokecheck besides structure validation).
-	_, start = consume_open_marker(start_index=0, concept_name="ConformanceManifest")
+	# Consume the root marker.
+	manifest_attrs, start = consume_open_marker(start_index=0, concept_name="ConformanceManifest")
+	manifest_id = manifest_attrs.get("id")
+	version = manifest_attrs.get("version")
+	language = manifest_attrs.get("language")
+	if not manifest_id:
+		_fail("ConformanceManifest missing required trait id")
+	if not version:
+		_fail("ConformanceManifest missing required trait version")
+	if not language:
+		_fail("ConformanceManifest missing required trait language")
 
 	# Consume cases until the closing marker.
 	i = start
@@ -291,7 +308,12 @@ def _load_manifest(path: Path) -> list[Case]:
 			)
 		)
 
-	return cases
+	return Manifest(
+		manifest_id=manifest_id,
+		version=version,
+		language=language,
+		cases=cases,
+	)
 
 
 def _validate_expected_error(path: Path) -> None:
@@ -315,12 +337,12 @@ def _validate_expected_error(path: Path) -> None:
 		_fail(f"ExpectedError.reason must be a ~token: {path}")
 
 
-def _load_allowed_reason_codes() -> set[str]:
-	# Single source of truth: the v0.1 spec defines canonical reason codes.
+def _load_allowed_reason_codes_for_spec_version(spec_version: str) -> set[str]:
 	gloss_root = Path(__file__).resolve().parents[1]
-	spec_path = gloss_root / "spec/0.1/validation-errors/index.md"
-	text = _read_text(spec_path)
 
+	spec_path = gloss_root / f"spec/{spec_version}/index.md"
+
+	text = _read_text(spec_path)
 	codes = {m.group("code") for m in _REASON_CODE_RE.finditer(text)}
 	if not codes:
 		_fail(f"no reason codes found in {spec_path} (expected backticked `~gloss-syn-*` / `~gloss-res-*`) ")
@@ -354,10 +376,10 @@ def main(argv: list[str]) -> int:
 		return 2
 
 	manifest_path = Path(argv[1]).resolve()
-	cases = _load_manifest(manifest_path)
-	allowed_reason_codes = _load_allowed_reason_codes()
+	manifest = _load_manifest(manifest_path)
+	allowed_reason_codes = _load_allowed_reason_codes_for_spec_version(manifest.version)
 
-	for c in cases:
+	for c in manifest.cases:
 		input_text = _read_text(c.input_path)
 		_assert_lf_newlines(input_text, c.input_path)
 		_assert_trailing_newline(input_text, c.input_path)
@@ -370,7 +392,7 @@ def main(argv: list[str]) -> int:
 		if c.expected_error_path is not None:
 			_validate_expected_error_against_spec(c.expected_error_path, allowed_reason_codes)
 
-	print(f"ok: {len(cases)} conformance cases")
+	print(f"ok: {len(manifest.cases)} conformance cases")
 	return 0
 
 

@@ -1,6 +1,6 @@
 Status: NORMATIVE  
 Lock State: LOCKED  
-Version: 0.1  
+Version: 1.0.0-beta
 Editor: Charles F. Munat
 
 # Gloss Specification Governance
