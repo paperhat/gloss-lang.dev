@@ -9,7 +9,10 @@ def main() -> int:
 	# Policy gate: the Gloss project tree must not contain JSON.
 	# This prevents accidental reintroduction of non-Codex artifacts.
 	gloss_root = Path(__file__).resolve().parents[1]
-	violations = sorted(gloss_root.rglob("*.json"))
+	violations = sorted(
+		p for p in gloss_root.rglob("*.json")
+		if not any(part.startswith(".") for part in p.relative_to(gloss_root).parts)
+	)
 
 	if violations:
 		print("no_json_gate: JSON files are forbidden under gloss-lang.dev")

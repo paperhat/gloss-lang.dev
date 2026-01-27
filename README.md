@@ -1,6 +1,6 @@
 # Gloss Inline Semantic Span-Binding Language
 
-Gloss is a target-independent inline semantic annotation language for binding meaning and data to spans of free text.
+Gloss is a target-independent inline semantic span-binding language for binding meaning and data to spans of free text.
 
 Gloss is designed for authoring, not programming. It allows writers, designers, and systems to enrich narrative text with machine-readable semantics without mixing structure, presentation, or behavior into the text itself.
 
@@ -10,7 +10,7 @@ Gloss answers one question: "What does this span of text mean?"
 
 ## Codex and Gloss
 
-Gloss is embedded inside Codex Content. Codex is a declarative semantic markup language for expressing meaning independent of presentation or behavior. It uses XML-like syntax to write OWL2/SHACL ontologies and data. A Codex document consists of Concepts (named semantic units), Traits (values bound to Concepts), and Content (opaque narrative text). Gloss annotates spans within that Content.
+Gloss is embedded inside Codex Content. Codex is a declarative semantic markup language for expressing meaning independent of presentation or behavior. It uses XML-like syntax to write OWL2/SHACL ontologies and data. A Codex document consists of Concepts (named semantic units), Traits (values bound to Concepts), and Content (opaque narrative text). Gloss binds spans within that Content.
 
 ---
 
@@ -45,7 +45,7 @@ Gloss is:
 * Declarative — no logic, no evaluation, no execution
 * Target-independent — works for HTML, PDF, audio, braille, data export, etc.
 * Schema-driven — meaning is defined elsewhere
-* Explainable — every annotation must be explainable in plain language
+* Explainable — every span binding must be explainable in plain language
 * Open-vocabulary — domains define their own semantics
 
 Gloss is not:
@@ -60,7 +60,7 @@ Gloss is not:
 
 ## How Gloss Works
 
-Gloss annotations appear inline using curly-brace syntax. There are two addressing forms.
+Gloss span bindings appear inline using curly-brace syntax. There are two addressing forms.
 
 ---
 
@@ -82,18 +82,18 @@ I love {@book:hobbit}.
 I love {@book:hobbit | The Hobbit — Tolkien}.
 ```
 
-Entity references express semantic association, not linking. The annotation binds a span to a Concept; whether that binding becomes a hyperlink, tooltip, footnote, or nothing visible depends on Design Policy and the target renderer. Gloss does not prescribe presentation.
+Entity references express semantic association, not linking. The span binding binds a span to a Concept; whether that binding becomes a hyperlink, tooltip, footnote, or nothing visible depends on Design Policy and the target renderer. Gloss does not prescribe presentation.
 
 ---
 
-### Non-Entity Semantic References (`#`)
+### Lookup References (`~`)
 
 ```
-{#id}
-{#id | label}
+{~token}
+{~token | label}
 ```
 
-Used to reference non-Entity Concepts, such as:
+Used to reference Concepts by lookup token rather than by identity. Common uses include:
 
 * dates and times
 * numeric values
@@ -106,12 +106,12 @@ Used to reference non-Entity Concepts, such as:
 Example:
 
 ```cdx
-<PrecisionNumber id="pi" value=3.141592653589793p15 />
+<PrecisionNumber key=~pi value=3.141592653589793p15 />
 
-The value of pi is {#pi}.
+The value of pi is {~pi}.
 ```
 
-These annotations express meaning, not appearance.
+These span bindings express meaning, not appearance.
 
 ---
 
@@ -146,7 +146,7 @@ When Gloss binds text to Entities, renderers may emit metadata (e.g., JSON-LD). 
 
 * Specification: 1.0.0-beta
 * Status: Normative
-* Lock State: Locked
+* Lock State: LOCKED
 * Stability: High
 
 Gloss is intended to evolve slowly and conservatively.

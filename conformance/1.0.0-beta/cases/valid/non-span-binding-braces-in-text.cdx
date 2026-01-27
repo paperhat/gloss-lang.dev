@@ -1,0 +1,3 @@
+<Fixture>
+	Text with {notASpanBinding} and {@x}.
+</Fixture>

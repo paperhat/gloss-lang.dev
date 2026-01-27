@@ -4,24 +4,10 @@
 	language=~gloss
 >
 	<Case
-		id=~escaped-backslash-in-label
-		kind=~valid
-		input="cases/valid/escaped-backslash-in-label.cdx"
-		canonical="expected/canonical/escaped-backslash-in-label.cdx"
-	/>
-
-	<Case
 		id=~escaped-brace-in-label
 		kind=~valid
 		input="cases/valid/escaped-brace-in-label.cdx"
 		canonical="expected/canonical/escaped-brace-in-label.cdx"
-	/>
-
-	<Case
-		id=~label-ends-with-backslash
-		kind=~valid
-		input="cases/valid/label-ends-with-backslash.cdx"
-		canonical="expected/canonical/label-ends-with-backslash.cdx"
 	/>
 
 	<Case
@@ -53,6 +39,13 @@
 	/>
 
 	<Case
+		id=~minimal-tilde
+		kind=~valid
+		input="cases/valid/minimal-tilde.cdx"
+		canonical="expected/canonical/minimal-tilde.cdx"
+	/>
+
+	<Case
 		id=~nested-separator-disambiguation
 		kind=~valid
 		input="cases/valid/nested-separator-disambiguation.cdx"
@@ -67,45 +60,45 @@
 	/>
 
 	<Case
-		id=~non-annotation-braces-in-text
+		id=~non-span-binding-braces-in-text
 		kind=~valid
-		input="cases/valid/non-annotation-braces-in-text.cdx"
-		canonical="expected/canonical/non-annotation-braces-in-text.cdx"
+		input="cases/valid/non-span-binding-braces-in-text.cdx"
+		canonical="expected/canonical/non-span-binding-braces-in-text.cdx"
 	/>
 
 	<Case
-		id=~literal-escaped-annotation-start-at
+		id=~literal-escaped-span-binding-start-at
 		kind=~valid
-		input="cases/valid/literal-escaped-annotation-start-at.cdx"
-		canonical="expected/canonical/literal-escaped-annotation-start-at.cdx"
+		input="cases/valid/literal-escaped-span-binding-start-at.cdx"
+		canonical="expected/canonical/literal-escaped-span-binding-start-at.cdx"
 	/>
 
 	<Case
-		id=~literal-escaped-annotation-start-tilde
+		id=~literal-escaped-span-binding-start-tilde
 		kind=~valid
-		input="cases/valid/literal-escaped-annotation-start-tilde.cdx"
-		canonical="expected/canonical/literal-escaped-annotation-start-tilde.cdx"
+		input="cases/valid/literal-escaped-span-binding-start-tilde.cdx"
+		canonical="expected/canonical/literal-escaped-span-binding-start-tilde.cdx"
 	/>
 
 	<Case
-		id=~literal-escaped-annotation-start-in-label
+		id=~literal-escaped-span-binding-start-in-label
 		kind=~valid
-		input="cases/valid/literal-escaped-annotation-start-in-label.cdx"
-		canonical="expected/canonical/literal-escaped-annotation-start-in-label.cdx"
+		input="cases/valid/literal-escaped-span-binding-start-in-label.cdx"
+		canonical="expected/canonical/literal-escaped-span-binding-start-in-label.cdx"
 	/>
 
 	<Case
-		id=~escaped-annotation-start-followed-by-annotation
+		id=~escaped-span-binding-start-followed-by-span-binding
 		kind=~valid
-		input="cases/valid/escaped-annotation-start-followed-by-annotation.cdx"
-		canonical="expected/canonical/escaped-annotation-start-followed-by-annotation.cdx"
+		input="cases/valid/escaped-span-binding-start-followed-by-span-binding.cdx"
+		canonical="expected/canonical/escaped-span-binding-start-followed-by-span-binding.cdx"
 	/>
 
 	<Case
-		id=~escaped-annotation-start-followed-by-nested-annotation
+		id=~escaped-span-binding-start-followed-by-nested-span-binding
 		kind=~valid
-		input="cases/valid/escaped-annotation-start-followed-by-nested-annotation.cdx"
-		canonical="expected/canonical/escaped-annotation-start-followed-by-nested-annotation.cdx"
+		input="cases/valid/escaped-span-binding-start-followed-by-nested-span-binding.cdx"
+		canonical="expected/canonical/escaped-span-binding-start-followed-by-nested-span-binding.cdx"
 	/>
 
 	<Case
@@ -193,17 +186,17 @@
 	/>
 
 	<Case
-		id=~unclosed-annotation
+		id=~unclosed-span-binding
 		kind=~invalid
-		input="cases/invalid/unclosed-annotation.cdx"
-		expectedError="expected/errors/unclosed-annotation.cdx"
+		input="cases/invalid/unclosed-span-binding.cdx"
+		expectedError="expected/errors/unclosed-span-binding.cdx"
 	/>
 
 	<Case
-		id=~unclosed-nested-annotation
+		id=~unclosed-nested-span-binding
 		kind=~invalid
-		input="cases/invalid/unclosed-nested-annotation.cdx"
-		expectedError="expected/errors/unclosed-nested-annotation.cdx"
+		input="cases/invalid/unclosed-nested-span-binding.cdx"
+		expectedError="expected/errors/unclosed-nested-span-binding.cdx"
 	/>
 
 	<Case

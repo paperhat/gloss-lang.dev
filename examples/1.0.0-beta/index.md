@@ -1,6 +1,6 @@
 # Gloss + Codex Examples v1.0.0-beta
 
-These examples are illustrative. They show Codex Concepts with `id`/`key` and Gloss annotations embedded in Codex `Content`.
+These examples are illustrative. They show Codex Concepts with `id`/`key` and Gloss span bindings embedded in Codex `Content`.
 
 For the HTML outputs below, assume a renderer that:
 
@@ -17,8 +17,8 @@ These HTML examples are **informative** and intentionally show one plausible map
 <Book id=book:hobbit key=~hobbit title="The Hobbit" author="J.R.R. Tolkien" />
 
 <Essay id=essay:favorites>
-	I love {@book:hobbit}.
-	I love {@book:hobbit | The Hobbit}.
+  I love {@book:hobbit}.
+  I love {@book:hobbit | The Hobbit}.
 </Essay>
 ```
 
@@ -26,8 +26,8 @@ Possible HTML output:
 
 ```html
 <p>
-	I love <span data-gloss="@" data-cdx-id="book:hobbit">The Hobbit</span>.
-	I love <span data-gloss="@" data-cdx-id="book:hobbit">The Hobbit</span>.
+  I love <span data-gloss="@" data-cdx-id="book:hobbit">The Hobbit</span>.
+  I love <span data-gloss="@" data-cdx-id="book:hobbit">The Hobbit</span>.
 </p>
 ```
 
@@ -37,7 +37,7 @@ Possible HTML output:
 <StrongEmphasis key=~strong />
 
 <Note key=~n1>
-	This is {~strong | important}.
+  This is {~strong | important}.
 </Note>
 ```
 
@@ -45,7 +45,7 @@ Possible HTML output:
 
 ```html
 <p>
-	This is <strong data-gloss="~" data-cdx-key="~strong">important</strong>.
+  This is <strong data-gloss="~" data-cdx-key="~strong">important</strong>.
 </p>
 ```
 
@@ -57,11 +57,11 @@ Possible HTML output:
 <PublicationDate key=~pubDate value="1940" />
 
 <Quote id=quote:tlon:opening author=person:borges source=work:tlon date=~pubDate>
-	I shall not attempt to justify this story.
+  I shall not attempt to justify this story.
 </Quote>
 
 <Article id=article:gloss-demo>
-	Here is the opening line: {@quote:tlon:opening}.
+  Here is the opening line: {@quote:tlon:opening}.
 </Article>
 ```
 
@@ -69,13 +69,13 @@ Possible HTML output:
 
 ```html
 <p>
-	Here is the opening line:
-	<q data-gloss="@" data-cdx-id="quote:tlon:opening"
-		 data-cdx-author="person:borges"
-		 data-cdx-source="work:tlon"
-		 data-cdx-date-key="~pubDate">
-		I shall not attempt to justify this story.
-	</q>.
+  Here is the opening line:
+  <q data-gloss="@" data-cdx-id="quote:tlon:opening"
+     data-cdx-author="person:borges"
+     data-cdx-source="work:tlon"
+     data-cdx-date-key="~pubDate">
+    I shall not attempt to justify this story.
+  </q>.
 </p>
 ```
 
@@ -88,7 +88,7 @@ The label for a link contains a nested span for a foreign term.
 <ForeignTerm key=~zeitgeist language="de" translation="spirit of the age" />
 
 <Paragraph key=~p1>
-	Read {~doc1 | the discussion of {~zeitgeist | Zeitgeist}} for details.
+  Read {~doc1 | the discussion of {~zeitgeist | Zeitgeist}} for details.
 </Paragraph>
 ```
 
@@ -96,11 +96,11 @@ Possible HTML output:
 
 ```html
 <p>
-	Read
-	<a data-gloss="~" data-cdx-key="~doc1" href="https://example.org/papers/1">
-		the discussion of <i data-gloss="~" data-cdx-key="~zeitgeist" lang="de" title="spirit of the age">Zeitgeist</i>
-	</a>
-	for details.
+  Read
+  <a data-gloss="~" data-cdx-key="~doc1" href="https://example.org/papers/1">
+    the discussion of <i data-gloss="~" data-cdx-key="~zeitgeist" lang="de" title="spirit of the age">Zeitgeist</i>
+  </a>
+  for details.
 </p>
 ```
 
@@ -118,7 +118,7 @@ A three-level nesting example:
 <Translation key=~tr1 language="en" />
 
 <Paragraph key=~p2>
-	See {~doc2 | {~ft1 | Zeitgeist ({~tr1 | spirit of the age})}}.
+  See {~doc2 | {~ft1 | Zeitgeist ({~tr1 | spirit of the age})}}.
 </Paragraph>
 ```
 
@@ -126,13 +126,13 @@ Possible HTML output:
 
 ```html
 <p>
-	See
-	<a data-gloss="~" data-cdx-key="~doc2" href="https://example.org/refs/zeitgeist">
-		<i data-gloss="~" data-cdx-key="~ft1" lang="de">
-			Zeitgeist
-			(<span data-gloss="~" data-cdx-key="~tr1" lang="en">spirit of the age</span>)
-		</i>
-	</a>.
+  See
+  <a data-gloss="~" data-cdx-key="~doc2" href="https://example.org/refs/zeitgeist">
+    <i data-gloss="~" data-cdx-key="~ft1" lang="de">
+      Zeitgeist
+      (<span data-gloss="~" data-cdx-key="~tr1" lang="en">spirit of the age</span>)
+    </i>
+  </a>.
 </p>
 ```
 
@@ -144,8 +144,8 @@ Possible HTML output:
 <Link key=~external url="https://example.org/camus" />
 
 <Paragraph id=para:camus>
-	{@person:camus | Camus} discusses {~sisyphus | this work}. 
-	External reference: {~external | author bio}.
+  {@person:camus | Camus} discusses {~sisyphus | this work}. 
+  External reference: {~external | author bio}.
 </Paragraph>
 ```
 
@@ -153,9 +153,9 @@ Possible HTML output:
 
 ```html
 <p>
-	<span data-gloss="@" data-cdx-id="person:camus">Camus</span> discusses
-	<span data-gloss="~" data-cdx-key="~sisyphus">this work</span>.
-	External reference:
-	<a data-gloss="~" data-cdx-key="~external" href="https://example.org/camus">author bio</a>.
+  <span data-gloss="@" data-cdx-id="person:camus">Camus</span> discusses
+  <span data-gloss="~" data-cdx-key="~sisyphus">this work</span>.
+  External reference:
+  <a data-gloss="~" data-cdx-key="~external" href="https://example.org/camus">author bio</a>.
 </p>
 ```

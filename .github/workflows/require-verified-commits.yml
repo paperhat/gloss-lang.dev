@@ -1,0 +1,25 @@
+name: Require verified commits
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  require-verified-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Verify commit signatures
+        run: python3 tools/require_verified_commits.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
