@@ -1,4 +1,4 @@
-# Gloss + Codex Examples v1.0.0-beta
+# Gloss + Codex Examples v1.0.0
 
 These examples are illustrative. They show Codex Concepts with `id`/`key` and Gloss span bindings embedded in Codex `Content`.
 

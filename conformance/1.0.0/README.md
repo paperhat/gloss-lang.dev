@@ -1,11 +1,11 @@
 Status: INFORMATIVE
-Version: 1.0.0-beta
+Version: 1.0.0
 
-# Gloss 1.0.0-beta Conformance Fixtures
+# Gloss 1.0.0 Conformance Fixtures
 
-This directory contains **versioned conformance fixtures** for Gloss Language Specification v1.0.0-beta.
+This directory contains **versioned conformance fixtures** for Gloss Language Specification v1.0.0.
 
-These fixtures are intentionally stored **outside** `spec/1.0.0-beta/` so the spec tree can remain stable/lockable.
+These fixtures are intentionally stored **outside** `spec/1.0.0/` so the spec tree can remain stable/lockable.
 
 ## Goals
 
@@ -38,7 +38,7 @@ It does not attempt to test resolution (`@`/`~` binding) because resolution requ
 From the repo root:
 
 ```bash
-python3 gloss-lang.dev/tools/conformance_smokecheck_cdx.py gloss-lang.dev/conformance/1.0.0-beta/manifest.cdx
+python3 gloss-lang.dev/tools/conformance_smokecheck_cdx.py gloss-lang.dev/conformance/1.0.0/manifest.cdx
 ```
 
 ## Running the "no JSON" gate
@@ -54,7 +54,7 @@ python3 gloss-lang.dev/tools/no_json_gate.py
 From the repo root:
 
 ```bash
-python3 gloss-lang.dev/tools/spec_header_check.py gloss-lang.dev/spec/1.0.0-beta
+python3 gloss-lang.dev/tools/spec_header_check.py gloss-lang.dev/spec/1.0.0
 ```
 
 ## Running the spec link gate
@@ -62,9 +62,9 @@ python3 gloss-lang.dev/tools/spec_header_check.py gloss-lang.dev/spec/1.0.0-beta
 From the repo root:
 
 ```bash
-python3 gloss-lang.dev/tools/spec_link_check.py gloss-lang.dev/spec/1.0.0-beta
+python3 gloss-lang.dev/tools/spec_link_check.py gloss-lang.dev/spec/1.0.0
 ```
 
 ## Spec references
 
-- Specification: `gloss-lang.dev/spec/1.0.0-beta/`
+- Specification: `gloss-lang.dev/spec/1.0.0/`

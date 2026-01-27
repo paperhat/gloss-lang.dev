@@ -4,10 +4,10 @@ render_with_liquid: false
 
 Status: NORMATIVE  
 Lock State: LOCKED  
-Version: 1.0.0-beta  
+Version: 1.0.0  
 Editor: Charles F. Munat
 
-# Gloss Language Specification — Version 1.0.0-beta
+# Gloss Language Specification — Version 1.0.0
 
 Gloss is an **inline semantic span-binding language** embedded inside Codex `Content`.
 It binds spans of opaque text to Codex Concepts without encoding presentation or behavior.
@@ -451,7 +451,7 @@ This mapping is outside Gloss and is defined by the target adapter.
 
 Examples in the examples directory show one plausible mapping for one target:
 
-- [gloss-lang.dev/examples/1.0.0-beta/index.md](../../examples/1.0.0-beta/index.md)
+- [gloss-lang.dev/examples/1.0.0/index.md](../../examples/1.0.0/index.md)
 
 ## Appendix A. Formal Grammar (EBNF)
 Notes:

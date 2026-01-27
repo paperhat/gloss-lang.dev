@@ -1,6 +1,6 @@
 <ConformanceManifest
-	id=@gloss:conformance/1.0.0-beta
-	version="1.0.0-beta"
+	id=@gloss:conformance/1.0.0
+	version="1.0.0"
 	language=~gloss
 >
 	<Case

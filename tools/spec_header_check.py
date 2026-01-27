@@ -101,7 +101,7 @@ def main(argv: list[str]) -> int:
     if not spec_root.exists() or not spec_root.is_dir():
         _fail(f"not a directory: {spec_root}")
 
-    # The header's Version field must match the versioned directory name (e.g., "1.0.0-beta").
+    # The header's Version field must match the versioned directory name (e.g., "1.0.0").
     expected_version = spec_root.name
     # If the versioned spec directory contains FROZEN.md, it is frozen and must be LOCKED.
     expected_lock_state = "LOCKED" if (spec_root / "FROZEN.md").exists() else "UNLOCKED"

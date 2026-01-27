@@ -1,6 +1,6 @@
 Status: NORMATIVE  
 Lock State: UNLOCKED  
-Version: 1.0.0-beta
+Version: 1.0.0
 Editor: Charles F. Munat
 
 # Repository Security Policy

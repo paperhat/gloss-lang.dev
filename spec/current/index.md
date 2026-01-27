@@ -9,7 +9,7 @@ This page points to the **current published version** of the Gloss Language Spec
 
 ## Current Version
 
-→ [**Gloss Language Specification v1.0.0-beta**](../1.0.0-beta/)
+→ [**Gloss Language Specification v1.0.0**](../1.0.0/)
 
 ---
 

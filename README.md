@@ -144,7 +144,7 @@ When Gloss binds text to Entities, renderers may emit metadata (e.g., JSON-LD). 
 
 ## Status
 
-* Specification: 1.0.0-beta
+* Specification: 1.0.0
 * Status: Normative
 * Lock State: LOCKED
 * Stability: High
