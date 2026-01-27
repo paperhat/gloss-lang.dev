@@ -263,9 +263,13 @@ In particular:
 Consumers that emit or rewrite Gloss (formatters, editors, transformations) MUST emit only canonical spellings.
 
 ### 6.1 Canonicalization of Literal Span-Binding-Start Escapes
+{% raw %}
+
 The sequences `{{@` and `{{~` are the canonical way to represent the literal two-character sequences `{@` and `{~` in Gloss source text.
 
 If a consumer emits Gloss back to a text form that will be re-parsed as Gloss, it MUST preserve these escapes and it MUST NOT decode them to `{@` or `{~`, because doing so would change recognition (it would introduce a new span-binding start).
+
+{% endraw %}
 
 Parsers MUST treat non-canonical spellings that violate the surface-form rules as syntax errors and apply the error recovery rules.
 
