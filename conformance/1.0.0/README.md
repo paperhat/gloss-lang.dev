@@ -67,4 +67,4 @@ python3 tools/spec_link_check.py .
 
 ## Spec references
 
-- Specification: `gloss-lang.dev/spec/1.0.0/`
+- Specification: `spec/1.0.0/`

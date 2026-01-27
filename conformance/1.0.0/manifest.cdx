@@ -60,6 +60,13 @@
 	/>
 
 	<Case
+		id=~nested-three-levels
+		kind=~valid
+		input="cases/valid/nested-three-levels.cdx"
+		canonical="expected/canonical/nested-three-levels.cdx"
+	/>
+
+	<Case
 		id=~non-span-binding-braces-in-text
 		kind=~valid
 		input="cases/valid/non-span-binding-braces-in-text.cdx"
@@ -204,5 +211,12 @@
 		kind=~invalid
 		input="cases/invalid/whitespace-after-sigil.cdx"
 		expectedError="expected/errors/whitespace-after-sigil.cdx"
+	/>
+
+	<Case
+		id=~empty-label
+		kind=~invalid
+		input="cases/invalid/empty-label.cdx"
+		expectedError="expected/errors/empty-label.cdx"
 	/>
 </ConformanceManifest>

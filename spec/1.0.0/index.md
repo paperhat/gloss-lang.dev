@@ -107,8 +107,9 @@ Lookup tokens are spelled with the leading `~` and follow Codex 1.0.0 lookup-tok
 Rules:
 
 1. If present, `label` is the display text for that span.
-2. The label does not affect resolution (see § 5.4).
-3. Labels MAY contain nested Gloss span bindings.
+2. If present, `label` MUST contain at least one character (empty labels are invalid).
+3. The label does not affect resolution (see § 5.4).
+4. Labels MAY contain nested Gloss span bindings.
 
 The `label` portion is everything after the label separator ` ␠|␠ `.
 
@@ -121,6 +122,8 @@ Note: These escape rules are interpreted by the Gloss parser when it scans Codex
 
 Backslash has no special meaning in a label unless followed by `}`.
 Outside Gloss span bindings, backslash has no special meaning.
+
+Note: The `\}` escape only applies inside labels because `}` only has special meaning (closing a span binding) in that context. In contrast, the `{{@` and `{{~` escapes (§ 3.2.1) apply both inside and outside span bindings because the span-binding-start sequences `{@` and `{~` are recognized everywhere in `Content`.
 
 Examples:
 
@@ -342,6 +345,7 @@ using the following rule:
 	| 10       | `~gloss-syn-extra-space-before-pipe`      |
 	| 11       | `~gloss-syn-extra-space-after-pipe`       |
 	| 12       | `~gloss-syn-trailing-after-reference`     |
+	| 13       | `~gloss-syn-empty-label`                  |
 
 This rule does not require rescanning unbounded input. The “earliest violation”
 is the earliest violation encountered by a conforming parser that follows the
@@ -373,6 +377,7 @@ When `category` is **syntax**, `reason` MUST be one of:
 **Structure errors:**
 
 - `~gloss-syn-trailing-after-reference` — after the reference token ends, the next characters are neither `}` nor a well-formed label separator ` ␠|␠ `. This includes a single ASCII space not followed by `|` (e.g., `{@x extra}`).
+- `~gloss-syn-empty-label` — a label separator ` ␠|␠ ` is immediately followed by `}` with no label content (e.g., `{@x | }`).
 - `~gloss-syn-unclosed-span-binding` — a span binding is missing a closing `}`.
 - `~gloss-syn-unclosed-nested-span-binding` — a nested span binding is missing a closing `}`.
 
@@ -413,7 +418,7 @@ Each segment is either:
 - **Text segment**: literal text
 - **Span-binding segment**:
   - `addressingForm`: `@` or `~`
-  - `referenceToken`: the exact token text. For `@` references, this is the IRI without the `@` sigil (e.g., `book:hobbit`). For `~` references, this is the Codex lookup token including its leading `~` (e.g., `~hobbit`), because `~` is part of the token's lexical form in Codex.
+  - `referenceToken`: the exact token text. For `@` references, this is the IRI without the `@` sigil (e.g., `book:hobbit`). For `~` references, this is the Codex lookup token including its leading `~` (e.g., `~hobbit`), because `~` is part of the token's lexical form in Codex. Note: This asymmetry is intentional and follows Codex conventions — in Codex, `@` is a Gloss-specific sigil while `~` is part of the lookup token syntax itself.
   - `label`: optional label content, represented as a sequence of nested segments (text/span bindings)
   - `sourceRange`: start and end positions as zero-indexed byte offsets into the original `Content` string
   - `resolution`:
@@ -481,7 +486,7 @@ LabelSeparator = " ", "|", " " ;
    A backslash is only special when followed by '}'.
 *)
 
-Label = { LabelPart } ;
+Label = LabelPart, { LabelPart } ;
 
 LabelPart = EscapedSpanBindingStart
           | GlossSpanBinding
@@ -562,7 +567,8 @@ LabelSeparator <- ' ' '|' ' '
 
 # Label may contain nested span bindings.
 # Escapes apply only inside Label.
-Label <- LabelPart*
+# Labels must contain at least one character (empty labels are invalid).
+Label <- LabelPart+
 
 LabelPart <- EscapedSpanBindingStart / GlossSpanBinding / EscapedClosingBrace / LabelTextChar
 

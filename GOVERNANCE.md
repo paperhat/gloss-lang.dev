@@ -142,7 +142,7 @@ Only documents designated as **Normative** define Gloss.
 
 ## Compatibility & Claims
 
-Implementations may diverge from this specification, but non-conformant implementations must not claim compatibility with Gloss or use the Gloss or Codex names in ways that imply conformance or endorsement.
+Implementations may diverge from this specification, but non-conformant implementations must not claim compatibility with Gloss or use the Gloss name in ways that imply conformance or endorsement.
 
 Conformance requires adherence to both the letter and spirit of the specification. The Specification Editor determines whether an implementation meets this standard.
 
