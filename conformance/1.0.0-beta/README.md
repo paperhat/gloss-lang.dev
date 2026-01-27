@@ -17,7 +17,11 @@ These fixtures are intentionally stored **outside** `spec/1.0.0-beta/` so the sp
 
 This fixture pack focuses on **parsing + surface-form validation + canonical spelling**.
 
+{% raw %}
+
 The `expected/canonical/*.cdx` fixtures assert a canonical **text serialization** of the original `Content` that is intended to be re-parsed as Gloss. In particular, canonical output MUST preserve literal span-binding-start escapes (`{{@` / `{{~}`) and MUST NOT decode them to `{@` / `{~}`, because decoding would change recognition.
+
+{% endraw %}
 
 It does not attempt to test resolution (`@`/`~` binding) because resolution requires an external Concept model.
 
