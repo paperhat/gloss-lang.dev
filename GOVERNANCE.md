@@ -27,12 +27,12 @@ The Specification Editor holds final responsibility and authority for:
 
 * defining the canonical meaning of the Gloss language
 * approving, rejecting, and ratifying normative changes
-* maintaining versioned, authoritative specifications and contracts
+* maintaining versioned, authoritative specifications
 * determining compatibility, conformance, and compliance criteria
 
 While the specification is public and open to review, **the Specification Editor retains exclusive authority** over Normative content to preserve clarity, continuity, and conceptual integrity.
 
-If the Specification Editor is unable or unwilling to continue in this role, the outgoing editor may transfer editorial authority, or, in their absence, a process publicly defined in this repository governs succession.
+If the Specification Editor is unable or unwilling to continue in this role, the outgoing editor may transfer editorial authority. In the absence of such transfer, succession is determined by a process to be defined at that time.
 
 This stewardship model prioritizes correctness, stability, and semantic coherence over consensus or majority rule.
 
@@ -48,7 +48,7 @@ Lower-tier documents MUST conform to higher-tier documents.
 ### 1. Gloss Language Specification (`/spec/`)
 
 * Defines the Gloss language itself
-* Specifies syntax, structure, naming, identity, collections, schemas, and validation
+* Specifies syntax, structure, naming, identity, schemas, and validation
 * Becomes **immutable once published**
 * Holds the highest authority in the system
 
@@ -56,32 +56,7 @@ Nothing may contradict the specification.
 
 ---
 
-### 2. Gloss System Contract
-
-* Defines the foundational invariants and guarantees of Paperhat Gloss as a system
-* Interprets the specification into system-level obligations
-* MUST conform fully to the Gloss Language Specification
-
----
-
-### 3. Normative Contracts (`/contracts/`)
-
-* Define required behavior, boundaries, and responsibilities of systems and libraries
-* Include (but are not limited to):
-
-  * pipeline contracts
-  * library responsibility contracts
-  * orchestration and provenance contracts
-
-All Normative contracts:
-
-* MUST conform to the Gloss Language Specification
-* MUST conform to the Gloss System Contract
-* MAY further constrain behavior, but MUST NOT redefine semantics
-
----
-
-### 4. Lock State
+### 2. Lock State
 
 A document marked with:
 
@@ -96,11 +71,11 @@ is **frozen within its authority tier**.
 * LOCKED does **not** elevate a document above its tier
 * LOCKED only enforces immutability, not authority
 
-Lock State applies primarily to **Normative contracts** and governance-critical documents.
+Lock State applies primarily to governance-critical documents.
 
 ---
 
-### 5. Orchestration and Process Documents
+### 3. Orchestration and Process Documents
 
 Documents governing orchestration, delegation, or process:
 
@@ -113,7 +88,7 @@ They govern **how work proceeds**, not **what Gloss means**.
 
 ---
 
-### 6. Informative Documents
+### 4. Informative Documents
 
 Informative documents:
 
@@ -167,7 +142,7 @@ Only documents designated as **Normative** define Gloss.
 
 ## Compatibility & Claims
 
-Implementations may diverge from this specification, but non-conformant implementations must not claim compatibility with Gloss or use the Gloss, Codex, or Paperhat Workshop names in ways that imply conformance or endorsement.
+Implementations may diverge from this specification, but non-conformant implementations must not claim compatibility with Gloss or use the Gloss or Codex names in ways that imply conformance or endorsement.
 
 Conformance requires adherence to both the letter and spirit of the specification. The Specification Editor determines whether an implementation meets this standard.
 

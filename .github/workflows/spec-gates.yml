@@ -1,0 +1,39 @@
+name: Spec gates
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  spec-gates:
+    name: Run spec/conformance gates
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Spec header gate (v1.0.0)
+        run: python3 tools/spec_header_check.py spec/1.0.0
+
+      - name: Spec header gate (current)
+        run: python3 tools/spec_header_check.py spec/current
+
+      - name: Spec link gate
+        run: python3 tools/spec_link_check.py .
+
+      - name: No JSON gate
+        run: python3 tools/no_json_gate.py
+
+      - name: Conformance smokecheck (v1.0.0)
+        run: python3 tools/conformance_smokecheck_cdx.py conformance/1.0.0/manifest.cdx

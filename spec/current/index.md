@@ -1,4 +1,6 @@
-Status: INFORMATIVE (NON-NORMATIVE)  
+Status: INFORMATIVE  
+Lock State: UNLOCKED  
+Version: current  
 Editor: Charles F. Munat
 
 # Gloss Language Specification — Current Version

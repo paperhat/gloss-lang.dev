@@ -1,5 +1,5 @@
 Status: NORMATIVE  
-Lock State: UNLOCKED  
+Lock State: LOCKED  
 Version: 1.0.0
 Editor: Charles F. Munat
 

@@ -22,7 +22,7 @@ These HTML examples are **informative** and intentionally show one plausible map
 </Essay>
 ```
 
-Possible HTML output:
+Example HTML output:
 
 ```html
 <p>
@@ -41,7 +41,7 @@ Possible HTML output:
 </Note>
 ```
 
-Possible HTML output:
+Example HTML output:
 
 ```html
 <p>
@@ -65,7 +65,7 @@ Possible HTML output:
 </Article>
 ```
 
-Possible HTML output:
+Example HTML output:
 
 ```html
 <p>
@@ -92,7 +92,7 @@ The label for a link contains a nested span for a foreign term.
 </Paragraph>
 ```
 
-Possible HTML output:
+Example HTML output:
 
 ```html
 <p>
@@ -122,7 +122,7 @@ A three-level nesting example:
 </Paragraph>
 ```
 
-Possible HTML output:
+Example HTML output:
 
 ```html
 <p>
@@ -144,12 +144,12 @@ Possible HTML output:
 <Link key=~external url="https://example.org/camus" />
 
 <Paragraph id=para:camus>
-  {@person:camus | Camus} discusses {~sisyphus | this work}. 
+  {@person:camus | Camus} discusses {~sisyphus | this work}.
   External reference: {~external | author bio}.
 </Paragraph>
 ```
 
-Possible HTML output:
+Example HTML output:
 
 ```html
 <p>

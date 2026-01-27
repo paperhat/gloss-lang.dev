@@ -1,7 +1,3 @@
----
-render_with_liquid: false
----
-
 Status: NORMATIVE  
 Lock State: LOCKED  
 Version: 1.0.0  
@@ -15,14 +11,14 @@ It binds spans of opaque text to Codex Concepts without encoding presentation or
 ## 1. Scope and Relationship to Codex
 Codex is a declarative semantic markup language for expressing meaning independent of presentation or behavior. It uses XML-like syntax to write OWL2/SHACL ontologies and data. A Codex document consists of Concepts (named semantic units that may contain child Concepts or narrative text), Traits (values bound to Concepts), and Content (opaque narrative text preserved without interpretation).
 
-1. Gloss span bindings MAY appear only inside Codex `Content` values.
+1. Gloss span bindings appear only inside Codex `Content` values.
 2. Codex tooling treats `Content` as opaque text; Codex does not parse Gloss.
 3. Consuming systems (e.g., target realization and rendering pipelines) parse and resolve Gloss.
 4. Gloss MUST NOT be used inside:
 
-	- Codex identifiers
-	- Codex Trait values
-	- schema definitions
+   - Codex identifiers
+   - Codex Trait values
+   - schema definitions
 
 ## 2. Design Intent
 Gloss encodes semantic binding only.
@@ -71,7 +67,7 @@ When scanning for span bindings (both in top-level `Content` and inside labels):
 - `{{@` MUST be interpreted as the literal two-character sequence `{@`.
 - `{{~` MUST be interpreted as the literal two-character sequence `{~`.
 
-{% endraw %}  
+{% endraw %}
 
 These escapes MUST be recognized before applying the span-binding-start rule.
 
@@ -81,26 +77,29 @@ Gloss is intentionally strict:
 - No whitespace is permitted between the sigil and the reference token.
 - The label separator `|` MUST be written with **exactly one ASCII space** on each side: `{@x | label}`.
 
-These are invalid Gloss span bindings (and MUST be treated as syntax errors with recovery as defined by the parsing model, with a diagnostic):
+Note: This specification uses `␠` (U+2420 SYMBOL FOR SPACE) as a visual placeholder to indicate a required ASCII space character.
+
+Note: When discussing tab characters, this specification uses `␉` (U+2409 SYMBOL FOR HORIZONTAL TAB) as a visual placeholder to indicate a required ASCII horizontal tab character.
+
+These are invalid and MUST produce syntax errors (see § 4.5):
 
 - `{@ x}`
 - `{@x |label}`
 - `{@x| label}`
 - `{@x|label}`
 
-Note: a `{` followed by whitespace (e.g., `{ @x}`) does not begin a Gloss span binding
-under the recognition rule. It is literal text.
+Note: Recognition and parsing are distinct phases. A `{` that is not immediately followed by `@` or `~` fails recognition and is emitted as literal text (e.g., `{ @x}` is literal text). A `{` that is immediately followed by `@` or `~` passes recognition and begins parsing; if parsing then fails (e.g., `{@ x}` violates the whitespace rule), a syntax error is emitted and recovery occurs per § 4.5.
 
 Whitespace inside `label` is preserved verbatim.
 
 ### 3.4 Tokens
 #### 3.4.1 `@iri`
 `@` references use a Codex identifier token (an IRI reference).
-Gloss parses the reference token according to the Codex lexical grammar in order to determine where the token ends, but beyond that it treats the token as an opaque string: it does not normalize, percent-decode, case-fold, or semantically validate IRI structure.
+Gloss parses the reference token according to the Codex 1.0.0 lexical grammar (see the [Codex Language Specification v1.0.0](https://codex-lang.dev/spec/1.0.0/)) to determine where the token ends, but beyond that it treats the token as an opaque string: it does not normalize, percent-decode, case-fold, or semantically validate IRI structure.
 
 #### 3.4.2 `~token`
 `~` references use a Codex lookup token value.
-Lookup tokens are spelled with the leading `~` and follow Codex lookup-token lexical rules.
+Lookup tokens are spelled with the leading `~` and follow Codex 1.0.0 lookup-token lexical rules (see the [Codex Language Specification v1.0.0](https://codex-lang.dev/spec/1.0.0/)).
 
 ### 3.5 Labels
 `label` is optional.
@@ -108,7 +107,7 @@ Lookup tokens are spelled with the leading `~` and follow Codex lookup-token lex
 Rules:
 
 1. If present, `label` is the display text for that span.
-2. The semantic binding (the target Concept) is unchanged by the label.
+2. The label does not affect resolution (see § 5.4).
 3. Labels MAY contain nested Gloss span bindings.
 
 The `label` portion is everything after the label separator ` ␠|␠ `.
@@ -116,7 +115,7 @@ The `label` portion is everything after the label separator ` ␠|␠ `.
 ### 3.6 Label Escapes
 The `\}` escape is recognized only inside labels.
 
-Note: These escape rules are interpreted by the Gloss parser when it scans Codex `Content`. Codex itself does not parse Gloss.
+Note: These escape rules are interpreted by the Gloss parser when it scans Codex `Content` (see § 1).
 
 - `\}` represents a literal `}` character.
 
@@ -144,8 +143,8 @@ A consumer parses `Content` into segments:
 - literal text segments
 - span-binding segments, each with:
   - the reference (`@iri` or `~token`)
-   - an optional label string which may itself contain nested span bindings
-  - source location metadata
+  - an optional label string which may itself contain nested span bindings
+  - source range
 
 ### 4.2 Span-Binding Start
 Consumers MUST recognize span-binding starts according to the recognition rule in § 3.2,
@@ -166,10 +165,10 @@ Inside a span binding:
 4. Parse the closing `}` of the current span binding.
 
 #### 4.3.1 Reference Termination
-`IriReference` and `LookupToken` are defined by the Codex grammars.
+`IriReference` and `LookupToken` are defined by the [Codex Language Specification v1.0.0](https://codex-lang.dev/spec/1.0.0/). In Codex 1.0.0, these tokens terminate at whitespace, `>`, or `/`.
 
 The reference token ends where the Codex token ends.
-After the reference token, the consumer MUST NOT accept arbitrary characters (e.g. `{@x extra}` is a syntax error).
+After the reference token, the consumer MUST NOT accept arbitrary characters (e.g., `{@x extra}` is a syntax error).
 
 ### 4.4 Label Parsing and Nesting
 Labels are parsed as a stream of `LabelPart` until the current span binding closes.
@@ -192,7 +191,7 @@ While parsing a label at any nesting depth:
 2. Else if the next three characters are `{{@` or `{{~`: consume them and emit the corresponding literal two-character sequence (`{@` or `{~`).
 {% endraw %}
 3. Else if the next characters begin a span binding (i.e., `{` immediately followed by `@` or `~`): parse a nested span binding and emit it as a nested segment.
-4. Else if the next character is `}` and the current nesting depth is 0: close the current span binding.
+4. Else if the next character is `}` and no nested span bindings are currently open within this label: close the current span binding.
 5. Else: consume one character as literal label text.
 
 #### 4.4.3 Pipe Handling
@@ -206,7 +205,7 @@ If the consumer begins parsing a span binding after recognizing a span-binding s
 1. emit a diagnostic with source location
 2. recover using the minimal recovery rule (§ 4.5.1)
 
-This recovery guarantees forward progress and results in the malformed markup being emitted as literal characters, without requiring the consumer to rescan unbounded input to find a matching `}`.
+This recovery guarantees forward progress by emitting malformed markup as literal characters, without rescanning unbounded input.
 
 #### 4.5.1 Minimal Recovery Rule
 To ensure streaming-friendly behavior, consumers MUST recover without rescanning unbounded input.
@@ -231,18 +230,18 @@ A parsed span binding yields:
 - an optional label (which affects display text only)
 
 ### 5.2 `@` Resolution
-`@iri` MUST resolve to exactly one Concept whose `id` matches `iri`.
+`@iri` MUST resolve to exactly one Concept whose `id` matches `iri`. Matching is exact string equality.
 
 - Zero matches: resolution error (unresolved identifier)
 - Multiple matches: resolution error (ambiguous identifier)
 
 ### 5.3 `~` Resolution
-`~token` MUST resolve to exactly one Concept whose `key` matches `~token`.
+`~token` MUST resolve to exactly one Concept whose `key` matches `~token`. Matching is exact string equality.
 
 - Zero matches: resolution error (unresolved lookup token)
 - Multiple matches: resolution error (ambiguous lookup token)
 
-Consuming systems—not Codex—perform resolution.
+Consuming systems perform resolution (see § 1).
 
 ### 5.4 Label Interaction
 The presence or content of a label MUST NOT affect resolution.
@@ -267,7 +266,7 @@ Consumers that emit or rewrite Gloss (formatters, editors, transformations) MUST
 
 The sequences `{{@` and `{{~` are the canonical way to represent the literal two-character sequences `{@` and `{~` in Gloss source text.
 
-If a consumer emits Gloss back to a text form that will be re-parsed as Gloss, it MUST preserve these escapes and it MUST NOT decode them to `{@` or `{~`, because doing so would change recognition (it would introduce a new span-binding start).
+If a consumer emits Gloss back to a text form that will be re-parsed as Gloss, it MUST preserve these escapes. It MUST NOT decode them to `{@` or `{~`, because doing so would change recognition.
 
 {% endraw %}
 
@@ -280,7 +279,7 @@ Gloss processing MUST be deterministic and explainable.
 
 Gloss consumers:
 
-- MUST NOT throw
+- MUST NOT terminate abnormally on malformed input
 - MUST preserve source locations for diagnostics
 
 ### 7.1 Error Categories
@@ -311,7 +310,7 @@ A Gloss diagnostic MUST include:
 - `category` — one of the categories in § 7.1.
 - `reason` — a stable code identifying the primary failure.
 
-These codes exist so independent implementations can be compared and so the conformance suite can assert the primary failure deterministically.
+These codes enable comparison of independent implementations and deterministic conformance testing.
 
 #### 7.4.1 Primary Diagnostic Selection
 When multiple errors are detectable within the same attempted span-binding parse,
@@ -325,14 +324,14 @@ using the following rule:
 1. Determine the earliest source position (smallest index) inside the attempted
    span binding at which the text violates the surface form or parsing model.
 2. Emit as the primary diagnostic the `reason` corresponding to that earliest
-	violation.
+   violation.
 3. If multiple violations occur at the same earliest position, break ties by
-	choosing the first applicable reason in this priority order:
+   choosing the first applicable reason in this priority order:
 
 	| Priority | Reason                                    |
 	|----------|-------------------------------------------|
-  | 1        | `~gloss-syn-unclosed-nested-span-binding` |
-  | 2        | `~gloss-syn-unclosed-span-binding`        |
+	| 1        | `~gloss-syn-unclosed-nested-span-binding` |
+	| 2        | `~gloss-syn-unclosed-span-binding`        |
 	| 3        | `~gloss-syn-missing-reference`            |
 	| 4        | `~gloss-syn-whitespace-after-sigil`       |
 	| 5        | `~gloss-syn-whitespace-after-reference`   |
@@ -359,8 +358,8 @@ When `category` is **syntax**, `reason` MUST be one of:
 
 - `~gloss-syn-whitespace-after-sigil` — one or more whitespace characters appear immediately after the sigil (`@`/`~`) (e.g., `{@ x}` or `{~ x}`).
 - `~gloss-syn-whitespace-after-reference` — after the reference token ends, only `}` or the label separator ` ␠|␠ ` is permitted; this reason applies when whitespace appears after the reference in a way that cannot form a valid label separator, including:
-	- trailing whitespace before `}` (e.g., `{@x }`)
-	- non-ASCII whitespace adjacent to `|` (e.g., `{@x\t| label}`)
+  - trailing whitespace before `}` (e.g., `{@x }`)
+   - non-ASCII whitespace adjacent to `|` (e.g., `{@x␉| label}`)
 
 **Pipe separator errors:**
 
@@ -376,6 +375,8 @@ When `category` is **syntax**, `reason` MUST be one of:
 - `~gloss-syn-trailing-after-reference` — after the reference token ends, the next characters are neither `}` nor a well-formed label separator ` ␠|␠ `. This includes a single ASCII space not followed by `|` (e.g., `{@x extra}`).
 - `~gloss-syn-unclosed-span-binding` — a span binding is missing a closing `}`.
 - `~gloss-syn-unclosed-nested-span-binding` — a nested span binding is missing a closing `}`.
+
+Implementations MUST NOT define additional syntax reason codes.
 
 #### 7.4.3 Resolution Diagnostic Reasons
 
@@ -412,9 +413,9 @@ Each segment is either:
 - **Text segment**: literal text
 - **Span-binding segment**:
   - `addressingForm`: `@` or `~`
-  - `referenceToken`: the exact token text (e.g., `book:hobbit` or `~hobbit`)
-   - `label`: optional label content, represented as a sequence of nested segments (text/span bindings)
-   - `sourceRange`: a source location range covering the entire span binding
+  - `referenceToken`: the exact token text. For `@` references, this is the IRI without the `@` sigil (e.g., `book:hobbit`). For `~` references, this is the Codex lookup token including its leading `~` (e.g., `~hobbit`), because `~` is part of the token's lexical form in Codex.
+  - `label`: optional label content, represented as a sequence of nested segments (text/span bindings)
+  - `sourceRange`: start and end positions as zero-indexed byte offsets into the original `Content` string
   - `resolution`:
     - `resolved`: boolean
     - `targetConceptId`: optional (present when resolved)
@@ -424,10 +425,10 @@ A renderer MUST treat nested label content as structured content.
 ### 8.3 Label Semantics
 - If `label` is present, it is the display text for the span-binding span.
 - If `label` is absent, the renderer MAY choose display text using renderer policy and Concept data.
-- The label MUST NOT affect which Concept the span binding binds to.
+- The label does not affect resolution (see § 5.4).
 
-### 8.3.1 Span-Binding Stacking Semantics
-Gloss span bindings may be nested inside labels. Nesting is structural and always properly nested (crossing span bindings cannot be expressed).
+#### 8.3.1 Span-Binding Stacking Semantics
+Gloss span bindings may be nested inside labels (see § 4.4.1).
 
 For any output position within the label content of a span-binding segment, the in-scope span bindings form a **stack**:
 
@@ -436,22 +437,22 @@ For any output position within the label content of a span-binding segment, the 
 
 A conforming Gloss processor MUST preserve this nesting structure in the output data model so that target adapters can inspect the full stack.
 
-When a target adapter maps span-binding stacks to target-specific constructs, it may encounter **conflicts** where only one value or construct can apply at a position for a particular target-specific semantic role (for example, selecting a single `url` to realize as a hyperlink).
+When a target adapter maps span-binding stacks to target-specific constructs, it may encounter **conflicts**. A conflict occurs when only one value can apply at a position for a particular semantic role (for example, selecting a single `url` to realize as a hyperlink).
 
 In such cases, the adapter MUST resolve the conflict using the following precedence rule:
 
-- The innermost span binding that provides a value for that role wins for that role at that position; outer span bindings provide fallback.
+- The innermost span binding that provides a value wins at that position; outer bindings provide fallback.
 
-This specification does not define how any particular role is mapped to any particular target (e.g., HTML, PDF, audio). Target adapters MAY preserve losing (outer) values using target-specific metadata or other mechanisms, but they MUST do so deterministically.
+This specification does not define how any particular role is mapped to any particular target (e.g., HTML, PDF, audio). Target adapters MAY preserve overridden (outer) values using target-specific metadata or other mechanisms, but they MUST do so deterministically.
 
 ### 8.4 Target-Specific Mapping (Informative)
 
 A target realization may map Concept traits (such as `url` or `language`) to target-specific constructs.
 This mapping is outside Gloss and is defined by the target adapter.
 
-Examples in the examples directory show one plausible mapping for one target:
+The examples directory shows one plausible target mapping:
 
-- [gloss-lang.dev/examples/1.0.0/index.md](../../examples/1.0.0/index.md)
+- [examples/1.0.0/index.md](../../examples/1.0.0/index.md)
 
 ## Appendix A. Formal Grammar (EBNF)
 Notes:
@@ -475,7 +476,7 @@ LabelSeparator = " ", "|", " " ;
 (* Labels may contain nested Gloss span bindings.
    Escaping is context-sensitive and applies only inside Label:
 
-   - "\\}" represents a literal '}' character.
+   - "\}" represents a literal '}' character.
 
    A backslash is only special when followed by '}'.
 *)
@@ -529,7 +530,7 @@ Notes:
 - `IriReference` and `LookupToken` are imported from the Codex grammar.
 - Because Gloss is embedded in arbitrary text, this PEG includes a minimal embedding grammar (`GlossText`) showing how to recognize span bindings without requiring escapes for ordinary braces.
 
-### B.1 Embedded Text Grammar (Informative)
+### B.1 Embedded Text Grammar
 
 {% raw %}```peg
 # Start condition for a Gloss span binding.
@@ -546,7 +547,7 @@ GlossText <- (GlossSpanBinding / TextRun)*
 TextRun <- (EscapedSpanBindingStart / (!SpanBindingStart .))+
 ```{% endraw %}
 
-### B.2 Span-Binding Grammar (Informative)
+### B.2 Span-Binding Grammar
 
 ```peg
 GlossSpanBinding <- '{' Reference (LabelSeparator Label)? '}'
@@ -573,9 +574,11 @@ EscapedClosingBrace <- '\\' '}'
 LabelTextChar <- !EscapedSpanBindingStart !SpanBindingStart !'}' .
 ```
 
-### B.3 External Tokens (Informative)
+### B.3 External Tokens
 
 The following tokens are defined by Codex and reused by Gloss:
 
 - `IriReference`
 - `LookupToken`
+
+### End of Gloss Language Specification

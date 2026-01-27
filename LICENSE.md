@@ -21,9 +21,9 @@ It does **not** grant any rights to:
 - project, language, or specification names
 - software implementations, unless explicitly stated otherwise
 
-The full legal code of the license follows.
+The license text follows.
 
-© 2023–present Charles F. Munat.
+© 2023–present Paperhat, Limited.
 
 Creative Commons Attribution 4.0 International Public License
 
@@ -94,4 +94,4 @@ a. This Public License applies for the term of the Copyright and Similar Rights 
 
 b. The rights granted to You are irrevocable provided You comply with this Public License.
 
-For the full official legal code with formatting and all sections, see the Creative Commons website: https://creativecommons.org/licenses/by/4.0/legalcode. :contentReference[oaicite:2]{index=2}
+For the full official legal code with formatting and all sections, see the Creative Commons website: https://creativecommons.org/licenses/by/4.0/legalcode.

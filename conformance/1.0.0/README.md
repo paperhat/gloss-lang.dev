@@ -19,7 +19,7 @@ This fixture pack focuses on **parsing + surface-form validation + canonical spe
 
 {% raw %}
 
-The `expected/canonical/*.cdx` fixtures assert a canonical **text serialization** of the original `Content` that is intended to be re-parsed as Gloss. In particular, canonical output MUST preserve literal span-binding-start escapes (`{{@` / `{{~}`) and MUST NOT decode them to `{@` / `{~}`, because decoding would change recognition.
+The `expected/canonical/*.cdx` fixtures assert a canonical **text serialization** of the original `Content` that is intended to be re-parsed as Gloss. In particular, canonical output MUST preserve literal span-binding-start escapes (`{{@` / `{{~`) and MUST NOT decode them to `{@` / `{~`, because decoding would change recognition.
 
 {% endraw %}
 
@@ -35,34 +35,34 @@ It does not attempt to test resolution (`@`/`~` binding) because resolution requ
 
 ## Running the smoke check
 
-From the repo root:
+From the `gloss-lang.dev` directory:
 
 ```bash
-python3 gloss-lang.dev/tools/conformance_smokecheck_cdx.py gloss-lang.dev/conformance/1.0.0/manifest.cdx
+python3 tools/conformance_smokecheck_cdx.py conformance/1.0.0/manifest.cdx
 ```
 
 ## Running the "no JSON" gate
 
-From the repo root:
+From the `gloss-lang.dev` directory:
 
 ```bash
-python3 gloss-lang.dev/tools/no_json_gate.py
+python3 tools/no_json_gate.py
 ```
 
 ## Running the spec header gate
 
-From the repo root:
+From the `gloss-lang.dev` directory:
 
 ```bash
-python3 gloss-lang.dev/tools/spec_header_check.py gloss-lang.dev/spec/1.0.0
+python3 tools/spec_header_check.py spec/1.0.0
 ```
 
 ## Running the spec link gate
 
-From the repo root:
+From the `gloss-lang.dev` directory:
 
 ```bash
-python3 gloss-lang.dev/tools/spec_link_check.py gloss-lang.dev/spec/1.0.0
+python3 tools/spec_link_check.py .
 ```
 
 ## Spec references

@@ -10,7 +10,7 @@ Gloss answers one question: "What does this span of text mean?"
 
 ## Codex and Gloss
 
-Gloss is embedded inside Codex Content. Codex is a declarative semantic markup language for expressing meaning independent of presentation or behavior. It uses XML-like syntax to write OWL2/SHACL ontologies and data. A Codex document consists of Concepts (named semantic units), Traits (values bound to Concepts), and Content (opaque narrative text). Gloss binds spans within that Content.
+Gloss is embedded inside Codex `Content`. Codex is a declarative semantic markup language for expressing meaning independent of presentation or behavior. It uses XML-like syntax to write OWL2/SHACL ontologies and data. A Codex document consists of Concepts (named semantic units), Traits (values bound to Concepts), and Content (opaque narrative text). Gloss binds spans within that `Content`.
 
 ---
 
@@ -82,7 +82,7 @@ I love {@book:hobbit}.
 I love {@book:hobbit | The Hobbit — Tolkien}.
 ```
 
-Entity references express semantic association, not linking. The span binding binds a span to a Concept; whether that binding becomes a hyperlink, tooltip, footnote, or nothing visible depends on Design Policy and the target renderer. Gloss does not prescribe presentation.
+Entity references express semantic association, not linking. The span binding binds a span to a Concept; whether that binding becomes a hyperlink, tooltip, footnote, or nothing visible depends on the target renderer's policy. Gloss does not prescribe presentation.
 
 ---
 
@@ -121,24 +121,23 @@ Gloss follows a strict lifecycle:
 
 1. Authored as plain text
 2. Preserved verbatim through compilation and storage
-3. Parsed and realized during ViewModel shaping
-4. Consumed by Design Policy and renderers
+3. Parsed by consuming systems
+4. Resolved and rendered by target adapters
 
 Gloss guarantees:
 
 * lossless round-tripping
 * deterministic semantics
-* no runtime failures
 * explainable behavior
 * no influence on structural correctness
 
-Errors surface as Help, never as crashes.
+Errors surface as diagnostics and MUST NOT crash a conforming consumer.
 
 ---
 
 ## Metadata and Linked Data
 
-When Gloss binds text to Entities, renderers may emit metadata (e.g., JSON-LD). The default strategy for HTML is JSON-LD; RDFa or microdata may be used by policy. Gloss does not control emission format or placement.
+When Gloss binds text to Entities, renderers may emit metadata (e.g., JSON-LD). The default strategy for HTML is JSON-LD; RDFa or microdata may be used by renderer policy. Gloss does not control emission format or placement.
 
 ---
 
@@ -165,6 +164,6 @@ See `GOVERNANCE.md` for governance rules.
 
 All documentation in this repository is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0). The license applies to textual and illustrative content only.
 
-No rights are granted to project or language names, trademarks or logos, or software implementations.
+No rights are granted to project or language names, trademarks, logos, or software implementations.
 
 See `LICENSE.md` and `COPYRIGHT.md`.

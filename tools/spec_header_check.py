@@ -28,8 +28,9 @@ def _assert_trailing_newline(text: str, path: Path) -> None:
 
 
 def _expected_status_for(path: Path) -> str:
-    # Mirror Codex convention: PEG is informative; everything else in spec/ is normative.
-    if path.as_posix().endswith("/grammar/peg/index.md"):
+    # The spec/current tree is a convenience pointer only and is always informative.
+    # All other spec content is normative (PEG grammar is in appendix, not separate file).
+    if "/spec/current/" in path.as_posix():
         return "INFORMATIVE"
     return "NORMATIVE"
 
