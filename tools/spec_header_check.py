@@ -89,7 +89,12 @@ def _check_index(path: Path, expected_version: str, expected_lock_state: str, ex
     if lines[start_index + 4].strip() != "":
         _fail(f"{path}: line after header must be blank")
 
-    if not lines[start_index + 5].startswith("# "):
+    title_index = start_index + 5
+    # Allow optional {% raw %} for Jekyll before the title.
+    if lines[title_index].strip() == "{% raw %}":
+        title_index += 1
+
+    if title_index >= len(lines) or not lines[title_index].startswith("# "):
         _fail(f"{path}: expected a Markdown H1 title after the blank line")
 
 
