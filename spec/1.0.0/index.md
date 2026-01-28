@@ -1,9 +1,9 @@
-{% raw %}
 Status: NORMATIVE
 Lock State: LOCKED
 Version: 1.0.0
 Editor: Charles F. Munat
 
+{% raw %}
 # Gloss Language Specification — Version 1.0.0
 
 Gloss is an **inline semantic span-binding language** embedded inside Codex `Content`.
