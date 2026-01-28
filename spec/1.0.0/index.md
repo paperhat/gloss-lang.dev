@@ -271,7 +271,7 @@ On syntax error, the consumer:
 2. MUST emit a diagnostic with source location.
 3. MUST continue parsing subsequent content.
 
-Recovery requirements are defined by the parsing model, including the minimal recovery rule in § 4.5.1.
+Recovery requirements are defined by the parsing model, including the minimal recovery rule (see § 4.5.1).
 
 ### 7.3 Resolution Error Recovery
 On resolution error, the consumer:
@@ -393,7 +393,9 @@ Each segment is either:
 - **Text segment**: literal text
 - **Span-binding segment**:
   - `addressingForm`: `@` or `~`
-  - `referenceToken`: the exact token text. For `@` references, this is the IRI without the `@` sigil (e.g., `book:hobbit`). For `~` references, this is the Codex lookup token including its leading `~` (e.g., `~hobbit`), because `~` is part of the token's lexical form in Codex. Note: This asymmetry is intentional and follows Codex conventions — in Codex, `@` is a Gloss-specific sigil while `~` is part of the lookup token syntax itself.
+  - `referenceToken`: the exact token text. For `@` references, this is the IRI without the `@` sigil (e.g., `book:hobbit`). For `~` references, this is the Codex lookup token including its leading `~` (e.g., `~hobbit`), because `~` is part of the token's lexical form in Codex.
+
+Note: This asymmetry is intentional and follows Codex conventions—in Codex, `@` is a Gloss-specific sigil while `~` is part of the lookup token syntax itself.
   - `label`: optional label content, represented as a sequence of nested segments (text/span bindings)
   - `sourceRange`: start and end positions as zero-indexed byte offsets into the original `Content` string
   - `resolution`:
@@ -404,7 +406,7 @@ A renderer MUST treat nested label content as structured content.
 
 ### 8.3 Label Semantics
 - If `label` is present, it is the display text for the span-binding span.
-- If `label` is absent, the renderer MAY choose display text using renderer policy and Concept data.
+- If `label` is absent, the renderer may choose display text using renderer policy and Concept data.
 - The label does not affect resolution (see § 5.4).
 
 #### 8.3.1 Span-Binding Stacking Semantics
@@ -417,28 +419,20 @@ For any output position within the label content of a span-binding segment, the 
 
 A conforming Gloss processor MUST preserve this nesting structure in the output data model so that target adapters can inspect the full stack.
 
-When a target adapter maps span-binding stacks to target-specific constructs, it may encounter **conflicts**. A conflict occurs when only one value can apply at a position for a particular semantic role (for example, selecting a single `url` to realize as a hyperlink).
-
-In such cases, the adapter MUST resolve the conflict using the following precedence rule:
-
-- The innermost span binding that provides a value wins at that position; outer bindings provide fallback.
-
-This specification does not define how any particular role is mapped to any particular target (e.g., HTML, PDF, audio). Target adapters MAY preserve overridden (outer) values using target-specific metadata or other mechanisms, but they MUST do so deterministically.
+When a target adapter maps span-binding stacks to target-specific constructs, it may encounter **conflicts**—for example, HTML prohibits nested `<a>` elements. This specification does not define how roles are mapped to targets or how conflicts are resolved; both are target adapter policy.
 
 ### 8.4 Target-Specific Mapping (Informative)
 
 A target realization may map Concept traits (such as `url` or `language`) to target-specific constructs.
 This mapping is outside Gloss and is defined by the target adapter.
 
-The examples directory shows one plausible target mapping:
-
-- [examples/1.0.0/index.md](../../examples/1.0.0/index.md)
+The examples directory shows one plausible target mapping: [examples/1.0.0/index.md](../../examples/1.0.0/index.md).
 
 ## Appendix A. Formal Grammar (EBNF)
 Notes:
 
 - `IriReference` and `LookupToken` are imported from the Codex grammar.
-- This grammar defines the structure of a span binding. Recognition inside an arbitrary text stream is defined by the recognition rule in § 3.2.
+- This grammar defines the structure of a span binding. Recognition inside an arbitrary text stream is defined by the recognition rule (see § 3.2).
 
 ### A.1 Span-Binding Grammar
 ```ebnf
@@ -561,6 +555,8 @@ The following tokens are defined by Codex and reused by Gloss:
 
 - `IriReference`
 - `LookupToken`
+
+In particular, `LookupToken` includes its leading `~` sigil in surface form (e.g., `~hobbit`).
 
 ### End of Gloss Language Specification
 {% endraw %}

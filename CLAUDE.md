@@ -15,6 +15,6 @@
 
 ## Structure
 - Avoid orphaned sentences after lists — integrate or move before
-- Avoid single-item bullet lists — convert to prose
+- Avoid single-item bullet lists — convert to prose unless needed for parallelism
 - Consolidate consecutive Notes when covering related topics
 - Scope-setting statements belong in section intros, not buried in subsections
