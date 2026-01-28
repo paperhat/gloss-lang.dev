@@ -1,6 +1,7 @@
-Status: NORMATIVE  
-Lock State: LOCKED  
-Version: 1.0.0  
+{% raw %}
+Status: NORMATIVE
+Lock State: LOCKED
+Version: 1.0.0
 Editor: Charles F. Munat
 
 # Gloss Language Specification — Version 1.0.0
@@ -9,25 +10,24 @@ Gloss is an **inline semantic span-binding language** embedded inside Codex `Con
 It binds spans of opaque text to Codex Concepts without encoding presentation or behavior.
 
 ## 1. Scope and Relationship to Codex
-Codex is a declarative semantic markup language for expressing meaning independent of presentation or behavior. It uses XML-like syntax to write OWL2/SHACL ontologies and data. A Codex document consists of Concepts (named semantic units that may contain child Concepts or narrative text), Traits (values bound to Concepts), and Content (opaque narrative text preserved without interpretation).
+Codex is a declarative semantic markup language for expressing meaning independent of presentation or behavior. It uses XML-like syntax to write OWL2/SHACL ontologies and data. A Codex document consists of Concepts (named semantic units that may contain child Concepts or Content), Traits (values bound to Concepts), and Content (opaque narrative text that Codex preserves without interpretation).
 
 1. Gloss span bindings appear only inside Codex `Content` values.
 2. Codex tooling treats `Content` as opaque text; Codex does not parse Gloss.
-3. Consuming systems (e.g., target realization and rendering pipelines) parse and resolve Gloss.
+3. Consuming systems (e.g., target realization and rendering pipelines) parse and resolve Gloss (see § 5).
 4. Gloss MUST NOT be used inside:
 
-   - Codex identifiers
    - Codex Trait values
-   - schema definitions
+   - Schema definitions
 
 ## 2. Design Intent
-Gloss encodes semantic binding only.
+Gloss encodes semantic binding only: it associates spans of text with Codex Concepts.
 
 Gloss MUST NOT:
 
 - define layout, typography, or styling
 - define behavior, evaluation, or execution
-- introduce new Concepts, Traits, or data
+- introduce new Codex Concepts, Traits, or data
 
 Targets (HTML, PDF, audio, braille, data export) MAY realize the same semantics differently.
 
@@ -52,7 +52,7 @@ Where:
 
 ### 3.2 Recognition Rule
 `{` begins a Gloss span binding **only** when immediately followed by `@` or `~`.
-Otherwise `{` is literal text.
+Otherwise, `{` is literal text.
 
 `}` is literal text outside span bindings.
 
@@ -62,12 +62,8 @@ Gloss provides a way to write these sequences as **literal text**.
 
 When scanning for span bindings (both in top-level `Content` and inside labels):
 
-{% raw %}
-
 - `{{@` MUST be interpreted as the literal two-character sequence `{@`.
 - `{{~` MUST be interpreted as the literal two-character sequence `{~`.
-
-{% endraw %}
 
 These escapes MUST be recognized before applying the span-binding-start rule.
 
@@ -77,9 +73,7 @@ Gloss is intentionally strict:
 - No whitespace is permitted between the sigil and the reference token.
 - The label separator `|` MUST be written with **exactly one ASCII space** on each side: `{@x | label}`.
 
-Note: This specification uses `␠` (U+2420 SYMBOL FOR SPACE) as a visual placeholder to indicate a required ASCII space character.
-
-Note: When discussing tab characters, this specification uses `␉` (U+2409 SYMBOL FOR HORIZONTAL TAB) as a visual placeholder to indicate a required ASCII horizontal tab character.
+Note: This specification uses `␠` (U+2420 SYMBOL FOR SPACE) and `␉` (U+2409 SYMBOL FOR HORIZONTAL TAB) as visual placeholders to indicate required ASCII space and tab characters respectively.
 
 These are invalid and MUST produce syntax errors (see § 4.5):
 
@@ -99,26 +93,20 @@ Gloss parses the reference token according to the Codex 1.0.0 lexical grammar (s
 
 #### 3.4.2 `~token`
 `~` references use a Codex lookup token value.
-Lookup tokens are spelled with the leading `~` and follow Codex 1.0.0 lookup-token lexical rules (see the [Codex Language Specification v1.0.0](https://codex-lang.dev/spec/1.0.0/)).
+Lookup tokens are spelled with the leading `~` and follow Codex 1.0.0 lookup-token lexical rules (see the [Codex Language Specification v1.0.0](https://codex-lang.dev/spec/1.0.0/)). Like IRI references, Gloss treats the lookup token as an opaque string without normalization.
 
 ### 3.5 Labels
-`label` is optional.
-
-Rules:
+The `label` portion is everything after the label separator `␠|␠`. Labels are optional.
 
 1. If present, `label` is the display text for that span.
 2. If present, `label` MUST contain at least one character (empty labels are invalid).
 3. The label does not affect resolution (see § 5.4).
 4. Labels MAY contain nested Gloss span bindings.
 
-The `label` portion is everything after the label separator ` ␠|␠ `.
-
 ### 3.6 Label Escapes
-The `\}` escape is recognized only inside labels.
+Inside labels, `\}` represents a literal `}` character.
 
-Note: These escape rules are interpreted by the Gloss parser when it scans Codex `Content` (see § 1).
-
-- `\}` represents a literal `}` character.
+Note: These escape rules are interpreted by the Gloss parser when it scans Codex `Content` (see § 4).
 
 Backslash has no special meaning in a label unless followed by `}`.
 Outside Gloss span bindings, backslash has no special meaning.
@@ -164,8 +152,7 @@ Inside a span binding:
    - or a `LookupToken` (which includes its leading `~`)
 3. After the reference, exactly one of the following MUST occur:
    - the span binding closes immediately with `}`
-   - the label separator ` ␠|␠ ` occurs, followed by a label, then the span binding closes with `}`
-4. Parse the closing `}` of the current span binding.
+   - the label separator `␠|␠` occurs, followed by a label, then the span binding closes with `}`
 
 #### 4.3.1 Reference Termination
 `IriReference` and `LookupToken` are defined by the [Codex Language Specification v1.0.0](https://codex-lang.dev/spec/1.0.0/). In Codex 1.0.0, these tokens terminate at whitespace, `>`, or `/`.
@@ -190,15 +177,13 @@ Because closure is always innermost-first, span bindings are always properly nes
 While parsing a label at any nesting depth:
 
 1. If the next two characters are `\}`: consume them and emit a literal `}`.
-{% raw %}
 2. Else if the next three characters are `{{@` or `{{~`: consume them and emit the corresponding literal two-character sequence (`{@` or `{~`).
-{% endraw %}
 3. Else if the next characters begin a span binding (i.e., `{` immediately followed by `@` or `~`): parse a nested span binding and emit it as a nested segment.
 4. Else if the next character is `}` and no nested span bindings are currently open within this label: close the current span binding.
 5. Else: consume one character as literal label text.
 
 #### 4.4.3 Pipe Handling
-- The label separator for a span binding is the three-character sequence ` ␠|␠ ` occurring in that span binding after its reference.
+- The label separator for a span binding is the three-character sequence `␠|␠` occurring in that span binding after its reference.
 - Any `|` characters within label text are literal.
 - Any label separators inside nested span bindings belong to those nested span bindings.
 
@@ -210,6 +195,8 @@ If the consumer begins parsing a span binding after recognizing a span-binding s
 
 This recovery guarantees forward progress by emitting malformed markup as literal characters, without rescanning unbounded input.
 
+Resolution errors (no match / ambiguous match) are not syntax errors and do not change parsing.
+
 #### 4.5.1 Minimal Recovery Rule
 To ensure streaming-friendly behavior, consumers MUST recover without rescanning unbounded input.
 
@@ -219,8 +206,6 @@ When a span-binding parse fails after recognizing a span-binding start (`{@` or 
 2. continue scanning from the character immediately after that `{`
 
 This guarantees forward progress even for inputs like `{@x` (unclosed).
-
-Resolution errors (no match / ambiguous match) are not syntax errors and do not change parsing.
 
 ## 5. Resolution Semantics
 Consuming systems perform Gloss resolution against the Concept model available at runtime.
@@ -257,25 +242,15 @@ Canonical span-binding spellings are:
 - `{~token}`
 - `{~token | label}`
 
-In particular:
-
-- the label separator MUST be written as ` ␠|␠ `
-- producers MUST NOT emit the compact form `{@x|label}`
+In forms with labels, the label separator MUST be written as `␠|␠`; producers MUST NOT emit the compact form `{@x|label}`.
 
 Consumers that emit or rewrite Gloss (formatters, editors, transformations) MUST emit only canonical spellings.
 
 ### 6.1 Canonicalization of Literal Span-Binding-Start Escapes
-{% raw %}
 
 The sequences `{{@` and `{{~` are the canonical way to represent the literal two-character sequences `{@` and `{~` in Gloss source text.
 
 If a consumer emits Gloss back to a text form that will be re-parsed as Gloss, it MUST preserve these escapes. It MUST NOT decode them to `{@` or `{~`, because doing so would change recognition.
-
-{% endraw %}
-
-Parsers MUST treat non-canonical spellings that violate the surface-form rules as syntax errors and apply the error recovery rules.
-
-This includes any whitespace-violating span-binding spelling as defined by the whitespace rules in § 3.3.
 
 ## 7. Validation Errors and Diagnostics
 Gloss processing MUST be deterministic and explainable.
@@ -347,7 +322,7 @@ using the following rule:
 	| 12       | `~gloss-syn-trailing-after-reference`     |
 	| 13       | `~gloss-syn-empty-label`                  |
 
-This rule does not require rescanning unbounded input. The “earliest violation”
+This rule does not require rescanning unbounded input. The "earliest violation"
 is the earliest violation encountered by a conforming parser that follows the
 normative parsing model.
 
@@ -361,9 +336,9 @@ When `category` is **syntax**, `reason` MUST be one of:
 **Whitespace errors:**
 
 - `~gloss-syn-whitespace-after-sigil` — one or more whitespace characters appear immediately after the sigil (`@`/`~`) (e.g., `{@ x}` or `{~ x}`).
-- `~gloss-syn-whitespace-after-reference` — after the reference token ends, only `}` or the label separator ` ␠|␠ ` is permitted; this reason applies when whitespace appears after the reference in a way that cannot form a valid label separator, including:
+- `~gloss-syn-whitespace-after-reference` — after the reference token ends, only `}` or the label separator `␠|␠` is permitted; this reason applies when whitespace appears after the reference in a way that cannot form a valid label separator, including:
   - trailing whitespace before `}` (e.g., `{@x }`)
-   - non-ASCII whitespace adjacent to `|` (e.g., `{@x␉| label}`)
+  - non-ASCII whitespace adjacent to `|` (e.g., `{@x␉| label}`)
 
 **Pipe separator errors:**
 
@@ -376,8 +351,8 @@ When `category` is **syntax**, `reason` MUST be one of:
 
 **Structure errors:**
 
-- `~gloss-syn-trailing-after-reference` — after the reference token ends, the next characters are neither `}` nor a well-formed label separator ` ␠|␠ `. This includes a single ASCII space not followed by `|` (e.g., `{@x extra}`).
-- `~gloss-syn-empty-label` — a label separator ` ␠|␠ ` is immediately followed by `}` with no label content (e.g., `{@x | }`).
+- `~gloss-syn-trailing-after-reference` — after the reference token ends, the next characters are neither `}` nor a well-formed label separator `␠|␠`. This includes a single ASCII space not followed by `|` (e.g., `{@x extra}`).
+- `~gloss-syn-empty-label` — a label separator `␠|␠` is immediately followed by `}` with no label content (e.g., `{@x | }`).
 - `~gloss-syn-unclosed-span-binding` — a span binding is missing a closing `}`.
 - `~gloss-syn-unclosed-nested-span-binding` — a nested span binding is missing a closing `}`.
 
@@ -466,7 +441,7 @@ Notes:
 - This grammar defines the structure of a span binding. Recognition inside an arbitrary text stream is defined by the recognition rule in § 3.2.
 
 ### A.1 Span-Binding Grammar
-{% raw %}```ebnf
+```ebnf
 GlossSpanBinding = "{", Reference, [ LabelSeparator, Label ], "}" ;
 
 Reference = AtReference | LookupToken ;
@@ -518,7 +493,7 @@ EscapedClosingBrace = "\\", "}" ;
 *)
 
 LabelTextChar = ? any Unicode scalar value except '}' ? ;
-```{% endraw %}
+```
 
 ### A.2 External Tokens
 The following tokens are defined by Codex and reused by Gloss:
@@ -537,7 +512,7 @@ Notes:
 
 ### B.1 Embedded Text Grammar
 
-{% raw %}```peg
+```peg
 # Start condition for a Gloss span binding.
 SpanBindingStart <- '{' [@~]
 
@@ -550,7 +525,7 @@ EscapedSpanBindingStart <- '{{' [@~]
 GlossText <- (GlossSpanBinding / TextRun)*
 
 TextRun <- (EscapedSpanBindingStart / (!SpanBindingStart .))+
-```{% endraw %}
+```
 
 ### B.2 Span-Binding Grammar
 
@@ -588,3 +563,4 @@ The following tokens are defined by Codex and reused by Gloss:
 - `LookupToken`
 
 ### End of Gloss Language Specification
+{% endraw %}
